@@ -1,0 +1,61 @@
+/* בסיסי - כללי */
+:root{ --accent:#001f5b; --accent-light:#a8d8ff; --card-bg:#ffffff }
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family: Arial, "David", sans-serif;
+  background: linear-gradient(180deg,#e6f2ff,#ffffff);
+  color:#111;
+  margin:0;
+  padding:20px;
+  direction:rtl;
+}
+
+.site-header{
+  background:var(--accent);
+  color:#fff;
+  padding:18px 20px;
+  border-radius:12px;
+  text-align:center;
+  box-shadow:0 6px 14px rgba(0,0,0,0.15);
+}
+.main-nav{margin-top:12px}
+.main-nav a{color:var(--accent-light);text-decoration:none;margin:0 10px;font-weight:700}
+.main-nav a:hover{text-decoration:underline}
+
+.container{max-width:1000px;margin:20px auto}
+.card{background:var(--card-bg);padding:18px;border-radius:10px;margin:12px 0;box-shadow:0 6px 12px rgba(0,0,0,0.06)}
+.hero img{width:100%;height:auto;border-radius:8px}
+.news-list{display:flex;flex-direction:column;gap:12px}
+
+.site-footer{max-width:1000px;margin:24px auto 0;text-align:center;color:#555;font-size:0.9rem}
+
+/* דוגמה להסבר Box Model */
+.box-demo{
+  padding:22px;            /* רווח פנימי */
+  border:3px solid var(--accent);  /* הגבול */
+  margin:18px 0;           /* רווח חיצוני */
+  background: linear-gradient(90deg,#f6fbff,#ffffff);
+}
+
+/* טופס יצירתי */
+.contact-form{display:flex;flex-direction:column;gap:12px}
+.contact-form input,.contact-form textarea{padding:8px;border-radius:6px;border:1px solid #ccc}
+.contact-form button{background:var(--accent);color:white;padding:10px;border-radius:6px;border:none;cursor:pointer}
+.contact-form button:hover{opacity:0.95}
+
+/* רשימת שיעורים */
+.lessons-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px}
+.lessons-list li{padding:10px;border-radius:8px;border:1px dashed rgba(0,0,0,0.08)}
+
+/* גלריה - רשת תמונות */
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.gallery-grid figure{margin:0}
+.gallery-grid figcaption{text-align:center;padding-top:6px;color:#333}
+
+/* רספונסיביות פשוטה */
+@media (min-width:720px){
+  .news-list{flex-direction:row}
+  .news-list .card{flex:1}
+}
+
