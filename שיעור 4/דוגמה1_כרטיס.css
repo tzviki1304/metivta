@@ -1,0 +1,159 @@
+/* =============================================
+   דוגמה 1 — עיצוב כרטיסים (Cards)
+   הסבר: אנחנו יוצרים כרטיסים יפים עם תמונה, טקסט וכפתור
+   ============================================= */
+
+/* משתנים כלליים */
+:root {
+  --primary-color: #001f5b;      /* כחול עיקרי */
+  --primary-light: #a8d8ff;      /* כחול בהיר */
+  --text-color: #333;            /* טקסט כהה */
+  --bg-color: #f9f9f9;           /* רקע בהיר */
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* צל */
+}
+
+* {
+  box-sizing: border-box;  /* כללי חשוב: גודל כולל כולל border ו-padding */
+}
+
+body {
+  font-family: Arial, "David", sans-serif;
+  background: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 20px;
+  direction: rtl;  /* עברית מימין לשמאל */
+}
+
+/* עיצוב קונטיינר — מרכז את התוכן */
+.container {
+  max-width: 1200px;           /* רוחב מקסימלי */
+  margin: 0 auto;              /* מרכוז אופקי */
+  padding: 30px 20px;
+}
+
+h1 {
+  text-align: center;
+  color: var(--primary-color);
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.intro {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 40px;
+}
+
+/* =============================================
+   כרטיסים (Cards) — האלמנט הראשי
+   ============================================= */
+
+.card {
+  background: white;                    /* רקע לבן */
+  border-radius: 10px;                  /* פינות מעוגלות */
+  overflow: hidden;                     /* הסתרת תוכן חוצה גבולות */
+  box-shadow: var(--shadow);            /* צל עדין סביב הכרטיס */
+  margin-bottom: 30px;                  /* רווח בין כרטיסים */
+  transition: transform 200ms ease,     /* אנימציה של הגדלה */
+             box-shadow 200ms ease;     /* אנימציה של צל */
+  cursor: pointer;                      /* סמן "יד" בעת העברה */
+}
+
+/* Hover Effect — כשמעבירים עכבר על הכרטיס */
+.card:hover {
+  transform: translateY(-8px);          /* הרימו את הכרטיס 8 פיקסל */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* צל חזק יותר */
+}
+
+/* תמונה בתוך הכרטיס */
+.card-image {
+  width: 100%;                  /* מלא את כל רוחב הכרטיס */
+  height: 200px;                /* גובה קבוע */
+  object-fit: cover;            /* כיסוי ללא עיוות */
+  display: block;               /* הסרת רווח מתחת לתמונה */
+}
+
+/* תוכן הכרטיס (טקסט וכפתור) */
+.card-content {
+  padding: 20px;                /* רווח פנימי */
+}
+
+.card-title {
+  font-size: 1.5rem;            /* גודל גדול */
+  color: var(--primary-color);  /* צבע כחול */
+  margin: 0 0 10px 0;           /* רווח תחתון בלבד */
+}
+
+.card-description {
+  font-size: 1rem;
+  color: #666;                  /* טקסט אפור */
+  line-height: 1.6;             /* גובה שורה קריאה */
+  margin: 0 0 15px 0;
+}
+
+/* תחתית הכרטיס — מחיר וכפתור */
+.card-footer {
+  display: flex;                /* סידור אופקי */
+  justify-content: space-between; /* מרווח בין פריטים */
+  align-items: center;          /* יישור אנכי */
+  padding-top: 15px;
+  border-top: 1px solid #eee;   /* קו עדין על הגבול */
+}
+
+.price {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+/* =============================================
+   כפתור — Reusable Element
+   ============================================= */
+
+.btn {
+  padding: 10px 20px;           /* רווח פנימי */
+  border: none;                 /* הסר גבול ברירת מחדל */
+  border-radius: 6px;           /* פינות מעוגלות קטנות */
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;              /* סמן "יד" */
+  transition: background 200ms ease; /* אנימציה חלקה */
+}
+
+.btn-primary {
+  background: var(--primary-color); /* כחול עיקרי */
+  color: white;                 /* טקסט לבן */
+}
+
+.btn-primary:hover {
+  background: #000d2e;          /* כחול כהה יותר */
+}
+
+.btn-primary:active {
+  transform: scale(0.95);       /* הקטנה בעת לחיצה */
+}
+
+/* =============================================
+   Responsive Design — עיצוב לטלפון
+   ============================================= */
+
+@media (max-width: 768px) {
+  .container {
+    padding: 15px 10px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .card-image {
+    height: 150px;
+  }
+
+  .card-content {
+    padding: 15px;
+  }
+}
+
