@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>דוגמה 1: שינוי טקסט</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      direction: rtl;
+    }
+    
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      max-width: 500px;
+    }
+    
+    h1 {
+      color: #667eea;
+      margin-bottom: 20px;
+    }
+    
+    #myText {
+      font-size: 1.5rem;
+      color: #333;
+      padding: 20px;
+      background: #f0f0f0;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+    
+    button {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    button:hover {
+      background: #764ba2;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .code-box {
+      background: #282c34;
+      color: #61dafb;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      text-align: right;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎉 דוגמה 1: שינוי טקסט</h1>
+    
+    <p id="myText">זהו הטקסט המקורי. לחץ על הכפתור כדי לשנות אותי!</p>
+    
+    <button onclick="changeText()">לחץ עליי!</button>
+    
+    <div class="code-box">
+      function changeText() {<br>
+      &nbsp;&nbsp;let paragraph = document.getElementById('myText')<br>
+      &nbsp;&nbsp;paragraph.textContent = 'וואו! הטקסט השתנה! 🚀'<br>
+      }
+    </div>
+    
+    <p style="margin-top: 20px; color: #666; font-size: 0.9rem;">
+      💡 פתח את Console (F12) כדי לראות מה קורה מאחורי הקלעים
+    </p>
+  </div>
+
+  <script>
+    // פונקציה שמשנה את הטקסט
+    function changeText() {
+      console.log("הכפתור נלחץ!") // הדפסה לקונסול
+      
+      // מוצאים את האלמנט עם ה-ID 'myText'
+      let paragraph = document.getElementById('myText')
+      
+      // משנים את התוכן שלו
+      paragraph.textContent = 'וואו! הטקסט השתנה! 🚀'
+      
+      console.log("הטקסט השתנה בהצלחה!")
+    }
+  </script>
+</body>
+</html>

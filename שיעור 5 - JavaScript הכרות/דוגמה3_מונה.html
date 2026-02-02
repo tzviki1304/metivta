@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>דוגמה 3: מונה לחיצות</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      direction: rtl;
+    }
+    
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      max-width: 500px;
+    }
+    
+    h1 {
+      color: #4facfe;
+      margin-bottom: 20px;
+    }
+    
+    #display {
+      font-size: 5rem;
+      color: #333;
+      padding: 30px;
+      background: #e3f2fd;
+      border-radius: 20px;
+      margin: 20px 0;
+      font-weight: bold;
+      border: 4px solid #4facfe;
+    }
+    
+    .buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    
+    button {
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      flex: 1;
+    }
+    
+    .btn-increase {
+      background: #4caf50;
+    }
+    
+    .btn-increase:hover {
+      background: #45a049;
+      transform: translateY(-2px);
+    }
+    
+    .btn-decrease {
+      background: #f44336;
+    }
+    
+    .btn-decrease:hover {
+      background: #da190b;
+      transform: translateY(-2px);
+    }
+    
+    .btn-reset {
+      background: #ff9800;
+    }
+    
+    .btn-reset:hover {
+      background: #e68900;
+      transform: translateY(-2px);
+    }
+    
+    .code-box {
+      background: #282c34;
+      color: #61dafb;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      text-align: right;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔢 דוגמה 3: מונה לחיצות</h1>
+    
+    <div id="display">0</div>
+    
+    <div class="buttons">
+      <button class="btn-increase" onclick="increaseCounter()">➕ הוסף</button>
+      <button class="btn-decrease" onclick="decreaseCounter()">➖ הורד</button>
+      <button class="btn-reset" onclick="resetCounter()">🔄 אפס</button>
+    </div>
+    
+    <div class="code-box">
+      let counter = 0<br>
+      <br>
+      function increaseCounter() {<br>
+      &nbsp;&nbsp;counter++<br>
+      &nbsp;&nbsp;updateDisplay()<br>
+      }
+    </div>
+    
+    <p style="margin-top: 20px; color: #666; font-size: 0.9rem;">
+      💡 שים לב: המשתנה counter "זוכר" את הערך שלו בין הלחיצות!
+    </p>
+  </div>
+
+  <script>
+    // משתנה שמחזיק את המספר הנוכחי
+    let counter = 0
+    
+    // פונקציה להוספה
+    function increaseCounter() {
+      counter++  // זה כמו: counter = counter + 1
+      updateDisplay()
+      console.log("המונה עלה ל: " + counter)
+    }
+    
+    // פונקציה להורדה
+    function decreaseCounter() {
+      counter--  // זה כמו: counter = counter - 1
+      updateDisplay()
+      console.log("המונה ירד ל: " + counter)
+    }
+    
+    // פונקציה לאיפוס
+    function resetCounter() {
+      counter = 0
+      updateDisplay()
+      console.log("המונה אופס!")
+    }
+    
+    // פונקציה שמעדכנת את התצוגה
+    function updateDisplay() {
+      document.getElementById('display').textContent = counter
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+# חומרי הוראה למורה - לא עולים לגיט
+מדריך_מורה/
+
+# קבצים אישיים
+*.personal.md
+הערות_מורה.md
+תשובות.md
+
+# VS Code
+.vscode/
+
+# מערכת הפעלה
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# גיבויים
+*.backup
+*.bak
+*~

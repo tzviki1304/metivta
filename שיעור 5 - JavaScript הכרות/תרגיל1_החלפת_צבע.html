@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>תרגיל 1: החלפת צבע רקע</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      direction: rtl;
+      transition: background 0.5s ease;
+    }
+    
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      max-width: 500px;
+    }
+    
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+    
+    .task-box {
+      background: #e8f5e9;
+      padding: 20px;
+      border-radius: 10px;
+      border-right: 5px solid #4caf50;
+      margin: 20px 0;
+      text-align: right;
+    }
+    
+    .task-box h3 {
+      margin-top: 0;
+      color: #2e7d32;
+    }
+    
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    
+    button {
+      background: #2196f3;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .hint-box {
+      background: #fff3cd;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px 0;
+      text-align: right;
+      border-right: 4px solid #ffc107;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📝 תרגיל 1: החלפת צבע רקע</h1>
+    
+    <div class="task-box">
+      <h3>🎯 המטרה:</h3>
+      <p>צור 3 כפתורים שכל אחד משנה את צבע הרקע של הדף לצבע אחר.</p>
+    </div>
+    
+    <div class="buttons">
+      <!-- TODO: הוסף onclick לכפתורים האלה! -->
+      <button onclick="changeToBlue()">כחול 🔵</button>
+      <button onclick="changeToGreen()">ירוק 🟢</button>
+      <button onclick="changeToPurple()">סגול 🟣</button>
+    </div>
+    
+    <div class="hint-box">
+      <strong>💡 רמזים:</strong><br>
+      • להחלפת צבע רקע: <code>document.body.style.backgroundColor = 'lightblue'</code><br>
+      • צבעים אפשריים: 'lightblue', 'lightgreen', 'lavender'<br>
+      • תוכל גם להשתמש בקודי צבע: '#ffcccb', '#90ee90'
+    </div>
+  </div>
+
+  <script>
+    // TODO: כתוב 3 פונקציות שמשנות את צבע הרקע
+    // דוגמה לפונקציה ראשונה:
+    
+    function changeToBlue() {
+      document.body.style.backgroundColor = 'lightblue'
+      console.log("הרקע שונה לכחול!")
+    }
+    
+    // עכשיו את/ה כותב את 2 הפונקציות הנוספות:
+    
+    function changeToGreen() {
+      // הקוד שלך כאן...
+      document.body.style.backgroundColor = 'lightgreen'
+    }
+    
+    function changeToPurple() {
+      // הקוד שלך כאן...
+      document.body.style.backgroundColor = 'lavender'
+    }
+  </script>
+</body>
+</html>

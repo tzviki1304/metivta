@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>משימת בית: כפתור קסם</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      direction: rtl;
+      transition: background 0.5s ease;
+    }
+    
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      max-width: 550px;
+    }
+    
+    h1 {
+      color: #ff6f61;
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+    }
+    
+    .task-box {
+      background: #fff3e0;
+      padding: 20px;
+      border-radius: 10px;
+      border-right: 5px solid #ff9800;
+      margin: 20px 0;
+      text-align: right;
+    }
+    
+    .task-box h3 {
+      margin-top: 0;
+      color: #e65100;
+    }
+    
+    .task-box ul {
+      text-align: right;
+      padding-right: 20px;
+    }
+    
+    #magicButton {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 20px 40px;
+      font-size: 1.5rem;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 20px 0;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    #magicButton:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+    
+    #message {
+      font-size: 1.5rem;
+      color: #333;
+      padding: 20px;
+      background: #e3f2fd;
+      border-radius: 10px;
+      margin: 20px 0;
+      min-height: 60px;
+      border: 3px solid #2196f3;
+    }
+    
+    #clickCount {
+      font-size: 1.2rem;
+      color: #666;
+      margin-top: 10px;
+    }
+    
+    .hint-box {
+      background: #f3e5f5;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px 0;
+      text-align: right;
+      border-right: 4px solid #9c27b0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>✨ משימת בית: כפתור הקסם</h1>
+    <p class="subtitle">אתגר מתקדם לתרגול!</p>
+    
+    <div class="task-box">
+      <h3>🎯 המטרה:</h3>
+      <p>צור כפתור שכל לחיצה עליו עושה משהו אחר:</p>
+      <ul>
+        <li><strong>לחיצה 1:</strong> משנה את הטקסט להודעת ברכה</li>
+        <li><strong>לחיצה 2:</strong> משנה את צבע הרקע של הדף</li>
+        <li><strong>לחיצה 3:</strong> מציג הודעת alert</li>
+        <li><strong>לחיצה 4:</strong> חוזר להתחלה (אפס את המונה)</li>
+      </ul>
+    </div>
+    
+    <button id="magicButton" onclick="magicClick()">🪄 לחץ עליי!</button>
+    
+    <div id="message">👆 לחץ על הכפתור וראה מה קורה...</div>
+    
+    <div id="clickCount">מספר לחיצות: 0</div>
+    
+    <div class="hint-box">
+      <strong>💡 רמזים:</strong><br>
+      • השתמש במשתנה counter לספירת לחיצות<br>
+      • השתמש ב-if / else if לבדוק מה מספר הלחיצה<br>
+      • בלחיצה 4 אפס את counter ל-0<br>
+      • אל תשכח לעדכן את תצוגת מספר הלחיצות!
+    </div>
+  </div>
+
+  <script>
+    // TODO: צור משתנה לספירת לחיצות
+    let counter = 0
+    
+    function magicClick() {
+      // TODO: הוסף 1 למונה
+      counter++
+      
+      // TODO: לפי מספר הלחיצה, עשה פעולה אחרת
+      if (counter === 1) {
+        // לחיצה ראשונה - שינוי טקסט
+        document.getElementById('message').textContent = '🎉 ברוכים הבאים לעולם JavaScript!'
+        
+      } else if (counter === 2) {
+        // לחיצה שנייה - שינוי צבע רקע
+        document.body.style.background = 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)'
+        document.getElementById('message').textContent = '🎨 הצבע השתנה!'
+        
+      } else if (counter === 3) {
+        // לחיצה שלישית - הודעת alert
+        alert('🪄 זה קסם! אתם נהדרים!')
+        document.getElementById('message').textContent = '⭐ קראתי את ההתראה!'
+        
+      } else if (counter === 4) {
+        // לחיצה רביעית - איפוס
+        document.body.style.background = 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)'
+        document.getElementById('message').textContent = '🔄 איפוס! נתחיל מחדש...'
+        counter = 0  // איפוס המונה
+      }
+      
+      // עדכון תצוגת מספר הלחיצות
+      document.getElementById('clickCount').textContent = 'מספר לחיצות: ' + counter
+      
+      console.log('לחיצה מספר: ' + counter)
+    }
+  </script>
+</body>
+</html>
