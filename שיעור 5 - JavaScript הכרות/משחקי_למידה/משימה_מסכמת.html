@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>משימה מסכמת - בנה משהו משלך!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.2em;
+        }
+
+        .mission-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .mission-box h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .requirements {
+            background: white;
+            color: #333;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .requirements h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .requirements ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .requirements li {
+            padding: 15px;
+            margin: 10px 0;
+            background: #f8f9fa;
+            border-right: 4px solid #667eea;
+            border-radius: 8px;
+            font-size: 1.1em;
+        }
+
+        .requirements li::before {
+            content: "✓ ";
+            color: #28a745;
+            font-weight: bold;
+            font-size: 1.3em;
+            margin-left: 10px;
+        }
+
+        .options-box {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .option-card {
+            background: white;
+            border: 3px solid #667eea;
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .option-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .option-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .option-card p {
+            color: #666;
+            line-height: 1.8;
+            font-size: 1.1em;
+        }
+
+        .example-box {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .code-box {
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+            line-height: 1.6;
+        }
+
+        .keyword { color: #ff79c6; }
+        .string { color: #50fa7b; }
+        .number { color: #bd93f9; }
+        .comment { color: #6272a4; }
+
+        .tip-box {
+            background: #d1ecf1;
+            border-right: 4px solid #17a2b8;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .tip-box h4 {
+            color: #17a2b8;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .step-box {
+            background: #fff3cd;
+            border-right: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .step-box h4 {
+            color: #ffc107;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .demo-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .demo-section h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .success-box {
+            background: #d4edda;
+            border: 3px solid #28a745;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .success-box h3 {
+            color: #28a745;
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        /* דוגמה אינטראקטיבית */
+        #interactiveDemo {
+            background: white;
+            border: 3px solid #667eea;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        #interactiveDemo input {
+            padding: 12px;
+            font-size: 1.1em;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            margin: 10px;
+            min-width: 200px;
+        }
+
+        #output {
+            background: #667eea;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 1.3em;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 המשימה המסכמת</h1>
+        <p class="subtitle">הזמן להראות מה למדת! בנה משהו משלך!</p>
+
+        <!-- המשימה -->
+        <div class="mission-box">
+            <h2>🚀 המשימה שלך:</h2>
+            <p style="font-size: 1.3em; line-height: 1.8;">
+                בנה אפליקציה אינטראקטיבית קטנה שמשלבת <strong>HTML</strong>, <strong>CSS</strong>, ו-<strong>JavaScript</strong>!<br>
+                האפליקציה צריכה לקבל קלט מהמשתמש, לעבד אותו עם פונקציה, ולהציג תוצאה בעמוד.
+            </p>
+        </div>
+
+        <!-- דרישות -->
+        <div class="requirements">
+            <h3>✅ דרישות חובה:</h3>
+            <ul>
+                <li><strong>HTML:</strong> לפחות 2 אלמנטי input ו-2 כפתורים</li>
+                <li><strong>CSS:</strong> עיצוב יפה עם צבעים וגופנים</li>
+                <li><strong>JavaScript:</strong> לפחות 2 פונקציות שמשנות את העמוד</li>
+                <li><strong>משתנים:</strong> שימוש ב-let/const לאחסון מידע</li>
+                <li><strong>אינטראקציה:</strong> המשתמש לוחץ על כפתור ויש תגובה מיידית</li>
+                <li><strong>הצגת תוצאות:</strong> התוצאות מוצגות בעמוד (לא רק ב-console)</li>
+            </ul>
+        </div>
+
+        <!-- אפשרויות לפרויקט -->
+        <h2 style="color: #667eea; text-align: center; margin: 40px 0; font-size: 2em;">בחר רעיון (או תמציא משלך!):</h2>
+        
+        <div class="options-box">
+            <div class="option-card">
+                <h3>💱 המיר מטבע</h3>
+                <p>
+                    <strong>מה זה עושה:</strong> המשתמש מכניס סכום בשקלים, והאפליקציה מציגה כמה זה בדולרים/אירו.<br><br>
+                    <strong>מה צריך:</strong> input למספר, כפתור להמרה, הצגת תוצאה.
+                </p>
+            </div>
+
+            <div class="option-card">
+                <h3>🧮 מחשבון גיל</h3>
+                <p>
+                    <strong>מה זה עושה:</strong> המשתמש מכניס שנת לידה, והאפליקציה מחשבת את הגיל.<br><br>
+                    <strong>מה צריך:</strong> input לשנה, כפתור לחישוב, הצגת הגיל + הודעה.
+                </p>
+            </div>
+
+            <div class="option-card">
+                <h3>🎨 בונה ברכות</h3>
+                <p>
+                    <strong>מה זה עושה:</strong> המשתמש מכניס שם ואירוע, והאפליקציה יוצרת ברכה מעוצבת.<br><br>
+                    <strong>מה צריך:</strong> 2 inputs, כפתור ליצירה, הצגת ברכה יפה.
+                </p>
+            </div>
+
+            <div class="option-card">
+                <h3>📊 חישוב ציון ממוצע</h3>
+                <p>
+                    <strong>מה זה עושה:</strong> המשתמש מכניס 3 ציונים, והאפליקציה מחשבת ממוצע.<br><br>
+                    <strong>מה צריך:</strong> 3 inputs למספרים, כפתור לחישוב, הצגת ממוצע.
+                </p>
+            </div>
+
+            <div class="option-card">
+                <h3>🌡️ המרת טמפרטורה</h3>
+                <p>
+                    <strong>מה זה עושה:</strong> המרה בין צלזיוס לפרנהייט.<br><br>
+                    <strong>מה צריך:</strong> input למספר, 2 כפתורים (C→F ו-F→C), הצגת תוצאה.
+                </p>
+            </div>
+
+            <div class="option-card">
+                <h3>🎲 הרעיון שלך!</h3>
+                <p>
+                    <strong>תמציא משהו משלך!</strong><br>רוצה לבנות משהו אחר? מעולה!<br><br>
+                    רק וודא שיש inputs, פונקציות, והצגה בעמוד.
+                </p>
+            </div>
+        </div>
+
+        <!-- דוגמה -->
+        <div class="demo-section">
+            <h3>דוגמה מלאה: מחשבון גיל פשוט</h3>
+            
+            <div class="step-box">
+                <h4>שלב 1: HTML</h4>
+                <div class="example-box">
+                    <div class="code-box">
+<span class="comment">&lt;!-- קלט --&gt;</span>
+&lt;input type=<span class="string">"number"</span> id=<span class="string">"birthYear"</span> placeholder=<span class="string">"שנת לידה"</span>&gt;
+
+<span class="comment">&lt;!-- כפתור --&gt;</span>
+&lt;button onclick=<span class="string">"calculateAge()"</span>&gt;חשב גיל&lt;/button&gt;
+
+<span class="comment">&lt;!-- תצוגה --&gt;</span>
+&lt;div id=<span class="string">"result"</span>&gt;&lt;/div&gt;
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-box">
+                <h4>שלב 2: CSS</h4>
+                <div class="example-box">
+                    <div class="code-box">
+input {
+    padding: <span class="number">10px</span>;
+    font-size: <span class="number">1.2em</span>;
+    border: <span class="number">2px</span> solid <span class="string">#667eea</span>;
+    border-radius: <span class="number">10px</span>;
+}
+
+button {
+    background: <span class="string">#667eea</span>;
+    color: white;
+    padding: <span class="number">10px 30px</span>;
+    border: none;
+    border-radius: <span class="number">20px</span>;
+    cursor: pointer;
+}
+
+#result {
+    font-size: <span class="number">1.5em</span>;
+    color: <span class="string">#667eea</span>;
+    margin-top: <span class="number">20px</span>;
+}
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-box">
+                <h4>שלב 3: JavaScript</h4>
+                <div class="example-box">
+                    <div class="code-box">
+<span class="keyword">function</span> <span class="string">calculateAge</span>() {
+    <span class="comment">// 1. קבל את שנת הלידה מה-input</span>
+    <span class="keyword">let</span> birthYear = document.getElementById(<span class="string">'birthYear'</span>).value
+    
+    <span class="comment">// 2. חשב את הגיל</span>
+    <span class="keyword">let</span> currentYear = <span class="number">2024</span>
+    <span class="keyword">let</span> age = currentYear - birthYear
+    
+    <span class="comment">// 3. הצג את התוצאה בדף</span>
+    <span class="keyword">let</span> resultDiv = document.getElementById(<span class="string">'result'</span>)
+    resultDiv.textContent = <span class="string">"אתה בן "</span> + age + <span class="string">" שנים!"</span>
+}
+                    </div>
+                </div>
+            </div>
+
+            <!-- דוגמה חיה -->
+            <div id="interactiveDemo">
+                <h4 style="color: #667eea; margin-bottom: 20px;">נסה את הדוגמה:</h4>
+                <input type="number" id="birthYear" placeholder="שנת לידה (למשל: 2008)">
+                <br>
+                <button onclick="calculateAge()">חשב גיל</button>
+                <div id="output">התוצאה תופיע כאן...</div>
+            </div>
+        </div>
+
+        <!-- טיפים -->
+        <div class="tip-box">
+            <h4>💡 טיפים להצלחה:</h4>
+            <ul style="line-height: 2; font-size: 1.1em;">
+                <li>✅ התחל עם משהו פשוט - אחר כך הוסף עוד</li>
+                <li>✅ בדוק את הקוד אחרי כל שינוי קטן</li>
+                <li>✅ השתמש ב-console.log() כדי לראות מה קורה</li>
+                <li>✅ אם יש שגיאה - פתח Console (F12) וקרא את ההודעה</li>
+                <li>✅ תן שמות ברורים למשתנים (לא x, y, z)</li>
+                <li>✅ הוסף הערות (comments) לקוד שלך</li>
+            </ul>
+        </div>
+
+        <!-- סיום -->
+        <div class="success-box">
+            <h3>🎉 בהצלחה!</h3>
+            <p style="font-size: 1.2em; color: #155724; line-height: 1.8;">
+                זו ההזדמנות שלך להראות מה למדת!<br>
+                קח את הזמן, תתנסה, תשאל שאלות, ותהנה מהתהליך!<br><br>
+                <strong>זכור:</strong> אין "נכון" או "לא נכון" - כל פתרון שעובד הוא פתרון טוב! 💪
+            </p>
+            <button onclick="alert('התחל לכתוב קוד! צור קובץ HTML חדש ותתחיל לבנות!')" 
+                    style="font-size: 1.3em; padding: 20px 50px; margin-top: 20px;">
+                🚀 אני מוכן להתחיל!
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function calculateAge() {
+            const birthYear = document.getElementById('birthYear').value;
+            
+            if (birthYear === '') {
+                alert('נא להכניס שנת לידה!');
+                return;
+            }
+            
+            const currentYear = 2024;
+            const age = currentYear - birthYear;
+            
+            if (age < 0 || age > 120) {
+                document.getElementById('output').textContent = '🤔 שנת לידה לא הגיונית...';
+                return;
+            }
+            
+            document.getElementById('output').textContent = `🎂 אתה בן ${age} שנים!`;
+        }
+    </script>
+</body>
+</html>

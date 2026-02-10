@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>משחק המשתנים - תופס את הערך!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .game-container {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #f5576c;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.2em;
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            color: white;
+        }
+
+        .score-item {
+            text-align: center;
+        }
+
+        .score-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .score-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .code-display {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 25px;
+            border-radius: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.3em;
+            margin: 20px 0;
+            direction: ltr;
+            text-align: left;
+            line-height: 2;
+        }
+
+        .keyword { color: #ff79c6; }
+        .string { color: #50fa7b; }
+        .number { color: #bd93f9; }
+        .comment { color: #6272a4; }
+        .highlight { background: #44475a; padding: 2px 8px; border-radius: 4px; }
+
+        .question-box {
+            background: #fff3cd;
+            border: 3px solid #ffc107;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .question-text {
+            font-size: 1.5em;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .option-btn {
+            background: white;
+            border: 3px solid #667eea;
+            padding: 20px;
+            font-size: 1.3em;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .option-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .option-btn:active {
+            transform: translateY(-2px);
+        }
+
+        .correct {
+            background: #28a745 !important;
+            color: white !important;
+            border-color: #28a745 !important;
+            animation: correctPulse 0.5s;
+        }
+
+        .wrong {
+            background: #dc3545 !important;
+            color: white !important;
+            border-color: #dc3545 !important;
+            animation: shake 0.5s;
+        }
+
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .result-message {
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 15px;
+            display: none;
+        }
+
+        .result-message.show {
+            display: block;
+        }
+
+        .result-message.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 3px solid #28a745;
+        }
+
+        .result-message.wrong {
+            background: #f8d7da;
+            color: #721c24;
+            border: 3px solid #dc3545;
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            font-size: 1.3em;
+            border-radius: 50px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .next-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .final-screen {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .final-screen.show {
+            display: block;
+        }
+
+        .final-score {
+            font-size: 4em;
+            color: #667eea;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .trophy {
+            font-size: 6em;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>🎮 משחק המשתנים</h1>
+        <p class="subtitle">תופס את הערך הנכון! עוקב אחרי המשתנים!</p>
+
+        <!-- לוח תוצאות -->
+        <div class="score-board">
+            <div class="score-item">
+                <div class="score-label">שאלה</div>
+                <div class="score-value" id="questionNumber">1</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">✅ נכונות</div>  
+                <div class="score-value" id="correctScore">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">❌ טעויות</div>
+                <div class="score-value" id="wrongScore">0</div>
+            </div>
+        </div>
+
+        <!-- אזור המשחק -->
+        <div id="gameArea">
+            <!-- הקוד שרץ -->
+            <div class="code-display" id="codeDisplay"></div>
+
+            <!-- השאלה -->
+            <div class="question-box">
+                <div class="question-text" id="questionText"></div>
+                <div class="options" id="optionsContainer"></div>
+            </div>
+
+            <!-- הודעת תוצאה -->
+            <div class="result-message" id="resultMessage"></div>
+
+            <!-- כפתור הבא -->
+            <button class="next-btn" id="nextBtn" onclick="nextQuestion()" disabled>
+                שאלה הבאה ➡️
+            </button>
+        </div>
+
+        <!-- מסך סיום -->
+        <div class="final-screen" id="finalScreen">
+            <div class="trophy" id="trophyEmoji">🏆</div>
+            <h2 style="font-size: 2.5em; color: #667eea;">סיימת את המשחק!</h2>
+            <div class="final-score" id="finalScore"></div>
+            <p style="font-size: 1.3em; margin: 20px 0;" id="finalMessage"></p>
+            <button class="next-btn" onclick="restartGame()">
+                🔄 שחק שוב
+            </button>
+            <button class="next-btn" onclick="location.href='הסבר_פונקציות.html'" 
+                    style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                ➡️ עבור לפונקציות
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // בנק שאלות
+        const questions = [
+            {
+                code: `<span class="keyword">let</span> x = <span class="number">5</span>`,
+                question: 'מה הערך של x?',
+                options: ['5', '0', 'x', 'undefined'],
+                correct: 0
+            },
+            {
+                code: `<span class="keyword">let</span> name = <span class="string">"דוד"</span>\nname = <span class="string">"משה"</span>`,
+                question: 'מה הערך של name בסוף?',
+                options: ['"דוד"', '"משה"', 'name', 'שגיאה'],
+                correct: 1
+            },
+            {
+                code: `<span class="keyword">let</span> age = <span class="number">16</span>\nage = age + <span class="number">1</span>`,
+                question: 'מה הערך של age בסוף?',
+                options: ['16', '17', '161', 'שגיאה'],
+                correct: 1
+            },
+            {
+                code: `<span class="keyword">let</span> a = <span class="number">10</span>\n<span class="keyword">let</span> b = <span class="number">20</span>\n<span class="keyword">let</span> sum = a + b`,
+                question: 'מה הערך של sum?',
+                options: ['10', '20', '30', 'a + b'],
+                correct: 2
+            },
+            {
+                code: `<span class="keyword">let</span> counter = <span class="number">0</span>\ncounter<span class="keyword">++</span>\ncounter<span class="keyword">++</span>`,
+                question: 'מה הערך של counter בסוף?',
+                options: ['0', '1', '2', '3'],
+                correct: 2
+            },
+            {
+                code: `<span class="keyword">let</span> firstName = <span class="string">"משה"</span>\n<span class="keyword">let</span> lastName = <span class="string">"כהן"</span>\n<span class="keyword">let</span> fullName = firstName + <span class="string">" "</span> + lastName`,
+                question: 'מה הערך של fullName?',
+                options: ['"משה"', '"כהן"', '"משה כהן"', 'שגיאה'],
+                correct: 2
+            },
+            {
+                code: `<span class="keyword">const</span> year = <span class="number">2024</span>\nyear = <span class="number">2025</span>`,
+                question: 'מה יקרה כשהקוד ירוץ?',
+                options: ['year יהיה 2025', 'year יהיה 2024', 'שגיאה! לא ניתן לשנות const', 'undefined'],
+                correct: 2
+            },
+            {
+                code: `<span class="keyword">let</span> num = <span class="number">5</span>\nnum = num * <span class="number">2</span>`,
+                question: 'מה הערך של num בסוף?',
+                options: ['5', '7', '10', '52'],
+                correct: 2
+            },
+            {
+                code: `<span class="keyword">let</span> text = <span class="string">"שלום"</span>\ntext = text + <span class="string">" "</span> + <span class="string">"עולם"</span>`,
+                question: 'מה הערך של text בסוף?',
+                options: ['"שלום"', '"עולם"', '"שלום עולם"', 'שגיאה'],
+                correct: 2
+            },
+            {
+                code: `<span class="keyword">let</span> a = <span class="number">5</span>\n<span class="keyword">let</span> b = a\na = <span class="number">10</span>`,
+                question: 'מה הערך של b בסוף?',
+                options: ['5', '10', '15', 'undefined'],
+                correct: 0
+            }
+        ];
+
+        // משתני משחק
+        let currentQuestion = 0;
+        let correctAnswers = 0;
+        let wrongAnswers = 0;
+
+        // התחלת המשחק
+        function startGame() {
+            showQuestion();
+        }
+
+        // הצגת שאלה
+        function showQuestion() {
+            const q = questions[currentQuestion];
+            
+            // עדכון מספר שאלה
+            document.getElementById('questionNumber').textContent = currentQuestion + 1;
+            
+            // הצגת קוד
+            document.getElementById('codeDisplay').innerHTML = q.code;
+            
+            // הצגת שאלה
+            document.getElementById('questionText').textContent = q.question;
+            
+            // יצירת אפשרויות
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            q.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = option;
+                btn.onclick = () => checkAnswer(index);
+                optionsContainer.appendChild(btn);
+            });
+            
+            // איפוס הודעה
+            document.getElementById('resultMessage').classList.remove('show');
+            document.getElementById('nextBtn').disabled = true;
+        }
+
+        // בדיקת תשובה
+        function checkAnswer(selected) {
+            const q = questions[currentQuestion];
+            const buttons = document.querySelectorAll('.option-btn');
+            const resultMessage = document.getElementById('resultMessage');
+            
+            // השבתת כל הכפתורים
+            buttons.forEach(btn => btn.onclick = null);
+            
+            // סימון התשובה
+            if (selected === q.correct) {
+                buttons[selected].classList.add('correct');
+                correctAnswers++;
+                document.getElementById('correctScore').textContent = correctAnswers;
+                
+                resultMessage.textContent = '🎉 כל הכבוד! תשובה נכונה!';
+                resultMessage.className = 'result-message correct show';
+            } else {
+                buttons[selected].classList.add('wrong');
+                buttons[q.correct].classList.add('correct');
+                wrongAnswers++;
+                document.getElementById('wrongScore').textContent = wrongAnswers;
+                
+                resultMessage.textContent = '❌ אופס! התשובה הנכונה היא: ' + q.options[q.correct];
+                resultMessage.className = 'result-message wrong show';
+            }
+            
+            // הפעלת כפתור הבא
+            document.getElementById('nextBtn').disabled = false;
+        }
+
+        // שאלה הבאה
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showFinalScreen();
+            }
+        }
+
+        // מסך סיום
+        function showFinalScreen() {
+            document.getElementById('gameArea').style.display = 'none';
+            document.getElementById('finalScreen').classList.add('show');
+            
+            const total = questions.length;
+            const percentage = Math.round((correctAnswers / total) * 100);
+            
+            document.getElementById('finalScore').textContent = 
+                correctAnswers + ' / ' + total + ' (' + percentage + '%)';
+            
+            let message = '';
+            let trophy = '';
+            
+            if (percentage === 100) {
+                message = 'מושלם! 🌟 אתה מאסטר משתנים!';
+                trophy = '🏆';
+            } else if (percentage >= 80) {
+                message = 'מעולה! 👏 אתה מבין טוב מאוד!';
+                trophy = '🥇';
+            } else if (percentage >= 60) {
+                message = 'יפה! 👍 אתה בדרך הנכונה!';
+                trophy = '🥈';
+            } else {
+                message = 'המשך להתאמן! 💪 אתה משתפר!';
+                trophy = '🥉';
+            }
+            
+            document.getElementById('finalMessage').textContent = message;
+            document.getElementById('trophyEmoji').textContent = trophy;
+        }
+
+        // התחלה מחדש
+        function restartGame() {
+            currentQuestion = 0;
+            correctAnswers = 0;
+            wrongAnswers = 0;
+            
+            document.getElementById('correctScore').textContent = '0';
+            document.getElementById('wrongScore').textContent = '0';
+            document.getElementById('gameArea').style.display = 'block';
+            document.getElementById('finalScreen').classList.remove('show');
+            
+            startGame();
+        }
+
+        // התחלת המשחק בטעינת הדף
+        window.onload = startGame;
+    </script>
+</body>
+</html>

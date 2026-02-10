@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>למד לדבג - מציאת ותיקון באגים</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #fa709a;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.2em;
+        }
+
+        .section {
+            margin: 30px 0;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-right: 5px solid #fa709a;
+        }
+
+        .section-title {
+            color: #fa709a;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .tool-box {
+            background: white;
+            border: 3px solid #fa709a;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 15px 0;
+        }
+
+        .tool-title {
+            font-size: 1.4em;
+            color: #fa709a;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .code-box {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            direction: ltr;
+            text-align: left;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+
+        .keyword { color: #ff79c6; }
+        .string { color: #50fa7b; }
+        .number { color: #bd93f9; }
+        .comment { color: #6272a4; font-style: italic; }
+        .error { color: #ff5555; }
+
+        .demo-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 15px 0;
+        }
+
+        button {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(250, 112, 154, 0.4);
+        }
+
+        .output-box {
+            background: #2d2d2d;
+            color: #50fa7b;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            margin: 15px 0;
+            min-height: 60px;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .tip-box {
+            background: #d4edda;
+            border-right: 4px solid #28a745;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-right: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .error-box {
+            background: #f8d7da;
+            border-right: 4px solid #dc3545;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .steps {
+            counter-reset: step;
+            list-style: none;
+            padding: 0;
+        }
+
+        .steps li {
+            counter-increment: step;
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            border-right: 4px solid #fa709a;
+            position: relative;
+            padding-right: 60px;
+        }
+
+        .steps li::before {
+            content: counter(step);
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #fa709a;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .interactive-demo {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            border: 3px solid #fa709a;
+            margin: 20px 0;
+        }
+
+        input[type="text"], input[type="number"] {
+            padding: 12px;
+            font-size: 1.1em;
+            border: 2px solid #fa709a;
+            border-radius: 10px;
+            margin: 10px;
+            min-width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐛 למד לדבג - מצא ותקן באגים!</h1>
+        <p class="subtitle">דיבאגינג = תהליך מציאת ותיקון שגיאות בקוד</p>
+
+        <!-- חלק 1: מהו באג? -->
+        <div class="section">
+            <h2 class="section-title">🔍 מה זה באג (Bug)?</h2>
+            <div class="warning-box">
+                <strong>באג</strong> = שגיאה בקוד שגורמת לתוכנה לא לעבוד כמו שצריך.<br>
+                זה יכול להיות טעות קטנה בכתיב, או בעיה בלוגיקה של הקוד.
+            </div>
+
+            <div class="error-box">
+                <h3>דוגמה לבאג:</h3>
+                <div class="code-box">
+<span class="keyword">let</span> name = <span class="string">"משה</span>  <span class="comment">// ⛔ חסר גרשיים בסוף!</span>
+console.log(name)
+                </div>
+                <strong style="color: #dc3545;">תוצאה: שגיאה! הקוד לא ירוץ</strong>
+            </div>
+
+            <div class="tip-box">
+                <h3>למה קוראים לזה "באג"?</h3>
+                בשנת 1947, מהנדסת בשם Grace Hopper מצאה **עש אמיתי** 🦗 במחשב שגרם לו להפסיק לעבוד.<br>
+                מאז קוראים לשגיאות בתוכנה "באגים" (bugs = חרקים באנגלית)!
+            </div>
+        </div>
+
+        <!-- חלק 2: סוגי באגים -->
+        <div class="section">
+            <h2 class="section-title">📝 סוגי באגים נפוצים</h2>
+            
+            <div class="tool-box">
+                <div class="tool-title">1️⃣ Syntax Error - שגיאת תחביר</div>
+                <p>טעות בכתיבת הקוד - כמו לשכוח סוגריים או גרשיים.</p>
+                <div class="code-box">
+<span class="keyword">function</span> sayHello( {  <span class="comment">// ⛔ חסר סוגר סגירה!</span>
+    console.log(<span class="string">"שלום"</span>)
+}
+                </div>
+            </div>
+
+            <div class="tool-box">
+                <div class="tool-title">2️⃣ Reference Error - משתנה לא קיים</div>
+                <p>ניסית להשתמש במשתנה שלא הוגדר.</p>
+                <div class="code-box">
+console.log(name)  <span class="comment">// ⛔ name לא הוגדר!</span>
+                </div>
+            </div>
+
+            <div class="tool-box">
+                <div class="tool-title">3️⃣ Logic Error - שגיאה בלוגיקה</div>
+                <p>הקוד רץ, אבל התוצאה לא מה שרצית.</p>
+                <div class="code-box">
+<span class="keyword">let</span> age = <span class="number">16</span>
+age = age - <span class="number">1</span>    <span class="comment">// ⚠️ רצית להוסיף ולא להוריד!</span>
+console.log(age)  <span class="comment">// 15 (אבל רצית 17)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- חלק 3: כלים לדיבאגינג -->
+        <div class="section">
+            <h2 class="section-title">🛠️ כלי הדיבאגינג שלך</h2>
+
+            <div class="tool-box">
+                <div class="tool-title">🔧 כלי 1: console.log() - החבר הכי טוב שלך!</div>
+                <p><strong>השתמש ב-console.log() כדי לראות מה קורה בקוד!</strong></p>
+                <div class="code-box">
+<span class="keyword">function</span> add(a, b) {
+    console.log(<span class="string">"a = "</span>, a)  <span class="comment">// 👀 ראה מה הערך</span>
+    console.log(<span class="string">"b = "</span>, b)  <span class="comment">// 👀 ראה מה הערך</span>
+    <span class="keyword">let</span> result = a + b
+    console.log(<span class="string">"result = "</span>, result)  <span class="comment">// 👀 ראה את התוצאה</span>
+    <span class="keyword">return</span> result
+}
+
+add(<span class="number">5</span>, <span class="number">3</span>)
+                </div>
+                
+                <div class="interactive-demo">
+                    <h4>נסה בעצמך:</h4>
+                    <button onclick="demoConsoleLog()">הרץ דוגמה</button>
+                    <div class="output-box" id="output1">פתח Console (F12) ולחץ על הכפתור...</div>
+                </div>
+            </div>
+
+            <div class="tool-box">
+                <div class="tool-title">🔧 כלי 2: פתיחת Console (F12)</div>
+                <p><strong>Console = המקום שבו אנחנו רואים שגיאות ומדפיסים דברים</strong></p>
+                <ol class="steps">
+                    <li>לחץ <strong>F12</strong> (או ימני → Inspect)</li>
+                    <li>לחץ על לשונית <strong>Console</strong></li>
+                    <li>עכשיו תראה את כל ההודעות ושגיאות!</li>
+                </ol>
+                
+                <div class="warning-box">
+                    <strong>💡 טיפ:</strong> שגיאות מופיעות באדום! ❌<br>
+                    זה עוזר לך למצוא בדיוק איפה הבעיה.
+                </div>
+            </div>
+
+            <div class="tool-box">
+                <div class="tool-title">🔧 כלי 3: קרא את הודעת השגיאה!</div>
+                <p><strong>הודעת השגיאה אומרת לך מה הבעיה - רק צריך לדעת לקרוא אותה!</strong></p>
+                
+                <div class="error-box">
+                    <div class="code-box" style="background: white; color: #dc3545;">
+Uncaught ReferenceError: name is not defined
+    at script.js:5
+                    </div>
+                    
+                    <h4 style="margin-top: 15px;">מה זה אומר?</h4>
+                    <ul style="line-height: 2;">
+                        <li>📌 <strong>ReferenceError</strong> = סוג השגיאה</li>
+                        <li>📌 <strong>name is not defined</strong> = המשתנה name לא קיים</li>
+                        <li>📌 <strong>at script.js:5</strong> = השגיאה בשורה 5!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- חלק 4: תהליך הדיבאגינג -->
+        <div class="section">
+            <h2 class="section-title">🎯 תהליך הדיבאגינג - 5 צעדים</h2>
+            
+            <ol class="steps">
+                <li>
+                    <strong>זהה את הבעיה</strong><br>
+                    מה לא עובד? האם יש שגיאה בקונסול?
+                </li>
+                <li>
+                    <strong>מצא את המקום</strong><br>
+                    איפה הבעיה בקוד? בדוק את מספר השורה בהודעת השגיאה.
+                </li>
+                <li>
+                    <strong>הבן מה קורה</strong><br>
+                    הוסף console.log() כדי לראות את הערכים של המשתנים.
+                </li>
+                <li>
+                    <strong>תקן את הבעיה</strong><br>
+                    שנה את הקוד לפי מה שגיליתעתה.
+                </li>
+                <li>
+                    <strong>בדוק שזה עובד</strong><br>
+                    הרץ את הקוד שוב וודא שהבעיה נפתרה!
+                </li>
+            </ol>
+        </div>
+
+        <!-- חלק 5: תרגול מעשי -->
+        <div class="section">
+            <h2 class="section-title">💪 תרגול - מצא את הבאג!</h2>
+            
+            <div class="demo-box">
+                <h3 style="margin-bottom: 20px;">דוגמה 1: יש כאן באג!</h3>
+                <div class="code-box">
+<span class="keyword">function</span> greet(name) {
+    console.log(<span class="string">"שלום " + nme</span>)  <span class="comment">// 🐛 יש כאן טעות!</span>
+}
+
+greet(<span class="string">"משה"</span>)
+                </div>
+                
+                <div class="interactive-demo" style="background: #2d2d2d; color: white;">
+                    <h4>מצא את הבאג:</h4>
+                    <button onclick="runBuggyCode1()" style="background: #dc3545;">הרץ (עם באג)</button>
+                    <button onclick="runFixedCode1()" style="background: #28a745;">הרץ (תוקן)</button>
+                    <div class="output-box" id="bugOutput1">לחץ על הכפתור...</div>
+                    
+                    <details style="margin-top: 20px; padding: 15px; background: #444; border-radius: 10px;">
+                        <summary style="cursor: pointer; font-weight: bold;">💡 לחץ לראות תשובה</summary>
+                        <p style="margin-top: 10px; line-height: 1.8;">
+                            הטעות: כתבנו <strong style="color: #ff5555;">nme</strong> במקום <strong style="color: #50fa7b;">name</strong>!<br>
+                            תיקון: צריך לכתוב <strong>name</strong> (עם 'a').
+                        </p>
+                    </details>
+                </div>
+            </div>
+
+            <div class="demo-box">
+                <h3 style="margin-bottom: 20px;">דוגמה 2: באג נוסף!</h3>
+                <div class="code-box">
+<span class="keyword">function</span> add(a, b) {
+    <span class="keyword">return</span> a - b  <span class="comment">// 🐛 באג לוגי!</span>
+}
+
+<span class="keyword">let</span> result = add(<span class="number">5</span>, <span class="number">3</span>)
+console.log(<span class="string">"5 + 3 = "</span> + result)
+                </div>
+                
+                <div class="interactive-demo" style="background: #2d2d2d; color: white;">
+                    <h4>מצא את הבאג:</h4>
+                    <button onclick="runBuggyCode2()" style="background: #dc3545;">הרץ (עם באג)</button>
+                    <button onclick="runFixedCode2()" style="background: #28a745;">הרץ (תוקן)</button>
+                    <div class="output-box" id="bugOutput2">לחץ על הכפתור...</div>
+                    
+                    <details style="margin-top: 20px; padding: 15px; background: #444; border-radius: 10px;">
+                        <summary style="cursor: pointer; font-weight: bold;">💡 לחץ לראות תשובה</summary>
+                        <p style="margin-top: 10px; line-height: 1.8;">
+                            הטעות: הפונקציה <strong style="color: #ff5555;">מחסירה (-)</strong> במקום <strong style="color: #50fa7b;">לחבר (+)</strong>!<br>
+                            תיקון: צריך לשנות מ-<strong>a - b</strong> ל-<strong>a + b</strong>.
+                        </p>
+                    </details>
+                </div>
+            </div>
+        </div>
+
+        <!-- סיכום -->
+        <div class="section" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: white; border: none;">
+            <h2 class="section-title" style="color: white;">📚 סיכום - איך לדבג?</h2>
+            <ul style="font-size: 1.2em; line-height: 2; list-style: none;">
+                <li>✅ פתח Console (F12) - תראה שגיאות</li>
+                <li>✅ קרא את הודעת השגיאה - היא אומרת מה הבעיה</li>
+                <li>✅ השתמש ב-console.log() - ראה מה קורה בקוד</li>
+                <li>✅ בדוק ערכי משתנים - וודא שהם נכונים</li>
+                <li>✅ תקן צעד אחר צעד - אל תשנה הכל בבת אחת</li>
+                <li>✅ הרץ שוב - בדוק שהבעיה נפתרה</li>
+            </ul>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button onclick="location.href='תקן_את_הבאג.html'" 
+                        style="background: white; color: #fa709a; font-size: 1.3em; padding: 20px 50px;">
+                    🎮 המשך למשחק תיקון באגים!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function demoConsoleLog() {
+            console.log("=== דוגמה לשימוש ב-console.log ===");
+            console.log("a = ", 5);
+            console.log("b = ", 3);
+            let result = 5 + 3;
+            console.log("result = ", result);
+            console.log("=================================");
+            
+            document.getElementById('output1').textContent = 
+                'פתח את Console (F12) כדי לראות את ההדפסות!';
+        }
+
+        function runBuggyCode1() {
+            const output = document.getElementById('bugOutput1');
+            output.innerHTML = '<span style="color: #ff5555;">❌ Error: nme is not defined</span>';
+            console.error("Uncaught ReferenceError: nme is not defined");
+        }
+
+        function runFixedCode1() {
+            const output = document.getElementById('bugOutput1');
+            output.innerHTML = '<span style="color: #50fa7b;">✅ שלום משה</span>';
+            console.log("שלום משה");
+        }
+
+        function runBuggyCode2() {
+            const output = document.getElementById('bugOutput2');
+            const result = 5 - 3;  // באג!
+            output.innerHTML = `<span style="color: #ff5555;">❌ 5 + 3 = ${result}</span><br><span style="color: #ffc107;">(זה לא נכון! צריך להיות 8)</span>`;
+        }
+
+        function runFixedCode2() {
+            const output = document.getElementById('bugOutput2');
+            const result = 5 + 3;  // תוקן!
+            output.innerHTML = `<span style="color: #50fa7b;">✅ 5 + 3 = ${result}</span><br><span style="color: #50fa7b;">(נכון!)</span>`;
+        }
+    </script>
+</body>
+</html>

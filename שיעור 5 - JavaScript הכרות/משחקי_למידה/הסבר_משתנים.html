@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>הסבר משתנים - JavaScript</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.2em;
+        }
+
+        .section {
+            margin: 30px 0;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-right: 5px solid #667eea;
+        }
+
+        .section-title {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .emoji {
+            margin-left: 10px;
+            font-size: 1.2em;
+        }
+
+        .code-box {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            direction: ltr;
+            text-align: left;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .keyword { color: #ff79c6; }
+        .string { color: #50fa7b; }
+        .number { color: #bd93f9; }
+        .comment { color: #6272a4; font-style: italic; }
+
+        .demo-box {
+            background: white;
+            border: 3px solid #667eea;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .variable-display {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #667eea;
+            color: white;
+            border-radius: 10px;
+            font-size: 1.5em;
+            margin: 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .variable-display:hover {
+            transform: scale(1.1);
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(-1px);
+        }
+
+        .explanation {
+            background: #fff3cd;
+            border-right: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+
+        .tip-box {
+            background: #d1ecf1;
+            border-right: 4px solid #17a2b8;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .tip-title {
+            color: #17a2b8;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .animation-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin: 20px 0;
+            transition: all 0.5s ease;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .pulse {
+            animation: pulse 1s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 הסבר משתנים ב-JavaScript</h1>
+        <p class="subtitle">למד מה זה משתנה וראה אותו פועל מול עינייך!</p>
+
+        <!-- חלק 1: מה זה משתנה? -->
+        <div class="section">
+            <h2 class="section-title"><span class="emoji">📦</span>מה זה משתנה?</h2>
+            <div class="explanation">
+                משתנה זה כמו <strong>קופסה</strong> שאנחנו יכולים לשים בה דברים.<br>
+                לקופסה יש <strong>שם</strong> (כדי שנזכור איזו קופסה זו)<br>
+                ובקופסה יש <strong>ערך</strong> (מה שאנחנו שמנו בפנים)
+            </div>
+
+            <div class="demo-box">
+                <h3>דוגמה:</h3>
+                <div class="code-box">
+<span class="keyword">let</span> <span class="string">name</span> = <span class="string">"משה"</span>
+                </div>
+                
+                <p style="margin: 20px 0; font-size: 1.2em;">המשתנה שלנו:</p>
+                <div class="variable-display" id="nameDisplay">name = "משה"</div>
+            </div>
+
+            <div class="tip-box">
+                <div class="tip-title">💡 הסבר:</div>
+                <strong>let</strong> = אומר ל-JavaScript: "תיצור משתנה חדש"<br>
+                <strong>name</strong> = השם של המשתנה (שם הקופסה)<br>
+                <strong>"משה"</strong> = הערך שאנחנו שמים בפנים
+            </div>
+        </div>
+
+        <!-- חלק 2: שינוי ערך -->
+        <div class="section">
+            <h2 class="section-title"><span class="emoji">🔄</span>שינוי ערך של משתנה</h2>
+            <div class="explanation">
+                אפשר לשנות את מה שיש בתוך המשתנה בכל זמן!<br>
+                זה כמו להחליף מה שיש בקופסה.
+            </div>
+
+            <div class="demo-box">
+                <h3>נסה בעצמך!</h3>
+                <div id="currentName" class="animation-box">name = "דוד"</div>
+                
+                <button onclick="changeName('משה')">שנה ל"משה"</button>
+                <button onclick="changeName('יוסף')">שנה ל"יוסף"</button>
+                <button onclick="changeName('אברהם')">שנה ל"אברהם"</button>
+
+                <div class="code-box" style="margin-top: 20px;">
+<span class="comment">// לחיצה על כפתור מריצה קוד כזה:</span>
+<span class="keyword">let</span> name = <span class="string">"דוד"</span>
+name = <span class="string">"משה"</span>    <span class="comment">// שינוי הערך!</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- חלק 3: משתנים עם מספרים -->
+        <div class="section">
+            <h2 class="section-title"><span class="emoji">🔢</span>משתנים עם מספרים</h2>
+            <div class="explanation">
+                משתנים יכולים להכיל גם <strong>מספרים</strong>, לא רק טקסט!<br>
+                ואפשר לעשות עליהם פעולות מתמטיות.
+            </div>
+
+            <div class="demo-box">
+                <h3>מונה - ראה איך המספר משתנה!</h3>
+                <div id="counterDisplay" class="animation-box pulse" style="font-size: 3em;">0</div>
+                
+                <button onclick="increaseCounter()">➕ הוסף 1</button>
+                <button onclick="decreaseCounter()">➖ הפחת 1</button>
+                <button onclick="resetCounter()">🔄 אפס</button>
+
+                <div class="code-box" style="margin-top: 20px;">
+<span class="keyword">let</span> counter = <span class="number">0</span>
+
+<span class="comment">// כשלוחצים "הוסף 1":</span>
+counter = counter + <span class="number">1</span>
+
+<span class="comment">// דרך קצרה:</span>
+counter<span class="keyword">++</span>    <span class="comment">// זה עושה את אותו דבר!</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- חלק 4: let vs const -->
+        <div class="section">
+            <h2 class="section-title"><span class="emoji">🔒</span>let לעומת const</h2>
+            
+            <div class="explanation">
+                יש שתי דרכים ליצור משתנה:
+            </div>
+
+            <div class="tip-box">
+                <div class="tip-title">📝 let - משתנה שאפשר לשנות</div>
+                <div class="code-box">
+<span class="keyword">let</span> age = <span class="number">16</span>
+age = <span class="number">17</span>    <span class="comment">// זה עובד! ✅</span>
+                </div>
+            </div>
+
+            <div class="tip-box" style="background: #f8d7da; border-right-color: #dc3545;">
+                <div class="tip-title" style="color: #dc3545;">🔒 const - משתנה קבוע (לא משתנה!)</div>
+                <div class="code-box">
+<span class="keyword">const</span> birthYear = <span class="number">2008</span>
+birthYear = <span class="number">2009</span>    <span class="comment">// ⛔ שגיאה! אי אפשר לשנות!</span>
+                </div>
+            </div>
+
+            <div class="explanation">
+                <strong>מתי להשתמש ב-const?</strong><br>
+                כשאתה יודע שהערך לא אמור להשתנות - למשל תאריך לידה, שם אפליקציה, וכו'.
+            </div>
+        </div>
+
+        <!-- חלק 5: שרשור משתנים -->
+        <div class="section">
+            <h2 class="section-title"><span class="emoji">🔗</span>שילוב משתנים</h2>
+            
+            <div class="explanation">
+                אפשר לשלב כמה משתנים ביחד כדי ליצור טקסט חדש!
+            </div>
+
+            <div class="demo-box">
+                <h3>בונה משפטים:</h3>
+                
+                <input type="text" id="nameInput" placeholder="השם שלך" 
+                       style="padding: 10px; font-size: 1.1em; border-radius: 5px; border: 2px solid #667eea; margin: 10px;">
+                <input type="number" id="ageInput" placeholder="הגיל שלך" 
+                       style="padding: 10px; font-size: 1.1em; border-radius: 5px; border: 2px solid #667eea; margin: 10px;">
+                
+                <br>
+                <button onclick="createSentence()">🎨 בנה משפט</button>
+                
+                <div id="sentenceDisplay" class="animation-box" style="margin-top: 20px;">
+                    הכנס שם וגיל ולחץ על הכפתור!
+                </div>
+
+                <div class="code-box" style="margin-top: 20px;">
+<span class="keyword">let</span> name = <span class="string">"משה"</span>
+<span class="keyword">let</span> age = <span class="number">16</span>
+
+<span class="comment">// שילוב עם + (חיבור מחרוזות)</span>
+<span class="keyword">let</span> sentence = <span class="string">"שלום "</span> + name + <span class="string">", אתה בן "</span> + age
+
+<span class="comment">// דרך מודרנית (Template Literals):</span>
+<span class="keyword">let</span> sentence = <span class="string">`שלום ${name}, אתה בן ${age}`</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- סיכום -->
+        <div class="section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;">
+            <h2 class="section-title" style="color: white;"><span class="emoji">📚</span>סיכום - מה למדנו?</h2>
+            <ul style="font-size: 1.2em; line-height: 2; list-style: none;">
+                <li>✅ משתנה = קופסה עם שם וערך</li>
+                <li>✅ <strong>let</strong> - ליצירת משתנה שאפשר לשנות</li>
+                <li>✅ <strong>const</strong> - ליצירת משתנה קבוע</li>
+                <li>✅ אפשר לשים במשתנה: טקסט, מספרים, ועוד</li>
+                <li>✅ אפשר לשנות את הערך בכל זמן (אם זה let)</li>
+                <li>✅ אפשר לשלב משתנים כדי ליצור דברים חדשים</li>
+            </ul>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <p style="font-size: 1.3em; color: #667eea; font-weight: bold;">
+                🎮 עכשיו תעבור למשחק_משתנים.html כדי לתרגל!
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // משתנה גלובלי למונה
+        let counter = 0;
+
+        // פונקציה לשינוי שם
+        function changeName(newName) {
+            let nameBox = document.getElementById('currentName');
+            nameBox.textContent = 'name = "' + newName + '"';
+            nameBox.classList.add('pulse');
+            setTimeout(() => nameBox.classList.remove('pulse'), 1000);
+        }
+
+        // פונקציות למונה
+        function increaseCounter() {
+            counter++;
+            updateCounterDisplay();
+        }
+
+        function decreaseCounter() {
+            counter--;
+            updateCounterDisplay();
+        }
+
+        function resetCounter() {
+            counter = 0;
+            updateCounterDisplay();
+        }
+
+        function updateCounterDisplay() {
+            let display = document.getElementById('counterDisplay');
+            display.textContent = counter;
+            display.classList.add('pulse');
+            setTimeout(() => display.classList.remove('pulse'), 500);
+        }
+
+        // פונקציה לבניית משפט
+        function createSentence() {
+            let name = document.getElementById('nameInput').value;
+            let age = document.getElementById('ageInput').value;
+            
+            if (name === '' || age === '') {
+                alert('נא למלא גם שם וגם גיל!');
+                return;
+            }
+
+            let sentence = `שלום ${name}, אתה בן ${age} שנים! ברוך הבא ללמידת JavaScript! 🎉`;
+            
+            let display = document.getElementById('sentenceDisplay');
+            display.textContent = sentence;
+            display.classList.add('pulse');
+            setTimeout(() => display.classList.remove('pulse'), 1000);
+        }
+    </script>
+</body>
+</html>
