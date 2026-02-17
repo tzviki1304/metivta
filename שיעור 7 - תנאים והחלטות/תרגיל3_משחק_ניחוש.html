@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>משחק ניחוש מספר - 1 עד 10</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .game {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fa709a;
+            margin-bottom: 15px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.2em;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            color: white;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 20px;
+            font-size: 2.5em;
+            border: 3px solid #fa709a;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #fee140;
+            box-shadow: 0 0 15px rgba(250, 112, 154, 0.3);
+        }
+
+        button {
+            width: 100%;
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+            border: none;
+            padding: 20px;
+            font-size: 1.5em;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(250, 112, 154, 0.4);
+        }
+
+        .hint {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1.8em;
+            font-weight: bold;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hint.waiting {
+            background: #e9ecef;
+            color: #666;
+        }
+
+        .hint.too-high {
+            background: #ffcdd2;
+            color: #c62828;
+        }
+
+        .hint.too-low {
+            background: #bbdefb;
+            color: #1565c0;
+        }
+
+        .hint.correct {
+            background: #c8e6c9;
+            color: #2e7d32;
+            font-size: 2.5em;
+        }
+
+        .history {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border: 2px solid #fa709a;
+        }
+
+        .history h3 {
+            color: #fa709a;
+            margin-bottom: 15px;
+        }
+
+        .attempts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .attempt {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border-radius: 10px;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="game">
+        <h1>🎲 משחק ניחוש</h1>
+        <p class="subtitle">נחש מספר בין 1 ל-10</p>
+
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-label">ניסיונות</div>
+                <div class="stat-value" id="attempts">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">שיא הכי טוב</div>
+                <div class="stat-value" id="bestScore">-</div>
+            </div>
+        </div>
+
+        <div style="margin: 25px 0;">
+            <label style="display: block; font-size: 1.3em; font-weight: bold; color: #666; margin-bottom: 10px;">
+                מה הניחוש שלך?
+            </label>
+            <input type="number" id="guess" placeholder="?" min="1" max="10">
+        </div>
+
+        <button onclick="checkGuess()">נחש! 🎯</button>
+
+        <div class="hint waiting" id="hint">
+            נחש מספר בין 1 ל-10!
+        </div>
+
+        <div class="history">
+            <h3>📊 הניסיונות שלך:</h3>
+            <div class="attempts" id="attemptsList">
+                <span style="color: #999;">עוד לא ניחשת...</span>
+            </div>
+        </div>
+
+        <button onclick="newGame()" style="background: #667eea; margin-top: 20px;">
+            🔄 משחק חדש
+        </button>
+    </div>
+
+    <script>
+        let secretNumber;
+        let attempts;
+        let attemptsList;
+        let bestScore = localStorage.getItem('bestScore') || null;
+
+        function newGame() {
+            // בחר מספר אקראי בין 1 ל-10
+            secretNumber = Math.floor(Math.random() * 10) + 1;
+            attempts = 0;
+            attemptsList = [];
+            
+            // עדכן UI
+            document.getElementById('attempts').textContent = '0';
+            document.getElementById('guess').value = '';
+            document.getElementById('hint').textContent = 'נחש מספר בין 1 ל-10!';
+            document.getElementById('hint').className = 'hint waiting';
+            document.getElementById('attemptsList').innerHTML = '<span style="color: #999;">עוד לא ניחשת...</span>';
+            
+            console.log('המספר הסודי הוא: ' + secretNumber); // רק לבדיקה!
+        }
+
+        function checkGuess() {
+            let guess = Number(document.getElementById('guess').value);
+            
+            // בדיקת תקינות
+            if (isNaN(guess) || guess < 1 || guess > 10) {
+                alert('נא להכניס מספר בין 1 ל-10!');
+                return;
+            }
+
+            // ספור ניסיון
+            attempts++;
+            attemptsList.push(guess);
+            
+            // עדכן מונה
+            document.getElementById('attempts').textContent = attempts;
+            
+            // עדכן רשימה
+            updateAttemptsList();
+            
+            let hint = document.getElementById('hint');
+            
+            // בדוק את הניחוש
+            if (guess === secretNumber) {
+                // ניחש נכון!
+                hint.textContent = '🎉 כל הכבוד! ניחשת נכון!';
+                hint.className = 'hint correct';
+                
+                // עדכן שיא
+                if (bestScore === null || attempts < bestScore) {
+                    bestScore = attempts;
+                    localStorage.setItem('bestScore', bestScore);
+                    document.getElementById('bestScore').textContent = bestScore;
+                }
+                
+            } else if (guess > secretNumber) {
+                // גבוה מדי
+                hint.textContent = '⬇️ המספר נמוך יותר!';
+                hint.className = 'hint too-high';
+                
+            } else {
+                // נמוך מדי
+                hint.textContent = '⬆️ המספר גבוה יותר!';
+                hint.className = 'hint too-low';
+            }
+            
+            // נקה input
+            document.getElementById('guess').value = '';
+        }
+
+        function updateAttemptsList() {
+            let html = '';
+            attemptsList.forEach(attempt => {
+                let color = attempt === secretNumber ? '#28a745' : '#667eea';
+                html += `<div class="attempt" style="background: ${color}">${attempt}</div>`;
+            });
+            document.getElementById('attemptsList').innerHTML = html;
+        }
+
+        // אפשרות ללחוץ Enter
+        document.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                checkGuess();
+            }
+        });
+
+        // הצג שיא אם יש
+        if (bestScore) {
+            document.getElementById('bestScore').textContent = bestScore;
+        }
+
+        // התחל משחק חדש
+        newGame();
+    </script>
+</body>
+</html>

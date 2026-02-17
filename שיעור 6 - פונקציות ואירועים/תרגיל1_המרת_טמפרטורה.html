@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>תרגיל: מחשבון המרת טמפרטורה</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .converter {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fa709a;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 18px;
+            font-size: 1.8em;
+            border: 3px solid #fa709a;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #fee140;
+            box-shadow: 0 0 15px rgba(250, 112, 154, 0.3);
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        button {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+            border: none;
+            padding: 20px;
+            font-size: 1.3em;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(250, 112, 154, 0.4);
+        }
+
+        .result-box {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            border: 3px solid #fa709a;
+            margin-top: 25px;
+        }
+
+        .result-label {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .result-value {
+            font-size: 3em;
+            color: #fa709a;
+            font-weight: bold;
+        }
+
+        .instructions {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            border-right: 5px solid #2196f3;
+        }
+
+        .instructions h3 {
+            color: #2196f3;
+            margin-bottom: 12px;
+        }
+
+        .formula {
+            background: #fff9c4;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #f57f17;
+        }
+    </style>
+</head>
+<body>
+    <div class="converter">
+        <h1>🌡️ מחשבון טמפרטורה</h1>
+
+        <div class="input-group">
+            <label for="celsius">טמפרטורה בצלזיוס:</label>
+            <input type="number" id="celsius" placeholder="25">
+        </div>
+
+        <div class="input-group">
+            <label for="fahrenheit">טמפרטורה בפרנהייט:</label>
+            <input type="number" id="fahrenheit" placeholder="77">
+        </div>
+
+        <div class="buttons">
+            <button onclick="convertToFahrenheit()">
+                ➡️ המר לפרנהייט
+            </button>
+            <button onclick="convertToCelsius()">
+                ⬅️ המר לצלזיוס
+            </button>
+        </div>
+
+        <div class="result-box">
+            <div class="result-label">תוצאה:</div>
+            <div class="result-value" id="result">-</div>
+        </div>
+
+        <div class="instructions">
+            <h3>📝 המשימה שלך:</h3>
+            <p><strong>כתוב שתי פונקציות:</strong></p>
+            
+            <div class="formula">F = (C × 9/5) + 32</div>
+            <p>1️⃣ <strong>convertToFahrenheit()</strong> - מקבלת צלזיוס ומחזירה פרנהייט</p>
+            
+            <div class="formula">C = (F - 32) × 5/9</div>
+            <p>2️⃣ <strong>convertToCelsius()</strong> - מקבלת פרנהייט ומחזירה צלזיוס</p>
+
+            <p style="margin-top: 15px;">
+                💡 <strong>טיפ:</strong> השתמש ב-Number() להמרת הקלט למספר,<br>
+                ובתוך הפונקציה החזר את התוצאה עם return!
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // כאן תכתוב את הפונקציות שלך!
+        
+        function celsiusToFahrenheit(celsius) {
+            // השלם את הנוסחה: F = (C × 9/5) + 32
+            return (celsius * 9/5) + 32;
+        }
+
+        function fahrenheitToCelsius(fahrenheit) {
+            // השלם את הנוסחה: C = (F - 32) × 5/9
+            return (fahrenheit - 32) * 5/9;
+        }
+
+        function convertToFahrenheit() {
+            // קח את הערך מהשדה צלזיוס
+            let celsius = Number(document.getElementById('celsius').value);
+            
+            // קרא לפונקציה
+            let fahrenheit = celsiusToFahrenheit(celsius);
+            
+            // עדכן את השדה פרנהייט
+            document.getElementById('fahrenheit').value = fahrenheit.toFixed(1);
+            
+            // הצג תוצאה
+            document.getElementById('result').textContent = 
+                `${celsius}°C = ${fahrenheit.toFixed(1)}°F`;
+            
+            console.log(`${celsius}°C נהפך ל-${fahrenheit.toFixed(1)}°F`);
+        }
+
+        function convertToCelsius() {
+            // קח את הערך מהשדה פרנהייט
+            let fahrenheit = Number(document.getElementById('fahrenheit').value);
+            
+            // קרא לפונקציה
+            let celsius = fahrenheitToCelsius(fahrenheit);
+            
+            // עדכן את השדה צלזיוס
+            document.getElementById('celsius').value = celsius.toFixed(1);
+            
+            // הצג תוצאה
+            document.getElementById('result').textContent = 
+                `${fahrenheit}°F = ${celsius.toFixed(1)}°C`;
+            
+            console.log(`${fahrenheit}°F נהפך ל-${celsius.toFixed(1)}°C`);
+        }
+    </script>
+</body>
+</html>

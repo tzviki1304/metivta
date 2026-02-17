@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>תרגיל: משנה צבעים</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            transition: background 0.5s ease;
+        }
+
+        .controller {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .color-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .color-btn {
+            padding: 40px 20px;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .color-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+
+        .color-btn:active {
+            transform: translateY(-2px);
+        }
+
+        #btnBlue {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        #btnGreen {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+
+        #btnOrange {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        #btnPurple {
+            background: linear-gradient(135deg, #cc2b5e 0%, #753a88 100%);
+        }
+
+        .current-color {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+            border: 3px solid #ddd;
+        }
+
+        .current-color-label {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .current-color-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .instructions {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            border-right: 5px solid #ffc107;
+        }
+
+        .instructions h3 {
+            color: #856404;
+            margin-bottom: 12px;
+        }
+
+        .code-hint {
+            background: #2d2d2d;
+            color: #50fa7b;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            direction: ltr;
+            text-align: left;
+            font-size: 0.9em;
+        }
+
+        .keyword { color: #ff79c6; }
+        .string { color: #f1fa8c; }
+    </style>
+</head>
+<body>
+    <div class="controller">
+        <h1>🎨 בוחר צבעים</h1>
+
+        <div class="color-buttons">
+            <button class="color-btn" id="btnBlue">🔵 כחול</button>
+            <button class="color-btn" id="btnGreen">🟢 ירוק</button>
+            <button class="color-btn" id="btnOrange">🟠 כתום</button>
+            <button class="color-btn" id="btnPurple">🟣 סגול</button>
+        </div>
+
+        <div class="current-color">
+            <div class="current-color-label">הצבע הנוכחי:</div>
+            <div class="current-color-value" id="currentColor">בחר צבע!</div>
+        </div>
+
+        <div class="instructions">
+            <h3>📝 המשימה שלך:</h3>
+            <p><strong>חבר את הכפתורים לפעולות עם addEventListener:</strong></p>
+            
+            <div class="code-hint"><span class="keyword">let</span> button = document.getElementById(<span class="string">'btnBlue'</span>);
+button.addEventListener(<span class="string">'click'</span>, <span class="keyword">function</span>() {
+    document.body.style.background = <span class="string">'...'</span>;
+});</div>
+
+            <p style="margin-top: 15px;">
+                💡 <strong>צעדים:</strong><br>
+                1️⃣ בחר את כל 4 הכפתורים עם getElementById<br>
+                2️⃣ הוסף addEventListener לכל כפתור<br>
+                3️⃣ בתוך הפונקציה, שנה את צבע הרקע<br>
+                4️⃣ עדכן גם את התצוגה "הצבע הנוכחי"
+            </p>
+
+            <p style="margin-top: 15px;">
+                🎨 <strong>צבעי גראדיאנט לשימוש:</strong><br>
+                כחול: <code>linear-gradient(135deg, #667eea 0%, #764ba2 100%)</code><br>
+                ירוק: <code>linear-gradient(135deg, #11998e 0%, #38ef7d 100%)</code><br>
+                כתום: <code>linear-gradient(135deg, #fa709a 0%, #fee140 100%)</code><br>
+                סגול: <code>linear-gradient(135deg, #cc2b5e 0%, #753a88 100%)</code>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // כאן תכתוב את הקוד שלך!
+        
+        // בחר את כל הכפתורים
+        let btnBlue = document.getElementById('btnBlue');
+        let btnGreen = document.getElementById('btnGreen');
+        let btnOrange = document.getElementById('btnOrange');
+        let btnPurple = document.getElementById('btnPurple');
+
+        // הוסף מאזיני אירועים לכל כפתור
+        btnBlue.addEventListener('click', function() {
+            document.body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            document.getElementById('currentColor').textContent = '🔵 כחול';
+            console.log('שונה לכחול');
+        });
+
+        btnGreen.addEventListener('click', function() {
+            document.body.style.background = 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)';
+            document.getElementById('currentColor').textContent = '🟢 ירוק';
+            console.log('שונה לירוק');
+        });
+
+        btnOrange.addEventListener('click', function() {
+            document.body.style.background = 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)';
+            document.getElementById('currentColor').textContent = '🟠 כתום';
+            console.log('שונה לכתום');
+        });
+
+        btnPurple.addEventListener('click', function() {
+            document.body.style.background = 'linear-gradient(135deg, #cc2b5e 0%, #753a88 100%)';
+            document.getElementById('currentColor').textContent = '🟣 סגול';
+            console.log('שונה לסגול');
+        });
+
+        // דוגמה חלופית - אפשר גם להשתמש בפונקציה בשם:
+        /*
+        function changeColor(gradient, colorName) {
+            document.body.style.background = gradient;
+            document.getElementById('currentColor').textContent = colorName;
+        }
+
+        btnBlue.addEventListener('click', function() {
+            changeColor('linear-gradient(135deg, #667eea 0%, #764ba2 100%)', '🔵 כחול');
+        });
+        */
+    </script>
+</body>
+</html>

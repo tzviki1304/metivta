@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>חידון כללי ידע - 5 שאלות</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .quiz {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 700px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 2.5em;
+        }
+
+        .score-bar {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            border: 3px solid #667eea;
+        }
+
+        .score-text {
+            font-size: 1.5em;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .question-box {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .question-number {
+            font-size: 1em;
+            color: white;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 1.8em;
+            color: white;
+            font-weight: bold;
+        }
+
+        .answers {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .answer-btn {
+            background: white;
+            border: 3px solid #667eea;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.3em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: right;
+        }
+
+        .answer-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateX(-5px);
+        }
+
+        .answer-btn.correct {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+
+        .answer-btn.wrong {
+            background: #dc3545;
+            color: white;
+            border-color: #dc3545;
+        }
+
+        .answer-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .feedback {
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feedback.correct {
+            background: #c8e6c9;
+            color: #2e7d32;
+        }
+
+        .feedback.wrong {
+            background: #ffcdd2;
+            color: #c62828;
+        }
+
+        .feedback.hidden {
+            display: none;
+        }
+
+        .next-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 20px;
+            font-size: 1.5em;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .next-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-screen {
+            text-align: center;
+        }
+
+        .final-score {
+            font-size: 4em;
+            color: #667eea;
+            margin: 30px 0;
+        }
+
+        .result-message {
+            font-size: 1.8em;
+            margin: 20px 0;
+            padding: 25px;
+            border-radius: 15px;
+        }
+
+        .result-excellent {
+            background: #c8e6c9;
+            color: #2e7d32;
+        }
+
+        .result-good {
+            background: #fff9c4;
+            color: #f57f17;
+        }
+
+        .result-okay {
+            background: #ffcdd2;
+            color: #c62828;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz">
+        <h1>🧠 חידון כללי ידע</h1>
+
+        <!-- מסך החידון -->
+        <div id="quizScreen">
+            <div class="score-bar">
+                <div class="score-text">
+                    ציון: <span id="score">0</span> / <span id="currentQuestion">1</span> מתוך 5
+                </div>
+            </div>
+
+            <div class="question-box">
+                <div class="question-number">שאלה <span id="questionNum">1</span></div>
+                <div class="question-text" id="questionText"></div>
+            </div>
+
+            <div class="answers" id="answersContainer"></div>
+
+            <div class="feedback hidden" id="feedback"></div>
+
+            <button class="next-btn" id="nextBtn" onclick="nextQuestion()" disabled>
+                השאלה הבאה ←
+            </button>
+        </div>
+
+        <!-- מסך תוצאות -->
+        <div id="resultScreen" class="hidden result-screen">
+            <h2 style="color: #667eea; margin-bottom: 20px;">✅ סיימת את החידון!</h2>
+            <div class="final-score" id="finalScore"></div>
+            <div class="result-message" id="resultMessage"></div>
+            <button class="next-btn" onclick="restartQuiz()">
+                🔄 נסה שוב
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // שאלות החידון
+        const questions = [
+            {
+                question: "מהי בירת ישראל?",
+                answers: ["תל אביב", "ירושלים", "חיפה", "באר שבע"],
+                correct: 1
+            },
+            {
+                question: "כמה ימים יש בשנה?",
+                answers: ["360", "364", "365", "366"],
+                correct: 2
+            },
+            {
+                question: "איזה כוכב הכי קרוב לכדור הארץ?",
+                answers: ["השמש", "הירח", "מאדים", "נוגה"],
+                correct: 0
+            },
+            {
+                question: "כמה רגליים יש לעכביש?",
+                answers: ["6", "8", "10", "12"],
+                correct: 1
+            },
+            {
+                question: "באיזו שנה הוקמה מדינת ישראל?",
+                answers: ["1945", "1946", "1948", "1950"],
+                correct: 2
+            }
+        ];
+
+        let currentQ = 0;
+        let score = 0;
+        let answered = false;
+
+        function loadQuestion() {
+            // קח את השאלה הנוכחית
+            const q = questions[currentQ];
+            
+            // עדכן את מספר השאלה
+            document.getElementById('questionNum').textContent = currentQ + 1;
+            document.getElementById('currentQuestion').textContent = currentQ + 1;
+            
+            // הצג את השאלה
+            document.getElementById('questionText').textContent = q.question;
+            
+            // צור כפתורי תשובות
+            let html = '';
+            for (let i = 0; i < q.answers.length; i++) {
+                html += `<button class="answer-btn" onclick="checkAnswer(${i})">
+                    ${q.answers[i]}
+                </button>`;
+            }
+            document.getElementById('answersContainer').innerHTML = html;
+            
+            // אפס משתנים
+            answered = false;
+            document.getElementById('feedback').className = 'feedback hidden';
+            document.getElementById('nextBtn').disabled = true;
+        }
+
+        function checkAnswer(selected) {
+            // אם כבר ענינו, לא לעשות כלום
+            if (answered) return;
+            
+            answered = true;
+            const q = questions[currentQ];
+            const buttons = document.querySelectorAll('.answer-btn');
+            const feedback = document.getElementById('feedback');
+            
+            // השבת את כל הכפתורים
+            buttons.forEach(btn => btn.disabled = true);
+            
+            // בדוק אם התשובה נכונה
+            if (selected === q.correct) {
+                // תשובה נכונה!
+                score++;
+                document.getElementById('score').textContent = score;
+                buttons[selected].classList.add('correct');
+                feedback.textContent = '✅ נכון! כל הכבוד!';
+                feedback.className = 'feedback correct';
+            } else {
+                // תשובה שגויה
+                buttons[selected].classList.add('wrong');
+                buttons[q.correct].classList.add('correct');
+                feedback.textContent = '❌ לא נכון. התשובה הנכונה היא: ' + q.answers[q.correct];
+                feedback.className = 'feedback wrong';
+            }
+            
+            // אפשר כפתור הבא
+            document.getElementById('nextBtn').disabled = false;
+        }
+
+        function nextQuestion() {
+            currentQ++;
+            
+            // בדוק אם יש עוד שאלות
+            if (currentQ < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            // הסתר מסך חידון
+            document.getElementById('quizScreen').classList.add('hidden');
+            
+            // הצג מסך תוצאות
+            document.getElementById('resultScreen').classList.remove('hidden');
+            
+            // הצג ציון
+            document.getElementById('finalScore').textContent = score + ' / 5';
+            
+            // הצג הודעה לפי הציון
+            const resultMsg = document.getElementById('resultMessage');
+            
+            if (score === 5) {
+                resultMsg.textContent = '🎉 מושלם! ענית נכון על כל השאלות!';
+                resultMsg.className = 'result-message result-excellent';
+            } else if (score >= 3) {
+                resultMsg.textContent = '👍 יפה מאוד! עברת את החידון!';
+                resultMsg.className = 'result-message result-good';
+            } else {
+                resultMsg.textContent = '💪 נסה שוב! תוכל לעשות את זה יותר טוב!';
+                resultMsg.className = 'result-message result-okay';
+            }
+        }
+
+        function restartQuiz() {
+            // אפס הכל
+            currentQ = 0;
+            score = 0;
+            
+            // עדכן תצוגה
+            document.getElementById('score').textContent = '0';
+            document.getElementById('resultScreen').classList.add('hidden');
+            document.getElementById('quizScreen').classList.remove('hidden');
+            
+            // טען שאלה ראשונה
+            loadQuestion();
+        }
+
+        // התחל את החידון
+        loadQuestion();
+    </script>
+</body>
+</html>

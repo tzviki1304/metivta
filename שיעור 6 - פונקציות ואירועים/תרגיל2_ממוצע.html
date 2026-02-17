@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>תרגיל: חישוב ממוצע</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .calculator {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4facfe;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.5em;
+            border: 3px solid #4facfe;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #00f2fe;
+            box-shadow: 0 0 15px rgba(79, 172, 254, 0.3);
+        }
+
+        button {
+            width: 100%;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 20px;
+            font-size: 1.5em;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 25px 0;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(79, 172, 254, 0.4);
+        }
+
+        .result-box {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            border: 3px solid #4facfe;
+        }
+
+        .result-label {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .result-value {
+            font-size: 3em;
+            color: #4facfe;
+            font-weight: bold;
+        }
+
+        .grade-indicator {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .instructions {
+            background: #e8f5e9;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            border-right: 5px solid #4caf50;
+        }
+
+        .instructions h3 {
+            color: #4caf50;
+            margin-bottom: 12px;
+        }
+
+        .code-hint {
+            background: #2d2d2d;
+            color: #50fa7b;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            direction: ltr;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h1>📊 מחשבון ממוצע</h1>
+
+        <div class="input-group">
+            <label for="grade1">ציון 1:</label>
+            <input type="number" id="grade1" placeholder="85" min="0" max="100">
+        </div>
+
+        <div class="input-group">
+            <label for="grade2">ציון 2:</label>
+            <input type="number" id="grade2" placeholder="90" min="0" max="100">
+        </div>
+
+        <div class="input-group">
+            <label for="grade3">ציון 3:</label>
+            <input type="number" id="grade3" placeholder="78" min="0" max="100">
+        </div>
+
+        <button onclick="calculateAverage()">
+            🧮 חשב ממוצע
+        </button>
+
+        <div class="result-box">
+            <div class="result-label">הממוצע שלך:</div>
+            <div class="result-value" id="result">-</div>
+            <div class="grade-indicator" id="indicator" style="display: none;"></div>
+        </div>
+
+        <div class="instructions">
+            <h3>📝 המשימה שלך:</h3>
+            <p><strong>כתוב פונקציה שמחשבת ממוצע של 3 מספרים:</strong></p>
+            
+            <div class="code-hint">function average(a, b, c) {
+    return (a + b + c) / 3;
+}</div>
+
+            <p style="margin-top: 15px;">
+                💡 <strong>מה צריך לעשות:</strong><br>
+                1️⃣ קרא את שלושת הציונים מה-input<br>
+                2️⃣ המר אותם למספרים עם Number()<br>
+                3️⃣ קרא לפונקציה average() עם שלושת הציונים<br>
+                4️⃣ הצג את התוצאה בתיבת התוצאה
+            </p>
+
+            <p style="margin-top: 15px;">
+                ⭐ <strong>בונוס:</strong> הוסף צבע לפי רמת הציון:<br>
+                - ירוק: 90-100<br>
+                - כחול: 80-89<br>
+                - צהוב: 70-79<br>
+                - אדום: מתחת ל-70
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // כאן תכתוב את הפונקציה!
+        
+        function average(a, b, c) {
+            // חשב את הממוצע של 3 מספרים
+            return (a + b + c) / 3;
+        }
+
+        function calculateAverage() {
+            // קרא את שלושת הציונים
+            let grade1 = Number(document.getElementById('grade1').value);
+            let grade2 = Number(document.getElementById('grade2').value);
+            let grade3 = Number(document.getElementById('grade3').value);
+            
+            // קרא לפונקציה
+            let avg = average(grade1, grade2, grade3);
+            
+            // הצג את התוצאה (עד ספרה אחת אחרי הנקודה)
+            document.getElementById('result').textContent = avg.toFixed(1);
+            
+            // הצג אינדיקטור צבעוני
+            let indicator = document.getElementById('indicator');
+            indicator.style.display = 'block';
+            
+            if (avg >= 90) {
+                indicator.textContent = '🌟 מצוין!';
+                indicator.style.background = '#c8e6c9';
+                indicator.style.color = '#2e7d32';
+            } else if (avg >= 80) {
+                indicator.textContent = '👍 טוב מאוד!';
+                indicator.style.background = '#bbdefb';
+                indicator.style.color = '#1565c0';
+            } else if (avg >= 70) {
+                indicator.textContent = '👌 סביר';
+                indicator.style.background = '#fff9c4';
+                indicator.style.color = '#f57f17';
+            } else {
+                indicator.textContent = '💪 צריך לשפר';
+                indicator.style.background = '#ffcdd2';
+                indicator.style.color = '#c62828';
+            }
+            
+            console.log(`הציונים: ${grade1}, ${grade2}, ${grade3}`);
+            console.log(`הממוצע: ${avg.toFixed(1)}`);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>addEventListener - דרך מתקדמת לטפל באירועים</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #fa709a;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .method-box {
+            border: 3px solid #fa709a;
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        .method-box h2 {
+            color: #fa709a;
+            margin-bottom: 15px;
+        }
+
+        .code-box {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            direction: ltr;
+            text-align: left;
+            font-size: 1em;
+            line-height: 1.6;
+        }
+
+        .keyword { color: #ff79c6; }
+        .string { color: #50fa7b; }
+        .function-name { color: #f1fa8c; }
+        .comment { color: #6272a4; }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .btn-onclick {
+            background: #667eea;
+            color: white;
+            border: 3px solid #667eea;
+        }
+
+        .btn-onclick:hover {
+            background: #764ba2;
+            border-color: #764ba2;
+        }
+
+        .btn-listener {
+            background: #fa709a;
+            color: white;
+            border: 3px solid #fa709a;
+        }
+
+        .btn-listener:hover {
+            background: #fee140;
+            color: #333;
+            border-color: #fee140;
+        }
+
+        .output {
+            background: #2d2d2d;
+            color: #50fa7b;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+            min-height: 60px;
+            font-family: 'Courier New', monospace;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .advantages {
+            background: #d4edda;
+            border-right: 4px solid #28a745;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .advantages h3 {
+            color: #28a745;
+            margin-bottom: 15px;
+        }
+
+        .advantages ul {
+            margin-right: 20px;
+            line-height: 2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚡ addEventListener - דרך מתקדמת!</h1>
+
+        <div style="background: #d1ecf1; border-right: 4px solid #17a2b8; padding: 20px; border-radius: 10px; margin-bottom: 30px;">
+            <h3 style="color: #17a2b8; margin-bottom: 10px;">💡 מה ההבדל?</h3>
+            <p style="font-size: 1.1em; line-height: 1.8;">
+                יש **שתי דרכים** להוסיף אירועים לכפתורים:<br>
+                1. <strong>onclick</strong> - פשוט, אבל מוגבל<br>
+                2. <strong>addEventListener</strong> - יותר גמיש ומקצועי
+            </p>
+        </div>
+
+        <div class="comparison">
+            <!-- onclick -->
+            <div class="method-box">
+                <h2>1️⃣ onclick (הדרך שלמדנו)</h2>
+                
+                <div class="code-box">
+<span class="comment">&lt;!-- HTML --&gt;</span>
+&lt;button <span class="string">onclick</span>=<span class="string">"sayHello()"</span>&gt;
+    לחץ
+&lt;/button&gt;
+
+<span class="comment">// JavaScript</span>
+<span class="keyword">function</span> <span class="function-name">sayHello</span>() {
+    console.log(<span class="string">"שלום!"</span>)
+}
+                </div>
+
+                <button class="btn-onclick" onclick="handleOnclick()">
+                    לחץ עלי (onclick)
+                </button>
+
+                <div class="output" id="onclickOutput">לחץ על הכפתור...</div>
+            </div>
+
+            <!-- addEventListener -->
+            <div class="method-box">
+                <h2>2️⃣ addEventListener (מתקדם)</h2>
+                
+                <div class="code-box">
+<span class="comment">// JavaScript בלבד!</span>
+<span class="keyword">let</span> btn = document.getElementById(<span class="string">'btn'</span>)
+
+btn.<span class="function-name">addEventListener</span>(<span class="string">'click'</span>, <span class="keyword">function</span>() {
+    console.log(<span class="string">"שלום!"</span>)
+})
+                </div>
+
+                <button class="btn-listener" id="listenerBtn">
+                    לחץ עלי (addEventListener)
+                </button>
+
+                <div class="output" id="listenerOutput">לחץ על הכפתור...</div>
+            </div>
+        </div>
+
+        <!-- יתרונות addEventListener -->
+        <div class="advantages">
+            <h3>✅ למה addEventListener יותר טוב?</h3>
+            <ul>
+                <li><strong>הפרדה:</strong> ה-HTML נקי מקוד JavaScript</li>
+                <li><strong>גמישות:</strong> אפשר להוסיף כמה פעולות לאותו כפתור</li>
+                <li><strong>שליטה:</strong> אפשר להסיר אירוע בקלות</li>
+                <li><strong>אירועים נוספים:</strong> לא רק click - גם hover, keypress, ועוד!</li>
+            </ul>
+        </div>
+
+        <!-- דוגמה מתקדמת -->
+        <div style="background: #f8f9fa; padding: 30px; border-radius: 15px; margin-top: 30px;">
+            <h2 style="color: #fa709a; margin-bottom: 20px;">🎯 דוגמה מתקדמת: כמה פעולות על כפתור אחד</h2>
+            
+            <div class="code-box">
+<span class="keyword">let</span> btn = document.getElementById(<span class="string">'multiBtn'</span>)
+
+<span class="comment">// פעולה 1: שינוי טקסט</span>
+btn.<span class="function-name">addEventListener</span>(<span class="string">'click'</span>, <span class="keyword">function</span>() {
+    btn.textContent = <span class="string">'נלחץ!'</span>
+})
+
+<span class="comment">// פעולה 2: שינוי צבע</span>
+btn.<span class="function-name">addEventListener</span>(<span class="string">'click'</span>, <span class="keyword">function</span>() {
+    btn.style.background = <span class="string">'green'</span>
+})
+
+<span class="comment">// פעולה 3: הדפסה בקונסול</span>
+btn.<span class="function-name">addEventListener</span>(<span class="string">'click'</span>, <span class="keyword">function</span>() {
+    console.log(<span class="string">'הכפתור נלחץ!'</span>)
+})
+            </div>
+
+            <button id="multiBtn" style="background: #fa709a; color: white; padding: 20px; font-size: 1.3em; border-radius: 15px; border: none; cursor: pointer; width: 100%; font-weight: bold;">
+                לחץ עלי - אני אעשה 3 דברים!
+            </button>
+        </div>
+
+        <!-- אירועים נוספים -->
+        <div style="margin-top: 30px; background: #fff3cd; border-right: 4px solid #ffc107; padding: 20px; border-radius: 10px;">
+            <h3 style="color: #ffc107; margin-bottom: 15px;">🎨 אירועים נוספים שאפשר להאזין להם:</h3>
+            <ul style="font-size: 1.1em; line-height: 2; margin-right: 20px;">
+                <li><strong>'click'</strong> - לחיצה</li>
+                <li><strong>'dblclick'</strong> - לחיצה כפולה</li>
+                <li><strong>'mouseenter'</strong> - מעבר עכבר</li>
+                <li><strong>'mouseleave'</strong> - יציאה של עכבר</li>
+                <li><strong>'keypress'</strong> - לחיצה על מקש</li>
+                <li><strong>'input'</strong> - שינוי ב-input</li>
+                <li><strong>'submit'</strong> - שליחת טופס</li>
+            </ul>
+        </div>
+
+        <!-- סיכום -->
+        <div style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: white; padding: 30px; border-radius: 15px; margin-top: 30px;">
+            <h2 style="margin-bottom: 20px;">📚 סיכום</h2>
+            <ul style="font-size: 1.2em; line-height: 2; list-style: none;">
+                <li>✅ <strong>onclick</strong> - פשוט, טוב ללמידה</li>
+                <li>✅ <strong>addEventListener</strong> - מקצועי, יותר גמיש</li>
+                <li>✅ שניהם עובדים - תבחר לפי הצורך!</li>
+                <li>✅ ב-addEventListener אפשר כמה פעולות על אירוע אחד</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // onclick
+        function handleOnclick() {
+            document.getElementById('onclickOutput').textContent = '>>> נלחץ בעזרת onclick! ✅';
+        }
+
+        // addEventListener
+        let listenerBtn = document.getElementById('listenerBtn');
+        listenerBtn.addEventListener('click', function() {
+            document.getElementById('listenerOutput').textContent = '>>> נלחץ בעזרת addEventListener! ✅';
+        });
+
+        // דוגמה מתקדמת - כפתור עם 3 פעולות
+        let multiBtn = document.getElementById('multiBtn');
+        
+        multiBtn.addEventListener('click', function() {
+            multiBtn.textContent = 'נלחץ! 🎉';
+        });
+
+        multiBtn.addEventListener('click', function() {
+            multiBtn.style.background = 'green';
+        });
+
+        multiBtn.addEventListener('click', function() {
+            console.log('הכפתור נלחץ! פתח Console (F12) כדי לראות');
+        });
+
+        // איפוס הכפתור אחרי שנייה
+        multiBtn.addEventListener('click', function() {
+            setTimeout(function() {
+                multiBtn.textContent = 'לחץ עלי שוב!';
+                multiBtn.style.background = '#fa709a';
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

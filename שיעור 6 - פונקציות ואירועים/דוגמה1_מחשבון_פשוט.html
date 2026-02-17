@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מחשבון פשוט - חיבור</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .calculator {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        .input-group {
+            margin: 20px 0;
+        }
+
+        label {
+            display: block;
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.5em;
+            border: 3px solid #667eea;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #764ba2;
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .operation {
+            text-align: center;
+            font-size: 3em;
+            color: #667eea;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        button {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 20px;
+            font-size: 1.5em;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(-1px);
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            text-align: center;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            font-weight: bold;
+            color: white;
+            transition: all 0.5s ease;
+        }
+
+        .result.show {
+            animation: popIn 0.5s ease;
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .explanation {
+            background: #f8f9fa;
+            border-right: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .explanation h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .code-box {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            direction: ltr;
+            text-align: left;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        .keyword { color: #ff79c6; }
+        .string { color: #50fa7b; }
+        .comment { color: #6272a4; }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h1>🧮 מחשבון פשוט</h1>
+
+        <div class="input-group">
+            <label for="num1">מספר ראשון:</label>
+            <input type="number" id="num1" placeholder="הכנס מספר" value="5">
+        </div>
+
+        <div class="operation">+</div>
+
+        <div class="input-group">
+            <label for="num2">מספר שני:</label>
+            <input type="number" id="num2" placeholder="הכנס מספר" value="3">
+        </div>
+
+        <button onclick="calculate()">חשב! 🎯</button>
+
+        <div class="result" id="result">התוצאה תופיע כאן...</div>
+
+        <div class="explanation">
+            <h3>💡 איך זה עובד?</h3>
+            <p style="margin-bottom: 15px; line-height: 1.8;">
+                1. פונקציה קוראת את שני המספרים מה-inputs<br>
+                2. הופכת אותם למספרים עם Number()<br>
+                3. מחברת אותם<br>
+                4. מציגה את התוצאה!
+            </p>
+
+            <div class="code-box">
+<span class="keyword">function</span> calculate() {
+    <span class="comment">// קריאת הערכים</span>
+    <span class="keyword">let</span> num1 = Number(document.getElementById(<span class="string">'num1'</span>).value)
+    <span class="keyword">let</span> num2 = Number(document.getElementById(<span class="string">'num2'</span>).value)
+    
+    <span class="comment">// חישוב</span>
+    <span class="keyword">let</span> result = num1 + num2
+    
+    <span class="comment">// הצגה</span>
+    document.getElementById(<span class="string">'result'</span>).textContent = result
+}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            // 1. קבל את הערכים מה-inputs
+            let num1Input = document.getElementById('num1').value;
+            let num2Input = document.getElementById('num2').value;
+
+            // 2. המר אותם למספרים
+            let num1 = Number(num1Input);
+            let num2 = Number(num2Input);
+
+            // 3. בדוק תקינות
+            if (isNaN(num1) || isNaN(num2)) {
+                alert('נא להכניס מספרים תקינים!');
+                return;
+            }
+
+            // 4. חשב את התוצאה
+            let result = num1 + num2;
+
+            // 5. הצג את התוצאה
+            let resultDiv = document.getElementById('result');
+            resultDiv.textContent = num1 + ' + ' + num2 + ' = ' + result;
+            resultDiv.classList.add('show');
+            
+            // הסר את האנימציה אחרי שהיא נגמרת כדי שניתן להריץ שוב
+            setTimeout(() => {
+                resultDiv.classList.remove('show');
+            }, 500);
+        }
+
+        // אפשרות ללחוץ Enter במקום על הכפתור
+        document.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                calculate();
+            }
+        });
+    </script>
+</body>
+</html>

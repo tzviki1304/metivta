@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>בדיקת גיל - בוגר או קטין?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .checker {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .input-group {
+            margin: 25px 0;
+        }
+
+        label {
+            display: block;
+            color: #666;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 18px;
+            font-size: 1.8em;
+            border: 3px solid #667eea;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #764ba2;
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.3);
+        }
+
+        button {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 20px;
+            font-size: 1.5em;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 2em;
+            font-weight: bold;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        .result.adult {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+
+        .result.minor {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .code-explanation {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;            
+            margin-top: 30px;
+            border-right: 5px solid #667eea;
+        }
+
+        .code-explanation h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .code-box {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            direction: ltr;
+            text-align: left;
+            font-size: 1em;
+            line-height: 1.8;
+        }
+
+        .keyword { color: #ff79c6; }
+        .number { color: #bd93f9; }
+        .string { color: #50fa7b; }
+        .comment { color: #6272a4; }
+    </style>
+</head>
+<body>
+    <div class="checker">
+        <h1>👤 בדיקת גיל</h1>
+        <p class="subtitle">בוגר או קטין?</p>
+
+        <div class="input-group">
+            <label for="age">מה הגיל שלך?</label>
+            <input type="number" id="age" placeholder="הכנס גיל" value="16">
+        </div>
+
+        <button onclick="checkAge()">בדוק! 🔍</button>
+
+        <div class="result" id="result">
+            <div id="resultText"></div>
+            <div id="resultIcon" style="font-size: 4em; margin-top: 15px;"></div>
+        </div>
+
+        <div class="code-explanation">
+            <h3>💡 איך זה עובד?</h3>
+            <p style="margin-bottom: 15px; line-height: 1.8;">
+                התנאי **if-else** בודק האם הגיל 18 ומעלה.<br>
+                אם כן - "בוגר", אם לא - "קטין".
+            </p>
+
+            <div class="code-box">
+<span class="keyword">function</span> checkAge() {
+    <span class="keyword">let</span> age = Number(document.getElementById(<span class="string">'age'</span>).value)
+    
+    <span class="comment">// התנאי:</span>
+    <span class="keyword">if</span> (age >= <span class="number">18</span>) {
+        <span class="comment">// אם הגיל 18 או יותר</span>
+        console.log(<span class="string">"בוגר!"</span>)
+    } <span class="keyword">else</span> {
+        <span class="comment">// אם הגיל פחות מ-18</span>
+        console.log(<span class="string">"קטין"</span>)
+    }
+}
+            </div>
+
+            <div style="background: #d1ecf1; padding: 15px; border-radius: 10px; margin-top: 15px; border-right: 4px solid #17a2b8;">
+                <strong style="color: #17a2b8;">🔑 מילות מפתח:</strong>
+                <ul style="margin: 10px 0 0 20px; line-height: 2;">
+                    <li><strong>if</strong> - "אם" (בודק תנאי)</li>
+                    <li><strong>else</strong> - "אחרת" (מה לעשות אם התנאי לא מתקיים)</li>
+                    <li><strong>&gt;=</strong> - "גדול או שווה"</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function checkAge() {
+            let age = Number(document.getElementById('age').value);
+            
+            // בדיקת תקינות
+            if (isNaN(age) || age < 0) {
+                alert('נא להכניס גיל תקין!');
+                return;
+            }
+
+            let resultDiv = document.getElementById('result');
+            let resultText = document.getElementById('resultText');
+            let resultIcon = document.getElementById('resultIcon');
+            
+            // התנאי המרכזי
+            if (age >= 18) {
+                resultText.textContent = 'בוגר! 🎓';
+                resultIcon.textContent = '✅';
+                resultDiv.className = 'result adult show';
+            } else {
+                resultText.textContent = 'קטין 👶';
+                resultIcon.textContent = '⏳';
+                resultDiv.className = 'result minor show';
+            }
+            
+            // הסר אנימציה אחרי שהיא נגמרת
+            setTimeout(() => {
+                resultDiv.classList.remove('show');
+            }, 500);
+        }
+
+        // אפשרות ללחוץ Enter
+        document.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                checkAge();
+            }
+        });
+
+        // הרץ בהתחלה
+        checkAge();
+    </script>
+</body>
+</html>

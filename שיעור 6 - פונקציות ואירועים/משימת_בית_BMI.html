@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>משימת בית - מחשבון BMI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .calculator {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4facfe;
+            margin-bottom: 15px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .explanation {
+            background: #d1ecf1;
+            border-right: 4px solid #17a2b8;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .explanation h3 {
+            color: #17a2b8;
+            margin-bottom: 10px;
+        }
+
+        .input-group {
+            margin: 25px 0;
+        }
+
+        label {
+            display: block;
+            color: #666;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.5em;
+            border: 3px solid #4facfe;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #00f2fe;
+            box-shadow: 0 0 15px rgba(79, 172, 254, 0.3);
+        }
+
+        button {
+            width: 100%;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 20px;
+            font-size: 1.5em;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(79, 172, 254, 0.4);
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 30px;
+            background: white;
+            border: 3px solid #4facfe;
+            border-radius: 15px;
+            text-align: center;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .bmi-number {
+            font-size: 4em;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .bmi-category {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .bmi-description {
+            font-size: 1.1em;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .underweight {
+            color: #ffc107;
+        }
+
+        .normal {
+            color: #28a745;
+        }
+
+        .overweight {
+            color: #ff9800;
+        }
+
+        .obese {
+            color: #dc3545;
+        }
+
+        .chart {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .chart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .requirements {
+            background: #fff3cd;
+            border-right: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .requirements h3 {
+            color: #ffc107;
+            margin-bottom: 15px;
+        }
+
+        .requirements ul {
+            margin-right: 20px;
+            line-height: 2;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h1>⚖️ מחשבון BMI</h1>
+        <p class="subtitle">מדד מסת גוף (Body Mass Index)</p>
+
+        <div class="explanation">
+            <h3>💡 מה זה BMI?</h3>
+            <p style="line-height: 1.8;">
+                BMI (Body Mass Index) הוא מדד שמראה אם המשקל תקין ביחס לגובה.<br>
+                <strong>נוסחה:</strong> BMI = משקל (ק"ג) ÷ (גובה במטרים)²
+            </p>
+        </div>
+
+        <div class="requirements">
+            <h3>📝 המשימה שלך:</h3>
+            <ul>
+                <li>השלם את הפונקציה calculateBMI()</li>
+                <li>חשב את ה-BMI לפי הנוסחה</li>
+                <li>הצג את התוצאה בצבע המתאים</li>
+                <li>הוסף הסבר על התוצאה</li>
+            </ul>
+        </div>
+
+        <div class="input-group">
+            <label for="weight">משקל (קילוגרם):</label>
+            <input type="number" id="weight" placeholder="לדוגמה: 70">
+        </div>
+
+        <div class="input-group">
+            <label for="height">גובה (סנטימטר):</label>
+            <input type="number" id="height" placeholder="לדוגמה: 175">
+        </div>
+
+        <button onclick="calculateBMI()">חשב BMI! 📊</button>
+
+        <div class="result" id="result">
+            <div>ה-BMI שלך:</div>
+            <div class="bmi-number" id="bmiValue">0</div>
+            <div class="bmi-category" id="category">קטגוריה</div>
+            <div class="bmi-description" id="description">תיאור</div>
+        </div>
+
+        <!-- טבלת BMI -->
+        <div class="chart">
+            <h3 style="text-align: center; margin-bottom: 15px; color: #4facfe;">📊 טבלת BMI</h3>
+            <div class="chart-item" style="background: #fff3cd;">
+                <span>מתחת למשקל</span>
+                <span>פחות מ-18.5</span>
+            </div>
+            <div class="chart-item" style="background: #d4edda;">
+                <span>משקל תקין ✅</span>
+                <span>18.5 - 24.9</span>
+            </div>
+            <div class="chart-item" style="background: #ffe0b2;">
+                <span>עודף משקל</span>
+                <span>25 - 29.9</span>
+            </div>
+            <div class="chart-item" style="background: #ffcdd2;">
+                <span>השמנה</span>
+                <span>30 ומעלה</span>
+            </div>
+        </div>
+
+        <!-- רמזים למשימה -->
+        <details style="margin-top: 30px; background: #f8f9fa; padding: 20px; border-radius: 10px;">
+            <summary style="cursor: pointer; font-weight: bold; font-size: 1.2em; color: #4facfe;">💡 רמזים (לחץ כאן)</summary>
+            <div style="margin-top: 15px; line-height: 2;">
+                <p><strong>רמז 1:</strong> המר גובה מס"מ למטרים (חלק ב-100)</p>
+                <p><strong>רמז 2:</strong> בשביל בריבוע, הכפל את המספר בעצמו</p>
+                <p><strong>רמז 3:</strong> השתמש ב-Math.round() לעגל לספרה אחת: Math.round(bmi * 10) / 10</p>
+                <p><strong>רמז 4:</strong> השתמש ב-if/else לקבוע את הקטגוריה</p>
+            </div>
+        </details>
+    </div>
+
+    <script>
+        function calculateBMI() {
+            // קבל את הערכים
+            let weight = Number(document.getElementById('weight').value);
+            let heightCm = Number(document.getElementById('height').value);
+            
+            // בדוק תקינות
+            if (weight <= 0 || heightCm <= 0) {
+                alert('נא להכניס ערכים תקינים!');
+                return;
+            }
+            
+            // המר גובה מס"מ למטרים
+            let heightM = heightCm / 100;
+            
+            // חשב BMI
+            let bmi = weight / (heightM * heightM);
+            
+            // עגל לספרה אחת אחרי הנקודה
+            bmi = Math.round(bmi * 10) / 10;
+            
+            // קבע קטגוריה
+            let category = '';
+            let description = '';
+            let colorClass = '';
+            
+            if (bmi < 18.5) {
+                category = 'מתחת למשקל';
+                description = 'כדאי להתייעץ עם תזונאי לעלייה בריאה במשקל';
+                colorClass = 'underweight';
+            } else if (bmi >= 18.5 && bmi < 25) {
+                category = 'משקל תקין ✅';
+                description = 'מצוין! המשקל שלך תקין ביחס לגובה';
+                colorClass = 'normal';
+            } else if (bmi >= 25 && bmi < 30) {
+                category = 'עודף משקל';
+                description = 'כדאי לשמור על תזונה מאוזנת ופעילות גופנית';
+                colorClass = 'overweight';
+            } else {
+                category = 'השמנה';
+                description = 'מומלץ להתייעץ עם רופא או תזונאי';
+                colorClass = 'obese';
+            }
+            
+            // הצג תוצאות
+            document.getElementById('bmiValue').textContent = bmi;
+            document.getElementById('bmiValue').className = 'bmi-number ' + colorClass;
+            document.getElementById('category').textContent = category;
+            document.getElementById('category').className = 'bmi-category ' + colorClass;
+            document.getElementById('description').textContent = description;
+            
+            // הצג את תיבת התוצאה
+            document.getElementById('result').classList.add('show');
+        }
+
+        // אפשרות ללחוץ Enter
+        document.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                calculateBMI();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>המרת מטבע - שקלים לדולרים</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .converter {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #11998e;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .rate-display {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.2em;
+            border: 2px solid #11998e;
+        }
+
+        .rate-display strong {
+            color: #11998e;
+            font-size: 1.3em;
+        }
+
+        .input-group {
+            margin: 25px 0;
+        }
+
+        label {
+            display: block;
+            color: #666;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .input-with-symbol {
+            position: relative;
+        }
+
+        .input-with-symbol input {
+            width: 100%;
+            padding: 18px 60px 18px 20px;
+            font-size: 1.8em;
+            border: 3px solid #11998e;
+            border-radius: 15px;
+            text-align: right;
+        }
+
+        .input-with-symbol .currency-symbol {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5em;
+            color: #11998e;
+            font-weight: bold;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #38ef7d;
+            box-shadow: 0 0 15px rgba(17, 153, 142, 0.3);
+        }
+
+        .convert-icon {
+            text-align: center;
+            font-size: 3em;
+            margin: 20px 0;
+        }
+
+        button {
+            width: 100%;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            border: none;
+            padding: 20px;
+            font-size: 1.5em;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(17, 153, 142, 0.4);
+        }
+
+        .result-box {
+            margin-top: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .result-amount {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .result-text {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="converter">
+        <h1>💱 המרת מטבע</h1>
+        <p class="subtitle">המר משקלים לדולרים</p>
+
+        <div class="rate-display">
+            שער היום: <strong>1$ = 3.60₪</strong>
+        </div>
+
+        <div class="input-group">
+            <label for="shekels">כמה שקלים?</label>
+            <div class="input-with-symbol">
+                <input type="number" id="shekels" placeholder="0" value="360">
+                <span class="currency-symbol">₪</span>
+            </div>
+        </div>
+
+        <div class="convert-icon">⬇️</div>
+
+        <button onclick="convertCurrency()">המר! 💸</button>
+
+        <div class="result-box" id="result">
+            <div class="result-amount" id="resultAmount">?</div>
+            <div class="result-text">דולרים</div>
+        </div>
+
+        <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-top: 30px;">
+            <h3 style="color: #11998e; margin-bottom: 15px;">💡 איך זה עובד?</h3>
+            <p style="line-height: 1.8; color: #666;">
+                הפונקציה לוקחת את כמות השקלים, מחלקת ב-3.60 (שער הדולר), ומציגה את התוצאה.<br><br>
+                <strong>נוסחה:</strong> דולרים = שקלים ÷ 3.60
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function convertCurrency() {
+            // קבל את כמות השקלים
+            let shekels = Number(document.getElementById('shekels').value);
+            
+            // בדוק תקינות
+            if (isNaN(shekels) || shekels < 0) {
+                alert('נא להכניס מספר חיובי!');
+                return;
+            }
+            
+            // המר לדולרים (שער: 1$ = 3.60₪)
+            const exchangeRate = 3.60;
+            let dollars = shekels / exchangeRate;
+            
+            // עגול ל-2 ספרות אחרי הנקודה
+            dollars = Math.round(dollars * 100) / 100;
+            
+            // הצג את התוצאה
+            document.getElementById('resultAmount').textContent = '$' + dollars;
+        }
+
+        // המר אוטומטית כשכותבים
+        document.getElementById('shekels').addEventListener('input', convertCurrency);
+
+        // אפשרות ללחוץ Enter
+        document.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                convertCurrency();
+            }
+        });
+
+        // המר בהתחלה
+        convertCurrency();
+    </script>
+</body>
+</html>

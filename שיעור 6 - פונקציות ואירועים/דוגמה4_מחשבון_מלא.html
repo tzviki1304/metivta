@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מחשבון מלא - 4 פעולות</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .calculator {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.5em;
+            border: 3px solid #667eea;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #764ba2;
+            box-shadow: 0 0 10px rgba(118, 75, 162, 0.3);
+        }
+
+        .operations {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 20px;
+            font-size: 1.5em;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .result {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            border: 3px solid #667eea;
+            margin-top: 25px;
+        }
+
+        .result-label {
+            font-size: 1.1em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .result-value {
+            font-size: 2.5em;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .error {
+            background: #ffcdd2;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        .explanation {
+            background: #fff9c4;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            border-right: 5px solid #f57f17;
+        }
+
+        .explanation h3 {
+            color: #f57f17;
+            margin-bottom: 12px;
+        }
+
+        .code {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            direction: ltr;
+            text-align: left;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+
+        .keyword { color: #ff79c6; }
+        .function { color: #50fa7b; }
+        .string { color: #f1fa8c; }
+        .number { color: #bd93f9; }
+        .comment { color: #6272a4; }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h1>🧮 מחשבון מלא</h1>
+
+        <div class="input-group">
+            <label for="num1">מספר ראשון:</label>
+            <input type="number" id="num1" placeholder="0">
+        </div>
+
+        <div class="input-group">
+            <label for="num2">מספר שני:</label>
+            <input type="number" id="num2" placeholder="0">
+        </div>
+
+        <div class="operations">
+            <button onclick="calculate('add')">➕ חיבור</button>
+            <button onclick="calculate('subtract')">➖ חיסור</button>
+            <button onclick="calculate('multiply')">✖️ כפל</button>
+            <button onclick="calculate('divide')">➗ חילוק</button>
+        </div>
+
+        <div class="result">
+            <div class="result-label">תוצאה:</div>
+            <div class="result-value" id="result">-</div>
+        </div>
+
+        <div id="error" style="display: none;" class="error"></div>
+
+        <div class="explanation">
+            <h3>💡 איך זה עובד?</h3>
+            <p><strong>יש לנו 4 פונקציות נפרדות, אחת לכל פעולה:</strong></p>
+
+            <div class="code"><span class="keyword">function</span> <span class="function">add</span>(a, b) {
+    <span class="keyword">return</span> a + b;
+}
+
+<span class="keyword">function</span> <span class="function">subtract</span>(a, b) {
+    <span class="keyword">return</span> a - b;
+}
+
+<span class="keyword">function</span> <span class="function">multiply</span>(a, b) {
+    <span class="keyword">return</span> a * b;
+}
+
+<span class="keyword">function</span> <span class="function">divide</span>(a, b) {
+    <span class="keyword">if</span> (b === <span class="number">0</span>) {
+        <span class="keyword">return</span> <span class="string">"ERROR"</span>; <span class="comment">// אי אפשר לחלק באפס!</span>
+    }
+    <span class="keyword">return</span> a / b;
+}</div>
+
+            <p><strong>הפונקציה הראשית בוחרת איזו פעולה להפעיל:</strong></p>
+
+            <div class="code"><span class="keyword">function</span> <span class="function">calculate</span>(operation) {
+    <span class="keyword">let</span> num1 = <span class="function">Number</span>(<span class="keyword">document</span>.getElementById(<span class="string">'num1'</span>).value);
+    <span class="keyword">let</span> num2 = <span class="function">Number</span>(<span class="keyword">document</span>.getElementById(<span class="string">'num2'</span>).value);
+    
+    <span class="keyword">let</span> result;
+    
+    <span class="keyword">if</span> (operation === <span class="string">'add'</span>) {
+        result = <span class="function">add</span>(num1, num2);
+    } <span class="keyword">else if</span> (operation === <span class="string">'subtract'</span>) {
+        result = <span class="function">subtract</span>(num1, num2);
+    } <span class="comment">// וכן הלאה...</span>
+}</div>
+
+            <p>
+                ⭐ <strong>יתרונות של פונקציות נפרדות:</strong><br>
+                1. הקוד יותר מסודר וקריא<br>
+                2. קל לתחזק ולתקן<br>
+                3. אפשר לבדוק כל פונקציה בנפרד<br>
+                4. אפשר לעשות שימוש חוזר בפונקציות
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // 4 פונקציות - אחת לכל פעולה מתמטית
+        
+        function add(a, b) {
+            return a + b;
+        }
+
+        function subtract(a, b) {
+            return a - b;
+        }
+
+        function multiply(a, b) {
+            return a * b;
+        }
+
+        function divide(a, b) {
+            if (b === 0) {
+                return "ERROR"; // אי אפשר לחלק באפס!
+            }
+            return a / b;
+        }
+
+        // פונקציה ראשית שמקבלת את סוג הפעולה
+        function calculate(operation) {
+            // קח את שני המספרים
+            let num1 = Number(document.getElementById('num1').value);
+            let num2 = Number(document.getElementById('num2').value);
+            
+            // הסתר שגיאה קודמת
+            document.getElementById('error').style.display = 'none';
+            
+            let result;
+            
+            // בחר איזו פונקציה להפעיל
+            if (operation === 'add') {
+                result = add(num1, num2);
+            } else if (operation === 'subtract') {
+                result = subtract(num1, num2);
+            } else if (operation === 'multiply') {
+                result = multiply(num1, num2);
+            } else if (operation === 'divide') {
+                result = divide(num1, num2);
+            }
+            
+            // בדוק אם היתה שגיאה (חילוק באפס)
+            if (result === "ERROR") {
+                document.getElementById('error').textContent = '⚠️ שגיאה: אי אפשר לחלק באפס!';
+                document.getElementById('error').style.display = 'block';
+                document.getElementById('result').textContent = '-';
+            } else {
+                // הצג את התוצאה (עד שתי ספרות אחרי הנקודה)
+                document.getElementById('result').textContent = result.toFixed(2);
+            }
+            
+            console.log(`${num1} ${getSymbol(operation)} ${num2} = ${result}`);
+        }
+
+        // פונקציה עזר לתצוגה בקונסול
+        function getSymbol(operation) {
+            if (operation === 'add') return '+';
+            if (operation === 'subtract') return '-';
+            if (operation === 'multiply') return '×';
+            if (operation === 'divide') return '÷';
+        }
+    </script>
+</body>
+</html>
