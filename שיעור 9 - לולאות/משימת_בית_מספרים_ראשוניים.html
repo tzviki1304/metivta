@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>משימת בית — מספרים ראשוניים</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 650px; margin: 30px auto; padding: 20px; background: #ede7f6; }
+    h1 { color: #4a148c; }
+    .task { background: #fff9c4; border: 2px solid #fbc02d; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+    input { padding: 10px; font-size: 16px; border: 2px solid #ce93d8; border-radius: 6px; width: 100px; }
+    button { padding: 10px 18px; font-size: 15px; border: none; border-radius: 6px; cursor: pointer; margin: 5px; background: #4a148c; color: white; }
+    button:hover { background: #6a1b9a; }
+    .numbers { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
+    .num { padding: 10px 14px; border-radius: 8px; font-weight: bold; font-size: 16px; }
+    .prime { background: #7c4dff; color: white; }
+    .composite { background: #e0e0e0; color: #888; }
+    #stats { background: white; border-radius: 10px; padding: 15px; margin-top: 15px; font-size: 16px; }
+    .hint { background: #e3f2fd; border-radius: 8px; padding: 12px; font-size: 14px; color: #0d47a1; margin-top: 10px; }
+    .explanation { background: #f3e5f5; border-radius: 10px; padding: 15px; margin: 15px 0; }
+  </style>
+</head>
+<body>
+
+<h1>🔢 משימת בית — מספרים ראשוניים</h1>
+
+<div class="explanation">
+  <h3>מה זה מספר ראשוני?</h3>
+  <p>מספר שמתחלק <strong>רק</strong> ב-1 ובעצמו!</p>
+  <p>✅ ראשוניים: 2, 3, 5, 7, 11, 13...</p>
+  <p>❌ לא ראשוניים: 4 (÷2), 6 (÷2,3), 9 (÷3)</p>
+</div>
+
+<div class="task">
+  <h2>⭐ המשימה:</h2>
+  <ol>
+    <li>קבל מספר N מהמשתמש</li>
+    <li>מצא וה‍צג את כל המספרים הראשוניים עד N</li>
+    <li>ה‍צג בסגול את הראשוניים ובאפור את שאר המספרים</li>
+    <li><strong>בונוס:</strong> ה‍צג כמה ראשוניים מצאת</li>
+    <li><strong>בונוס 2:</strong> כתוב פונקציה <code>isPrime(n)</code> שמחזירה true/false</li>
+  </ol>
+</div>
+
+<label>מצא ראשוניים עד: </label>
+<input type="number" id="limitInput" value="50" min="2" max="500" />
+<button onclick="findPrimes()">🔍 מצא ראשוניים</button>
+
+<div class="numbers" id="numbersDisplay"></div>
+<div id="stats"></div>
+
+<div class="hint">
+  💡 <strong>כיצד לבדוק אם מספר ראשוני?</strong><br>
+  בדוק אם הוא מתחלק ב-אחד ממספרים 2, 3, 4, ..., <code>n-1</code><br>
+  אם שום מספר לא מחלק אותו — הוא ראשוני!<br><br>
+  <pre>function isPrime(n) {
+  if (n < 2) return false
+  for (let i = 2; i < n; i++) {
+    if (n % i === 0) return false  // מצאנו מחלק!
+  }
+  return true  // לא מצאנו מחלק → ראשוני
+}</pre>
+  <strong>בונוס מהיר:</strong> מספיק לבדוק עד <code>Math.sqrt(n)</code>
+</div>
+
+<script>
+  function isPrime(n) {
+    // TODO: מימש את הפונקציה
+    // בדוק כל מספר מ-2 עד n-1
+    // אם n % i === 0 → החזר false
+    // בסוף → החזר true
+    return false // placeholder
+  }
+
+  function findPrimes() {
+    let limit = Number(document.getElementById("limitInput").value)
+    let container = document.getElementById("numbersDisplay")
+    let stats = document.getElementById("stats")
+    container.innerHTML = ""
+
+    if (limit < 2 || limit > 500) {
+      alert("הכנס מספר בין 2 ל-500")
+      return
+    }
+
+    let primes = []
+
+    for (let i = 2; i <= limit; i++) {
+      let div = document.createElement("div")
+      div.className = "num"
+
+      if (isPrime(i)) {
+        div.className += " prime"
+        primes.push(i)
+      } else {
+        div.className += " composite"
+      }
+
+      div.textContent = i
+      container.appendChild(div)
+    }
+
+    stats.innerHTML = `
+      <h3>📊 תוצאות:</h3>
+      <p>מצאת <strong>${primes.length}</strong> מספרים ראשוניים עד ${limit}</p>
+      <p>הראשוניים: ${primes.join(", ")}</p>
+    `
+  }
+</script>
+</body>
+</html>

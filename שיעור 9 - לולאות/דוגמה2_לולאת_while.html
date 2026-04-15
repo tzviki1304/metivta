@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>לולאת while</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 700px; margin: 30px auto; padding: 20px; background: #e8f5e9; }
+    h1 { color: #1b5e20; }
+    .section { background: white; border-radius: 10px; padding: 20px; margin: 15px 0; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .code { background: #1e1e1e; color: #dcdcaa; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 13px; white-space: pre; margin: 10px 0; }
+    button { background: #1b5e20; color: white; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; margin: 5px; font-size: 14px; }
+    button:hover { background: #2e7d32; }
+    .output { background: #f1f8e9; border: 2px solid #81c784; border-radius: 8px; padding: 15px; margin-top: 10px; font-family: monospace; white-space: pre-line; }
+    .viz { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 10px; }
+    .step-box { background: #dcedc8; border-radius: 5px; padding: 8px 12px; font-size: 14px; text-align: center; min-width: 40px; }
+    .step-box.active { background: #66bb6a; color: white; transform: scale(1.2); }
+  </style>
+</head>
+<body>
+
+<h1>🔁 לולאת while</h1>
+
+<div class="section">
+  <h2>מתי to use while?</h2>
+  <p>כשלא יודעים מראש <strong>כמה פעמים</strong> הלולאה תרוץ — תלוי בתנאי.</p>
+  <div class="code">// while — "כל עוד"
+let count = 0
+while (count < 5) {   // כל עוד count קטן מ-5
+    console.log(count)
+    count++            // ⚠️ חשוב מאוד!
+}
+// בלי count++ — לולאה אינסופית!</div>
+  <button onclick="runBasicWhile()">▶️ הרץ</button>
+  <div class="output" id="out1"></div>
+</div>
+
+<div class="section">
+  <h2>הכפלה עד גבול — דוגמה מציאותית</h2>
+  <div class="code">// הכפל ב-2 עד שמגיעים ל-1000
+let num = 1
+while (num < 1000) {
+    num = num * 2
+    console.log(num)
+}</div>
+  <button onclick="runDoubling()">▶️ הרץ</button>
+  <div class="output" id="out2"></div>
+</div>
+
+<div class="section">
+  <h2>do...while — רץ לפחות פעם אחת</h2>
+  <div class="code">let answer
+do {
+    answer = prompt("מה 5 כפול 5?")
+} while (answer !== "25")
+
+console.log("נכון!")</div>
+  <button onclick="runDoWhile()">▶️ נסה את זה!</button>
+  <div class="output" id="out3"></div>
+</div>
+
+<script>
+  function runBasicWhile() {
+    let result = ""
+    let count = 0
+    while (count < 5) {
+      result += `count = ${count}\n`
+      count++
+    }
+    result += `סיים! count = ${count}`
+    document.getElementById("out1").textContent = result
+  }
+
+  function runDoubling() {
+    let result = "מתחיל מ-1:\n"
+    let num = 1
+    let steps = 0
+    while (num < 1000) {
+      num = num * 2
+      steps++
+      result += `×2 → ${num}\n`
+    }
+    result += `\nהגענו ל-${num} אחרי ${steps} הכפלות!`
+    document.getElementById("out2").textContent = result
+  }
+
+  function runDoWhile() {
+    let answer
+    let attempts = 0
+    do {
+      answer = prompt("מה 5 כפול 5?")
+      attempts++
+      if (answer === null) break
+    } while (answer !== "25")
+
+    let out = attempts === 1 && answer === "25"
+      ? "✅ נכון בניסיון ראשון!"
+      : answer === "25"
+        ? `✅ נכון! לקח ${attempts} ניסיונות.`
+        : "ביטלת את המשחק"
+    document.getElementById("out3").textContent = out
+  }
+</script>
+</body>
+</html>

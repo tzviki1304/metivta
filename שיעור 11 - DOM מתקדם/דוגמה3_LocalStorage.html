@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>LocalStorage</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 700px; margin: 30px auto; padding: 20px; background: #f3e5f5; }
+    h1 { color: #4a148c; }
+    .section { background: white; border-radius: 10px; padding: 20px; margin: 15px 0; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .code { background: #1e1e1e; color: #dcdcaa; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 13px; white-space: pre; margin: 10px 0; }
+    button { background: #4a148c; color: white; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; margin: 5px; font-size: 14px; }
+    button:hover { background: #6a1b9a; }
+    button.danger { background: #c62828; }
+    input { padding: 10px; font-size: 15px; border: 2px solid #ce93d8; border-radius: 6px; width: 180px; }
+    .storage-view { background: #1e1e1e; color: #a5d6a7; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 13px; white-space: pre-wrap; margin: 10px 0; min-height: 50px; }
+    .welcome { font-size: 22px; font-weight: bold; color: #4a148c; text-align: center; padding: 15px; background: #f3e5f5; border-radius: 8px; }
+  </style>
+</head>
+<body>
+
+<h1>💾 LocalStorage — זיכרון הדפדפן</h1>
+
+<div class="section">
+  <h2>מה זה LocalStorage?</h2>
+  <p>כמו <strong>מחברת קטנה בדפדפן</strong> — שומר נתונים גם אחרי סגירת הטאב!</p>
+  <div class="code">// שמור
+localStorage.setItem("key", "value")
+
+// קרא
+let val = localStorage.getItem("key")   // "value"
+
+// מחק
+localStorage.removeItem("key")
+
+// נקה הכל
+localStorage.clear()</div>
+</div>
+
+<div class="section">
+  <h2>ניסוי — שמור שם</h2>
+  <input type="text" id="nameInput" placeholder="הכנס שמך..." />
+  <button onclick="saveName()">💾 שמור</button>
+  <button onclick="loadName()">📂 טען</button>
+  <button class="danger" onclick="deleteName()">🗑️ מחק</button>
+
+  <div class="welcome" id="welcomeMsg">
+    לחץ "טען" לראות אם יש שם שמור...
+  </div>
+
+  <div>localStorage מכיל:</div>
+  <div class="storage-view" id="storageView"></div>
+</div>
+
+<div class="section">
+  <h2>שמירת אובייקטים — JSON</h2>
+  <div class="code">// אובייקטים צריכים המרה ל-JSON!
+let user = { name: "ישראל", score: 42 }
+
+// שמור ← JSON.stringify
+localStorage.setItem("user", JSON.stringify(user))
+
+// קרא ← JSON.parse
+let loaded = JSON.parse(localStorage.getItem("user"))
+console.log(loaded.name)  // "ישראל"</div>
+  <button onclick="saveObject()">💾 שמור אובייקט</button>
+  <button onclick="loadObject()">📂 טען אובייקט</button>
+  <div class="storage-view" id="objView">לחץ שמור...</div>
+</div>
+
+<script>
+  function updateStorageView() {
+    let view = ""
+    for (let i = 0; i < localStorage.length; i++) {
+      let key = localStorage.key(i)
+      let value = localStorage.getItem(key)
+      view += `"${key}" : "${value}"\n`
+    }
+    document.getElementById("storageView").textContent = view || "(ריק)"
+  }
+
+  function saveName() {
+    let name = document.getElementById("nameInput").value.trim()
+    if (!name) { alert("הכנס שם!"); return }
+    localStorage.setItem("username", name)
+    updateStorageView()
+    alert(`"${name}" נשמר! סגור את הדף וחזור — הוא יהיה כאן.`)
+  }
+
+  function loadName() {
+    let name = localStorage.getItem("username")
+    if (name) {
+      document.getElementById("welcomeMsg").textContent = `👋 שלום, ${name}!`
+    } else {
+      document.getElementById("welcomeMsg").textContent = "לא נמצא שם שמור"
+    }
+    updateStorageView()
+  }
+
+  function deleteName() {
+    localStorage.removeItem("username")
+    document.getElementById("welcomeMsg").textContent = "נמחק!"
+    updateStorageView()
+  }
+
+  function saveObject() {
+    let user = { name: "ישראל", score: 42, level: 3, lastSeen: new Date().toLocaleDateString("he-IL") }
+    localStorage.setItem("userObj", JSON.stringify(user))
+    document.getElementById("objView").textContent =
+      "נשמר:\n" + JSON.stringify(user, null, 2)
+    updateStorageView()
+  }
+
+  function loadObject() {
+    let raw = localStorage.getItem("userObj")
+    if (!raw) { document.getElementById("objView").textContent = "לא נמצא!"; return }
+    let user = JSON.parse(raw)
+    document.getElementById("objView").textContent =
+      `שם: ${user.name}\nניקוד: ${user.score}\nרמה: ${user.level}\nנצפה: ${user.lastSeen}`
+  }
+
+  // טען בפתיחה
+  loadName()
+  updateStorageView()
+</script>
+</body>
+</html>

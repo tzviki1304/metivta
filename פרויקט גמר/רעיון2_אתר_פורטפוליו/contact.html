@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>צור קשר — הפורטפוליו שלי</title>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">👨‍💻 הפורטפוליו שלי</div>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">🏠 ראשי</a>
+        <a href="projects.html" class="nav-link">💼 פרויקטים</a>
+        <a href="contact.html" class="nav-link active">📬 קשר</a>
+        <button class="dark-btn" id="darkBtn">🌙</button>
+      </div>
+    </div>
+  </nav>
+
+  <section class="section" style="padding-top: 50px;">
+    <div class="container">
+      <h2 class="section-title animate">📬 צור קשר</h2>
+
+      <form class="contact-form animate" id="contactForm" novalidate>
+        <div class="form-group">
+          <label for="nameInput">שם מלא *</label>
+          <input type="text" id="nameInput" placeholder="ישראל ישראלי" />
+          <div class="error" id="nameError">אנא הכנס שם</div>
+        </div>
+
+        <div class="form-group">
+          <label for="emailInput">אימייל *</label>
+          <input type="email" id="emailInput" placeholder="name@email.com" />
+          <div class="error" id="emailError">אנא הכנס אימייל תקין</div>
+        </div>
+
+        <div class="form-group">
+          <label for="subjectInput">נושא *</label>
+          <input type="text" id="subjectInput" placeholder="שאלה / הצעה / שיחה" />
+          <div class="error" id="subjectError">אנא הכנס נושא</div>
+        </div>
+
+        <div class="form-group">
+          <label for="messageInput">הודעה *</label>
+          <textarea id="messageInput" placeholder="כתוב את ההודעה שלך כאן..."></textarea>
+          <div class="error" id="messageError">אנא כתוב הודעה</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 16px;">
+          שלח הודעה 📤
+        </button>
+      </form>
+
+      <!-- הודעת הצלחה -->
+      <div id="successMsg" style="display:none; text-align:center; padding:30px; color:#4caf50; font-size:18px;">
+        ✅ תודה! ההודעה נשלחה בהצלחה 🎉
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>© 2026 [שמך]</p>
+    <div class="social-links">
+      <a href="https://github.com" target="_blank">🐙 GitHub</a>
+      <a href="mailto:you@email.com">📧 Email</a>
+    </div>
+  </footer>
+
+  <script src="portfolio.js"></script>
+  <script>
+    document.getElementById("contactForm").addEventListener("submit", function(e) {
+      e.preventDefault()
+      let valid = true
+
+      // TODO: הוסף אימות לכל שדה
+      let name = document.getElementById("nameInput").value.trim()
+      let email = document.getElementById("emailInput").value.trim()
+      let subject = document.getElementById("subjectInput").value.trim()
+      let message = document.getElementById("messageInput").value.trim()
+
+      // אימות שם
+      if (!name) {
+        document.getElementById("nameError").style.display = "block"
+        valid = false
+      } else {
+        document.getElementById("nameError").style.display = "none"
+      }
+
+      // TODO: אימות אימייל — בדוק שיש @ ו-.
+      let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (!emailRegex.test(email)) {
+        document.getElementById("emailError").style.display = "block"
+        valid = false
+      } else {
+        document.getElementById("emailError").style.display = "none"
+      }
+
+      if (!subject) {
+        document.getElementById("subjectError").style.display = "block"
+        valid = false
+      } else {
+        document.getElementById("subjectError").style.display = "none"
+      }
+
+      if (!message) {
+        document.getElementById("messageError").style.display = "block"
+        valid = false
+      } else {
+        document.getElementById("messageError").style.display = "none"
+      }
+
+      if (valid) {
+        // הצלחה!
+        document.getElementById("contactForm").style.display = "none"
+        document.getElementById("successMsg").style.display = "block"
+      }
+    })
+  </script>
+</body>
+</html>

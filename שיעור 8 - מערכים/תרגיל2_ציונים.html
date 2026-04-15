@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>תרגיל — ציונים</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 30px auto; padding: 20px; background: #f5f0ff; }
+    h1 { color: #5e35b1; }
+    .task { background: #fff3cd; border: 2px solid #ffc107; border-radius: 10px; padding: 15px; margin-bottom: 20px; }
+    input { padding: 10px; font-size: 16px; border: 2px solid #ccc; border-radius: 6px; width: 100px; }
+    button { padding: 10px 18px; font-size: 15px; border: none; border-radius: 6px; cursor: pointer; margin: 5px; background: #5e35b1; color: white; }
+    button:hover { background: #7e57c2; }
+    .grade-item { display: inline-block; background: #ede7f6; border-radius: 6px; padding: 8px 14px; margin: 5px; font-size: 18px; font-weight: bold; }
+    .grade-item.high { background: #c8e6c9; }
+    .grade-item.low { background: #ffcdd2; }
+    #stats { background: white; border-radius: 10px; padding: 20px; margin-top: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .stat { font-size: 18px; margin: 8px 0; }
+    .hint { background: #e3f2fd; border-radius: 6px; padding: 10px; font-size: 14px; color: #1565c0; margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+<h1>📊 תרגיל — ניתוח ציונים</h1>
+
+<div class="task">
+  <h2>📋 המשימה:</h2>
+  <ol>
+    <li>קבל ציונים מהמשתמש (בין 0 ל-100)</li>
+    <li>הצג את כל הציונים (ירוק אם ≥70, אדום אם &lt;70)</li>
+    <li>חשב וה‍צג: ממוצע, הציון הגבוה ביותר, הנמוך ביותר</li>
+    <li>ה‍צג כמה ציונים עוברים (≥60)</li>
+    <li><strong>בונוס:</strong> הצג את הציונים ממוינים מהגבוה לנמוך</li>
+  </ol>
+</div>
+
+<input type="number" id="gradeInput" placeholder="ציון..." min="0" max="100" />
+<button onclick="addGrade()">➕ הוסף ציון</button>
+<button onclick="calculate()">📊 חשב סטטיסטיקה</button>
+<button onclick="resetGrades()">↺ אפס</button>
+
+<div id="gradesDisplay"></div>
+<div id="stats"></div>
+
+<div class="hint">
+  💡 <strong>רמזים:</strong><br>
+  • ממוצע: <code>grades.reduce((sum, g) => sum + g, 0) / grades.length</code><br>
+  • מקסימום: <code>Math.max(...grades)</code><br>
+  • מינימום: <code>Math.min(...grades)</code><br>
+  • מיון יורד: <code>grades.sort((a, b) => b - a)</code>
+</div>
+
+<script>
+  let grades = []
+
+  function addGrade() {
+    let input = document.getElementById("gradeInput")
+    let grade = Number(input.value)
+
+    if (input.value === "" || grade < 0 || grade > 100) {
+      alert("הכנס ציון תקין בין 0 ל-100!")
+      return
+    }
+
+    // TODO: הוסף ל-grades עם push()
+
+    renderGrades()
+    input.value = ""
+  }
+
+  function renderGrades() {
+    let container = document.getElementById("gradesDisplay")
+    container.innerHTML = `<h3>הציונים שהוכנסו (${grades.length}):</h3>`
+
+    // TODO: עבור על grades עם forEach
+    // לכל ציון צור span עם class "grade-item"
+    // אם ≥70 הוסף class "high", אחרת "low"
+  }
+
+  function calculate() {
+    if (grades.length === 0) {
+      alert("הוסף ציונים תחילה!")
+      return
+    }
+
+    // TODO: חשב את הסטטיסטיקות
+    let average = 0      // TODO
+    let highest = 0      // TODO: Math.max(...grades)
+    let lowest = 0       // TODO: Math.min(...grades)
+    let passing = 0      // TODO: grades.filter(g => g >= 60).length
+
+    document.getElementById("stats").innerHTML = `
+      <h3>📊 סטטיסטיקה:</h3>
+      <div class="stat">📈 ממוצע: <strong>${average.toFixed(1)}</strong></div>
+      <div class="stat">🏆 הגבוה: <strong>${highest}</strong></div>
+      <div class="stat">📉 הנמוך: <strong>${lowest}</strong></div>
+      <div class="stat">✅ עוברים (60+): <strong>${passing} מתוך ${grades.length}</strong></div>
+    `
+  }
+
+  function resetGrades() {
+    grades = []
+    document.getElementById("gradesDisplay").innerHTML = ""
+    document.getElementById("stats").innerHTML = ""
+  }
+</script>
+</body>
+</html>

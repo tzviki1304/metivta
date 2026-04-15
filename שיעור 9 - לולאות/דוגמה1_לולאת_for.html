@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>לולאת for</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 700px; margin: 30px auto; padding: 20px; background: #e8f5e9; }
+    h1 { color: #2e7d32; }
+    .section { background: white; border-radius: 10px; padding: 20px; margin: 15px 0; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .code { background: #1e1e1e; color: #dcdcaa; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 13px; white-space: pre; margin: 10px 0; }
+    button { background: #2e7d32; color: white; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; margin: 5px; font-size: 14px; }
+    button:hover { background: #43a047; }
+    .output { background: #f1f8e9; border: 2px solid #81c784; border-radius: 8px; padding: 15px; margin-top: 10px; font-family: monospace; min-height: 40px; white-space: pre-line; }
+    .step { display: inline-block; background: #c8e6c9; border-radius: 4px; padding: 3px 8px; margin: 2px; font-size: 13px; }
+  </style>
+</head>
+<body>
+
+<h1>🔄 לולאת for</h1>
+
+<div class="section">
+  <h2>מבנה לולאת for</h2>
+  <div class="code">for (let i = 0; i < 5; i++) {
+//       ↑          ↑       ↑
+//   התחלה      תנאי      צעד
+    console.log(i)
+}</div>
+  <p>שלושת החלקים:</p>
+  <span class="step">1. <b>let i = 0</b> — ערך התחלתי</span>
+  <span class="step">2. <b>i &lt; 5</b> — כל עוד זה נכון, המשך</span>
+  <span class="step">3. <b>i++</b> — הוסף 1 אחרי כל סיבוב</span>
+  <br><button onclick="runBasicFor()">▶️ הרץ</button>
+  <div class="output" id="out1">לחץ הרץ...</div>
+</div>
+
+<div class="section">
+  <h2>לולאה על מערך עם index</h2>
+  <div class="code">let fruits = ["🍎 תפוח", "🍌 בננה", "🍊 תפוז"]
+
+for (let i = 0; i < fruits.length; i++) {
+    console.log(`[${i}] ${fruits[i]}`)
+}</div>
+  <button onclick="runArrayFor()">▶️ הרץ</button>
+  <div class="output" id="out2"></div>
+</div>
+
+<div class="section">
+  <h2>for...of — הדרך הנוחה על מערך!</h2>
+  <div class="code">let names = ["דן", "שרה", "משה", "רחל"]
+
+for (let name of names) {
+    console.log(`שלום, ${name}!`)
+}</div>
+  <button onclick="runForOf()">▶️ הרץ</button>
+  <div class="output" id="out3"></div>
+</div>
+
+<div class="section">
+  <h2>לולאות מקוננות (לולאה בתוך לולאה)</h2>
+  <div class="code">for (let i = 1; i <= 3; i++) {
+    for (let j = 1; j <= 3; j++) {
+        console.log(`${i} × ${j} = ${i * j}`)
+    }
+}</div>
+  <button onclick="runNested()">▶️ הרץ</button>
+  <div class="output" id="out4"></div>
+</div>
+
+<script>
+  function runBasicFor() {
+    let result = ""
+    for (let i = 0; i < 5; i++) {
+      result += `i = ${i}\n`
+    }
+    document.getElementById("out1").textContent = result
+  }
+
+  function runArrayFor() {
+    let fruits = ["🍎 תפוח", "🍌 בננה", "🍊 תפוז"]
+    let result = ""
+    for (let i = 0; i < fruits.length; i++) {
+      result += `[${i}] ${fruits[i]}\n`
+    }
+    document.getElementById("out2").textContent = result
+  }
+
+  function runForOf() {
+    let names = ["דן", "שרה", "משה", "רחל"]
+    let result = ""
+    for (let name of names) {
+      result += `שלום, ${name}!\n`
+    }
+    document.getElementById("out3").textContent = result
+  }
+
+  function runNested() {
+    let result = ""
+    for (let i = 1; i <= 3; i++) {
+      for (let j = 1; j <= 3; j++) {
+        result += `${i} × ${j} = ${i * j}\n`
+      }
+      result += "---\n"
+    }
+    document.getElementById("out4").textContent = result
+  }
+</script>
+</body>
+</html>

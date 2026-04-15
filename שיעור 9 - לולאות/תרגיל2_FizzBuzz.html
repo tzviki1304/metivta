@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>תרגיל — FizzBuzz</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 650px; margin: 30px auto; padding: 20px; background: #fce4ec; }
+    h1 { color: #ad1457; }
+    .task { background: #fff9c4; border: 2px solid #fbc02d; border-radius: 10px; padding: 15px; margin-bottom: 20px; }
+    .rules { background: white; border-radius: 10px; padding: 15px; margin: 15px 0; }
+    .rule { padding: 8px 0; font-size: 16px; border-bottom: 1px solid #eee; }
+    input { padding: 10px; font-size: 16px; border: 2px solid #f48fb1; border-radius: 6px; width: 100px; }
+    button { padding: 10px 20px; font-size: 15px; border: none; border-radius: 6px; cursor: pointer; margin: 5px; background: #ad1457; color: white; }
+    button:hover { background: #c2185b; }
+    #output { background: white; border-radius: 10px; padding: 15px; margin-top: 15px; display: flex; flex-wrap: wrap; gap: 5px; min-height: 50px; }
+    .num { padding: 6px 10px; border-radius: 5px; font-weight: bold; font-size: 14px; }
+    .normal { background: #e0e0e0; }
+    .fizz { background: #a5d6a7; }
+    .buzz { background: #90caf9; }
+    .fizzbuzz { background: #ffcc80; }
+    .hint { background: #e8f5e9; border-radius: 8px; padding: 12px; font-size: 14px; color: #1b5e20; margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+<h1>🎯 תרגיל — FizzBuzz</h1>
+
+<div class="task">
+  <h2>זה ה-תרגיל הקלאסי של ראיונות עבודה!</h2>
+  <p>ספור מ-1 עד N, אבל:</p>
+  <div class="rules">
+    <div class="rule">🟢 מתחלק ב-3 → כתוב <strong>"Fizz"</strong></div>
+    <div class="rule">🔵 מתחלק ב-5 → כתוב <strong>"Buzz"</strong></div>
+    <div class="rule">🟡 מתחלק ב-15 (גם ב-3 וגם ב-5) → כתוב <strong>"FizzBuzz"</strong></div>
+    <div class="rule">⬜ אחרת → כתוב את <strong>המספר עצמו</strong></div>
+  </div>
+</div>
+
+<label>ספור עד: </label>
+<input type="number" id="limitInput" value="30" min="1" max="200" />
+<button onclick="runFizzBuzz()">▶️ הרץ FizzBuzz!</button>
+
+<div id="output"></div>
+
+<div class="hint">
+  💡 <strong>רמז:</strong> השתמש ב-<code>%</code> (שארית חלוקה)<br>
+  <code>6 % 3 === 0</code> ← נכון (מתחלק!)<br>
+  <code>7 % 3 === 1</code> ← לא מתחלק<br><br>
+  <strong>חשוב:</strong> בדוק FizzBuzz (חלוקה ב-15) <em>לפני</em> Fizz ו-Buzz!
+</div>
+
+<script>
+  function runFizzBuzz() {
+    let limit = Number(document.getElementById("limitInput").value)
+    let output = document.getElementById("output")
+    output.innerHTML = ""
+
+    if (limit < 1 || limit > 200) {
+      alert("הכנס מספר בין 1 ל-200")
+      return
+    }
+
+    for (let i = 1; i <= limit; i++) {
+      let span = document.createElement("span")
+
+      // TODO: בדוק את התנאים לפי הסדר הנכון!
+      // if (i % 15 === 0) { span.textContent = "FizzBuzz"; span.className = "num fizzbuzz" }
+      // else if (i % 3 === 0) { ... }
+      // else if (i % 5 === 0) { ... }
+      // else { ... }
+
+      // בינתיים — הצג רק את המספר:
+      span.textContent = i
+      span.className = "num normal"
+
+      output.appendChild(span)
+    }
+  }
+</script>
+</body>
+</html>

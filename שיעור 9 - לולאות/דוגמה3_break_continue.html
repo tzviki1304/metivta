@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>break ו-continue</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 700px; margin: 30px auto; padding: 20px; background: #fff3e0; }
+    h1 { color: #e65100; }
+    .section { background: white; border-radius: 10px; padding: 20px; margin: 15px 0; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .code { background: #1e1e1e; color: #dcdcaa; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 13px; white-space: pre; margin: 10px 0; }
+    button { background: #e65100; color: white; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; margin: 5px; font-size: 14px; }
+    button:hover { background: #ff8f00; }
+    .output { background: #fff8e1; border: 2px solid #ffb300; border-radius: 8px; padding: 15px; margin-top: 10px; font-family: monospace; white-space: pre-line; }
+    .highlight { color: #e53935; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+<h1>⛔ break ו-⏭️ continue</h1>
+
+<div class="section">
+  <h2>break — עצור את הלולאה לגמרי</h2>
+  <div class="code">// מצא את המספר הראשון שמתחלק ב-7
+for (let i = 1; i <= 100; i++) {
+    if (i % 7 === 0) {
+        console.log(`מצאתי! ${i}`)
+        break  // ← עוצר כאן, לא ממשיך
+    }
+}</div>
+  <button onclick="runBreak()">▶️ הרץ</button>
+  <div class="output" id="out1"></div>
+</div>
+
+<div class="section">
+  <h2>continue — דלג לאיטרציה הבאה</h2>
+  <div class="code">// הדפס רק מספרים שאינם מתחלקים ב-3
+for (let i = 1; i <= 15; i++) {
+    if (i % 3 === 0) {
+        continue  // ← דלג, חזור לתחילת הלולאה
+    }
+    console.log(i)
+}</div>
+  <button onclick="runContinue()">▶️ הרץ</button>
+  <div class="output" id="out2"></div>
+</div>
+
+<div class="section">
+  <h2>לולאת while — שימוש מציאותי</h2>
+  <div class="code">// חפש מספר שנוחש על ידי המשתמש
+let secret = 42
+let guess = 0
+let attempts = 0
+
+while (guess !== secret) {
+    guess = Number(prompt("נחש!"))
+    attempts++
+    if (attempts > 5) {
+        alert("יותר מדי ניסיונות!")
+        break
+    }
+}</div>
+  <button onclick="runWhileGame()">▶️ משחק ניחוש</button>
+  <div class="output" id="out3"></div>
+</div>
+
+<script>
+  function runBreak() {
+    let result = "מחפש מספר שמתחלק ב-7...\n"
+    for (let i = 1; i <= 100; i++) {
+      if (i % 7 === 0) {
+        result += `🎯 מצאתי! ${i} ÷ 7 = ${i / 7}\nעצרתי אחרי ${i} בדיקות.`
+        break
+      }
+    }
+    document.getElementById("out1").textContent = result
+  }
+
+  function runContinue() {
+    let result = "מספרים שלא מתחלקים ב-3:\n"
+    let nums = []
+    for (let i = 1; i <= 15; i++) {
+      if (i % 3 === 0) continue
+      nums.push(i)
+    }
+    result += nums.join(", ")
+    document.getElementById("out2").textContent = result
+  }
+
+  function runWhileGame() {
+    let secret = Math.floor(Math.random() * 10) + 1
+    let attempts = 0
+    let maxAttempts = 4
+    let result = `🎮 המספר הסודי הוא בין 1-10. יש לך ${maxAttempts} ניסיונות!\n\n`
+    let won = false
+
+    while (attempts < maxAttempts) {
+      let guess = Number(prompt(`ניסיון ${attempts + 1}/${maxAttempts} — נחש מספר בין 1-10:`))
+      attempts++
+      if (isNaN(guess)) { result += "קלט לא תקין\n"; continue }
+      if (guess === secret) {
+        result += `✅ נכון! ניחשת אחרי ${attempts} ניסיונות!`
+        won = true
+        break
+      } else if (guess < secret) {
+        result += `ניסיון ${attempts}: ${guess} — גבוה יותר! ⬆️\n`
+      } else {
+        result += `ניסיון ${attempts}: ${guess} — נמוך יותר! ⬇️\n`
+      }
+    }
+
+    if (!won) result += `\n❌ נגמרו הניסיונות! המספר היה ${secret}`
+    document.getElementById("out3").textContent = result
+  }
+</script>
+</body>
+</html>

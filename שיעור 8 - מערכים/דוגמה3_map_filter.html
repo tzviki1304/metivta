@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>map ו-filter</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 750px; margin: 30px auto; padding: 20px; background: #fff8f0; }
+    h1 { color: #e65100; }
+    .section { background: white; border-radius: 10px; padding: 20px; margin: 15px 0; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .row { display: flex; gap: 20px; flex-wrap: wrap; }
+    .box { flex: 1; min-width: 200px; background: #f5f5f5; border-radius: 8px; padding: 15px; }
+    .box h3 { margin: 0 0 10px; }
+    .item { background: #e3f2fd; border-radius: 5px; padding: 8px 12px; margin: 5px 0; font-size: 15px; }
+    .item.highlight { background: #c8e6c9; border: 2px solid #4caf50; }
+    button { background: #e65100; color: white; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; margin: 5px; font-size: 14px; }
+    button:hover { background: #ff8f00; }
+    .code { background: #1e1e1e; color: #ce9178; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 13px; white-space: pre; margin: 10px 0; }
+  </style>
+</head>
+<body>
+
+<h1>🗺️ map ו-🔍 filter — כלי העל!</h1>
+
+<div class="section">
+  <h2>map — עושה משהו לכל איבר, מחזיר מערך חדש</h2>
+  <div class="code">let prices = [100, 200, 300, 400, 500]
+
+// הכפל כל מחיר ב-1.17 (מע"מ)
+let withTax = prices.map(price => price * 1.17)
+// [117, 234, 351, 468, 585]</div>
+
+  <div class="row">
+    <div class="box">
+      <h3>מחירים מקוריים:</h3>
+      <div id="original"></div>
+    </div>
+    <div class="box">
+      <h3>אחרי map (+ מע"מ 17%):</h3>
+      <div id="withTax"></div>
+    </div>
+  </div>
+  <button onclick="applyMap()">▶️ הפעל map</button>
+  <button onclick="resetMap()">↺ אפס</button>
+</div>
+
+<div class="section">
+  <h2>filter — מחזיר רק איברים שעוברים תנאי</h2>
+  <div class="code">let grades = [55, 72, 88, 45, 95, 60, 78, 33]
+
+// רק ציונים 70 ומעלה
+let passing = grades.filter(grade => grade >= 70)
+// [72, 88, 95, 78]</div>
+
+  <div class="row">
+    <div class="box">
+      <h3>כל הציונים:</h3>
+      <div id="allGrades"></div>
+    </div>
+    <div class="box">
+      <h3>עוברים (70+) — filter:</h3>
+      <div id="passing"></div>
+    </div>
+  </div>
+  <button onclick="applyFilter()">▶️ הפעל filter</button>
+  <button onclick="resetFilter()">↺ אפס</button>
+</div>
+
+<div class="section">
+  <h2>שרשור — map + filter יחד! 🔥</h2>
+  <div class="code">let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+let result = numbers
+  .filter(n => n % 2 === 0)   // רק זוגיים: [2,4,6,8,10]
+  .map(n => n * n)             // בריבוע: [4,16,36,64,100]</div>
+  <button onclick="chainDemo()">▶️ הפעל</button>
+  <div id="chainResult"></div>
+</div>
+
+<script>
+  let prices = [100, 200, 300, 400, 500]
+  let grades = [55, 72, 88, 45, 95, 60, 78, 33]
+
+  function renderItems(containerId, items, highlight = false) {
+    let container = document.getElementById(containerId)
+    container.innerHTML = ""
+    items.forEach(item => {
+      let div = document.createElement("div")
+      div.className = "item" + (highlight ? " highlight" : "")
+      div.textContent = item
+      container.appendChild(div)
+    })
+  }
+
+  function applyMap() {
+    renderItems("original", prices.map(p => `₪${p}`))
+    renderItems("withTax", prices.map(p => `₪${(p * 1.17).toFixed(0)}`), true)
+  }
+
+  function resetMap() {
+    renderItems("original", prices.map(p => `₪${p}`))
+    document.getElementById("withTax").innerHTML = ""
+  }
+
+  function applyFilter() {
+    renderItems("allGrades", grades.map(g => `${g} ${g >= 70 ? "✅" : "❌"}`))
+    renderItems("passing", grades.filter(g => g >= 70), true)
+  }
+
+  function resetFilter() {
+    renderItems("allGrades", grades)
+    document.getElementById("passing").innerHTML = ""
+  }
+
+  function chainDemo() {
+    let numbers = [1,2,3,4,5,6,7,8,9,10]
+    let result = numbers.filter(n => n % 2 === 0).map(n => n * n)
+    document.getElementById("chainResult").innerHTML =
+      `<div class="item highlight">תוצאה: [ ${result.join(" , ")} ]</div>`
+  }
+
+  // Init
+  renderItems("original", prices.map(p => `₪${p}`))
+  renderItems("allGrades", grades)
+</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>מערך בסיסי</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 700px; margin: 30px auto; padding: 20px; background: #f0f4ff; }
+    h1 { color: #4a4a8a; }
+    .section { background: white; border-radius: 10px; padding: 20px; margin: 15px 0; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .code { background: #1e1e1e; color: #dcdcaa; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 14px; white-space: pre; }
+    button { background: #4a4a8a; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; margin: 5px; font-size: 15px; }
+    button:hover { background: #6464aa; }
+    #output { background: #e8f5e9; border: 2px solid #4caf50; border-radius: 8px; padding: 15px; margin-top: 15px; font-size: 16px; min-height: 40px; }
+  </style>
+</head>
+<body>
+
+<h1>📋 מערך בסיסי</h1>
+
+<div class="section">
+  <h2>מה זה מערך?</h2>
+  <p>מערך הוא קופסה שמכילה <strong>כמה ערכים</strong> בתוכה, בסדר מסוים.</p>
+  <div class="code">let fruits = ["תפוח", "בננה", "תפוז", "ענבים"]
+//             index:  0       1       2       3</div>
+</div>
+
+<div class="section">
+  <h2>🎬 ניסוי — לחץ על הכפתורים!</h2>
+
+  <button onclick="showFruit(0)">🍎 פרי ראשון [0]</button>
+  <button onclick="showFruit(1)">🍌 פרי שני [1]</button>
+  <button onclick="showFruit(2)">🍊 פרי שלישי [2]</button>
+  <button onclick="showLength()">📏 כמה פירות?</button>
+  <button onclick="showLast()">🔚 פרי אחרון</button>
+  <button onclick="showAll()">📋 כל הפירות</button>
+
+  <div id="output">לחץ על כפתור...</div>
+</div>
+
+<div class="section">
+  <h2>💡 כלל חשוב: index מתחיל מ-0!</h2>
+  <div class="code">let fruits = ["תפוח", "בננה", "תפוז"]
+
+fruits[0]  // "תפוח"    ← ראשון
+fruits[1]  // "בננה"    ← שני
+fruits[2]  // "תפוז"    ← שלישי
+
+fruits.length     // 3 (כמות האיברים)
+fruits[fruits.length - 1]  // "תפוז" ← אחרון תמיד!</div>
+</div>
+
+<script>
+  let fruits = ["תפוח", "בננה", "תפוז", "ענבים"]
+
+  function showFruit(index) {
+    document.getElementById("output").innerHTML =
+      `fruits[${index}] = "${fruits[index]}"`
+  }
+
+  function showLength() {
+    document.getElementById("output").innerHTML =
+      `fruits.length = ${fruits.length} (יש ${fruits.length} פירות!)`
+  }
+
+  function showLast() {
+    let last = fruits[fruits.length - 1]
+    document.getElementById("output").innerHTML =
+      `הפרי האחרון: "${last}" (index ${fruits.length - 1})`
+  }
+
+  function showAll() {
+    let result = fruits.map((f, i) => `[${i}] ${f}`).join(" | ")
+    document.getElementById("output").innerHTML = result
+  }
+</script>
+</body>
+</html>

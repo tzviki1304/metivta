@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>משימת בית — אנשי קשר</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 650px; margin: 30px auto; padding: 20px; background: #e8f4fd; }
+    h1 { color: #1565c0; }
+    .task { background: #fff9c4; border: 2px solid #f9a825; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+    .form-row { display: flex; gap: 10px; flex-wrap: wrap; margin: 10px 0; }
+    input { padding: 10px; font-size: 15px; border: 2px solid #90caf9; border-radius: 6px; flex: 1; min-width: 140px; }
+    button { padding: 10px 18px; font-size: 15px; border: none; border-radius: 6px; cursor: pointer; margin: 5px; }
+    .btn-add { background: #1565c0; color: white; }
+    .btn-search { background: #00897b; color: white; }
+    .btn-clear { background: #757575; color: white; }
+    .contact-card { background: white; border-radius: 10px; padding: 15px; margin: 8px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+    .contact-info { font-size: 15px; }
+    .contact-info strong { font-size: 17px; display: block; }
+    .contact-info span { color: #666; }
+    .btn-del { background: #e53935; color: white; padding: 6px 12px; font-size: 13px; border-radius: 5px; border: none; cursor: pointer; }
+    #searchInput { width: 100%; box-sizing: border-box; }
+  </style>
+</head>
+<body>
+
+<h1>📱 משימת בית — ספר אנשי קשר</h1>
+
+<div class="task">
+  <h2>⭐ דרישות:</h2>
+  <ul>
+    <li>הוסף איש קשר עם: <strong>שם</strong>, <strong>טלפון</strong>, <strong>קטגוריה</strong> (חבר/משפחה/עבודה)</li>
+    <li>הצג את כל אנשי הקשר כ"כרטיסיות"</li>
+    <li>כפתור מחיקה לכל איש קשר</li>
+    <li>חיפוש חי — הקלד שם וה‍צג רק את המתאימים</li>
+    <li><strong>בונוס:</strong> ממיין לפי שם (א-ב)</li>
+    <li><strong>בונוס 2:</strong> הצג כמה אנשי קשר יש לפי קטגוריה</li>
+  </ul>
+</div>
+
+<h3>הוספת איש קשר:</h3>
+<div class="form-row">
+  <input type="text" id="nameInput" placeholder="שם מלא..." />
+  <input type="tel" id="phoneInput" placeholder="מספר טלפון..." />
+  <select id="categoryInput" style="padding:10px; font-size:15px; border-radius:6px; border:2px solid #90caf9;">
+    <option value="חבר">👫 חבר</option>
+    <option value="משפחה">👨‍👩‍👧 משפחה</option>
+    <option value="עבודה">💼 עבודה</option>
+  </select>
+</div>
+<button class="btn-add" onclick="addContact()">➕ הוסף</button>
+<button class="btn-clear" onclick="clearAll()">🗑️ נקה הכל</button>
+
+<h3>🔍 חיפוש:</h3>
+<input type="text" id="searchInput" placeholder="חפש שם..." oninput="searchContacts()" />
+
+<div id="stats" style="margin:10px 0; font-size:14px; color:#555;"></div>
+<div id="contacts"></div>
+
+<script>
+  let contacts = [
+    { name: "ישראל ישראלי", phone: "050-1234567", category: "חבר" },
+    { name: "שרה לוי", phone: "052-9876543", category: "משפחה" }
+  ]
+
+  function addContact() {
+    let name = document.getElementById("nameInput").value.trim()
+    let phone = document.getElementById("phoneInput").value.trim()
+    let category = document.getElementById("categoryInput").value
+
+    if (!name || !phone) {
+      alert("מלא שם וטלפון!")
+      return
+    }
+
+    // TODO: הוסף אובייקט חדש ל-contacts
+    // contacts.push({ name, phone, category })
+
+    document.getElementById("nameInput").value = ""
+    document.getElementById("phoneInput").value = ""
+    renderContacts(contacts)
+  }
+
+  function deleteContact(index) {
+    // TODO: מחק לפי index
+    // contacts.splice(index, 1)
+    renderContacts(contacts)
+  }
+
+  function searchContacts() {
+    let query = document.getElementById("searchInput").value.toLowerCase()
+    // TODO: filter לפי שם
+    // let results = contacts.filter(c => c.name.toLowerCase().includes(query))
+    // renderContacts(results)
+  }
+
+  function clearAll() {
+    contacts = []
+    renderContacts(contacts)
+  }
+
+  function renderContacts(list) {
+    let container = document.getElementById("contacts")
+    container.innerHTML = ""
+
+    if (list.length === 0) {
+      container.innerHTML = "<p>אין אנשי קשר</p>"
+      return
+    }
+
+    // TODO: עבור על list עם forEach ובנה כרטיסיות
+    // let card = document.createElement("div")
+    // card.className = "contact-card"
+    // card.innerHTML = `
+    //   <div class="contact-info">
+    //     <strong>${contact.name}</strong>
+    //     <span>📞 ${contact.phone} | ${contact.category}</span>
+    //   </div>
+    //   <button class="btn-del" onclick="deleteContact(${index})">🗑️</button>
+    // `
+
+    updateStats()
+  }
+
+  function updateStats() {
+    // TODO: בונוס — ספור לפי קטגוריה
+    // let stats = { חבר: 0, משפחה: 0, עבודה: 0 }
+    // contacts.forEach(c => stats[c.category]++)
+  }
+
+  renderContacts(contacts)
+</script>
+</body>
+</html>

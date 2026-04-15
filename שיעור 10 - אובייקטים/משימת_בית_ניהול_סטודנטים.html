@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>משימת בית — ניהול סטודנטים</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 750px; margin: 30px auto; padding: 20px; background: #e8eaf6; }
+    h1 { color: #283593; }
+    .task { background: #fff9c4; border: 2px solid #f9a825; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 0; }
+    input, select { padding: 10px; font-size: 15px; border: 2px solid #9fa8da; border-radius: 6px; }
+    button { padding: 10px 18px; font-size: 15px; border: none; border-radius: 6px; cursor: pointer; margin: 5px; }
+    .btn-add { background: #283593; color: white; }
+    .btn-filter { background: #00695c; color: white; }
+    .btn-sort { background: #4a148c; color: white; }
+    .student-card { background: white; border-radius: 10px; padding: 15px; margin: 8px 0; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .student-info strong { font-size: 17px; display: block; }
+    .student-info span { color: #666; font-size: 14px; }
+    .grade-badge { font-size: 20px; font-weight: bold; padding: 8px 16px; border-radius: 8px; }
+    .grade-a { background: #c8e6c9; color: #1b5e20; }
+    .grade-b { background: #fff9c4; color: #f57f17; }
+    .grade-c { background: #ffccbc; color: #bf360c; }
+    .btn-del { background: #e53935; color: white; padding: 6px 12px; border-radius: 5px; border: none; cursor: pointer; font-size: 13px; }
+    #statsBar { background: white; border-radius: 10px; padding: 15px; margin: 10px 0; display: flex; gap: 20px; flex-wrap: wrap; }
+    .stat-item { text-align: center; }
+    .stat-num { font-size: 28px; font-weight: bold; color: #283593; }
+    .stat-label { font-size: 13px; color: #666; }
+  </style>
+</head>
+<body>
+
+<h1>🎓 משימת בית — מערכת ניהול תלמידים</h1>
+
+<div class="task">
+  <h2>⭐ דרישות:</h2>
+  <ul>
+    <li>הוסף תלמיד עם: שם, ציון, כיתה</li>
+    <li>הצג כרטיסיה לכל תלמיד עם סמל ציון (A/B/C)</li>
+    <li>מחק תלמיד</li>
+    <li>הצג סטטיסטיקות: ממוצע, מקסימום, עוברים</li>
+    <li><strong>בונוס:</strong> סינון לפי כיתה</li>
+    <li><strong>בונוס 2:</strong> מיון לפי ציון / שם</li>
+    <li><strong>בונוס 3:</strong> שמירה ב-LocalStorage</li>
+  </ul>
+  <p><strong>ציון A:</strong> 90+, <strong>B:</strong> 70-89, <strong>C:</strong> מתחת ל-70</p>
+</div>
+
+<div class="form-grid">
+  <input type="text" id="nameInput" placeholder="שם תלמיד..." />
+  <input type="number" id="gradeInput" placeholder="ציון (0-100)" min="0" max="100" />
+  <select id="classInput">
+    <option value="א">כיתה א</option>
+    <option value="ב">כיתה ב</option>
+    <option value="ג">כיתה ג</option>
+  </select>
+  <button class="btn-add" onclick="addStudent()">➕ הוסף תלמיד</button>
+</div>
+
+<div style="margin: 10px 0;">
+  <button class="btn-filter" onclick="filterByClass('all')">כולם</button>
+  <button class="btn-filter" onclick="filterByClass('א')">כיתה א</button>
+  <button class="btn-filter" onclick="filterByClass('ב')">כיתה ב</button>
+  <button class="btn-filter" onclick="filterByClass('ג')">כיתה ג</button>
+  <button class="btn-sort" onclick="sortBy('grade')">🏆 מיין לפי ציון</button>
+  <button class="btn-sort" onclick="sortBy('name')">🔤 מיין לפי שם</button>
+</div>
+
+<div id="statsBar"></div>
+<div id="studentsList"></div>
+
+<script>
+  let students = [
+    { id: 1, name: "שרה לוי", grade: 92, class: "א" },
+    { id: 2, name: "משה כהן", grade: 67, class: "ב" },
+    { id: 3, name: "דנה רוז", grade: 81, class: "א" }
+  ]
+  let nextId = 4
+  let currentFilter = "all"
+  let currentSort = null
+
+  function getGradeClass(grade) {
+    if (grade >= 90) return "grade-a"
+    if (grade >= 70) return "grade-b"
+    return "grade-c"
+  }
+
+  function getGradeLetter(grade) {
+    if (grade >= 90) return "A"
+    if (grade >= 70) return "B"
+    return "C"
+  }
+
+  function addStudent() {
+    let name = document.getElementById("nameInput").value.trim()
+    let grade = Number(document.getElementById("gradeInput").value)
+    let cls = document.getElementById("classInput").value
+
+    if (!name) { alert("הכנס שם!"); return }
+    if (isNaN(grade) || grade < 0 || grade > 100) { alert("ציון לא תקין!"); return }
+
+    // TODO: הוסף אובייקט ל-students
+    // students.push({ id: nextId++, name, grade, class: cls })
+
+    document.getElementById("nameInput").value = ""
+    document.getElementById("gradeInput").value = ""
+    render()
+  }
+
+  function deleteStudent(id) {
+    // TODO: filter לפי id
+    // students = students.filter(s => s.id !== id)
+    render()
+  }
+
+  function filterByClass(cls) {
+    currentFilter = cls
+    render()
+  }
+
+  function sortBy(field) {
+    currentSort = field
+    render()
+  }
+
+  function updateStats() {
+    if (students.length === 0) {
+      document.getElementById("statsBar").innerHTML = ""
+      return
+    }
+    let avg = (students.reduce((s, st) => s + st.grade, 0) / students.length).toFixed(1)
+    let max = Math.max(...students.map(s => s.grade))
+    let passing = students.filter(s => s.grade >= 60).length
+
+    document.getElementById("statsBar").innerHTML = `
+      <div class="stat-item"><div class="stat-num">${students.length}</div><div class="stat-label">סה"כ תלמידים</div></div>
+      <div class="stat-item"><div class="stat-num">${avg}</div><div class="stat-label">ממוצע ציונים</div></div>
+      <div class="stat-item"><div class="stat-num">${max}</div><div class="stat-label">ציון גבוה ביותר</div></div>
+      <div class="stat-item"><div class="stat-num">${passing}</div><div class="stat-label">עוברים (60+)</div></div>
+    `
+  }
+
+  function render() {
+    let list = [...students]
+
+    if (currentFilter !== "all") {
+      list = list.filter(s => s.class === currentFilter)
+    }
+
+    if (currentSort === "grade") {
+      list.sort((a, b) => b.grade - a.grade)
+    } else if (currentSort === "name") {
+      list.sort((a, b) => a.name.localeCompare(b.name, "he"))
+    }
+
+    let container = document.getElementById("studentsList")
+    container.innerHTML = ""
+
+    if (list.length === 0) {
+      container.innerHTML = "<p>אין תלמידים להצגה</p>"
+    }
+
+    list.forEach(s => {
+      let card = document.createElement("div")
+      card.className = "student-card"
+      card.innerHTML = `
+        <div class="student-info">
+          <strong>${s.name}</strong>
+          <span>כיתה ${s.class}</span>
+        </div>
+        <div>
+          <span class="grade-badge ${getGradeClass(s.grade)}">${getGradeLetter(s.grade)} — ${s.grade}</span>
+        </div>
+        <button class="btn-del" onclick="deleteStudent(${s.id})">🗑️</button>
+      `
+      container.appendChild(card)
+    })
+
+    updateStats()
+  }
+
+  render()
+</script>
+</body>
+</html>

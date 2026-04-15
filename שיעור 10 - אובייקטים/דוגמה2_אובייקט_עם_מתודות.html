@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>אובייקט עם מתודות</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 700px; margin: 30px auto; padding: 20px; background: #e8f5e9; }
+    h1 { color: #1b5e20; }
+    .section { background: white; border-radius: 10px; padding: 20px; margin: 15px 0; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .code { background: #1e1e1e; color: #dcdcaa; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 13px; white-space: pre; margin: 10px 0; }
+    button { background: #1b5e20; color: white; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; margin: 5px; font-size: 14px; }
+    button:hover { background: #2e7d32; }
+    .car { background: linear-gradient(135deg, #1b5e20, #4caf50); color: white; border-radius: 15px; padding: 20px; margin: 10px 0; font-size: 16px; }
+    .stat { display: inline-block; background: rgba(255,255,255,0.2); border-radius: 8px; padding: 8px 15px; margin: 5px; }
+    .output { background: #e8f5e9; border-radius: 8px; padding: 10px; margin-top: 10px; font-family: monospace; }
+  </style>
+</head>
+<body>
+
+<h1>⚙️ מתודות באובייקט</h1>
+
+<div class="section">
+  <h2>מתודה = פונקציה שחיה בתוך אובייקט</h2>
+  <div class="code">let car = {
+    brand: "טויוטה",
+    speed: 0,
+    fuel: 100,
+
+    accelerate(amount) {
+        this.speed += amount      // ← this = האובייקט עצמו
+        this.fuel -= amount * 0.5
+        return `🚗 מהירות: ${this.speed} קמ"ש`
+    },
+
+    brake() {
+        this.speed = Math.max(0, this.speed - 20)
+        return `🛑 מהירות: ${this.speed} קמ"ש`
+    },
+
+    status() {
+        return `${this.brand} | מהירות: ${this.speed} | דלק: ${this.fuel.toFixed(0)}%`
+    }
+}</div>
+
+  <div class="car" id="carDisplay">
+    <div>🚗 <strong id="carBrand">טויוטה</strong></div>
+    <div class="stat">⚡ <span id="speed">0</span> קמ"ש</div>
+    <div class="stat">⛽ <span id="fuel">100</span>%</div>
+  </div>
+
+  <button onclick="accelerate(30)">🔼 האץ 30</button>
+  <button onclick="accelerate(50)">🔼 האץ 50</button>
+  <button onclick="brake()">🛑 בלום</button>
+  <button onclick="fullStop()">⛔ עצירה מלאה</button>
+  <div class="output" id="carLog">הכיון...</div>
+</div>
+
+<div class="section">
+  <h2>this — מילת קסם</h2>
+  <div class="code">let counter = {
+    count: 0,
+    increment() { this.count++ },     // this = counter
+    decrement() { this.count-- },
+    reset() { this.count = 0 },
+    value() { return this.count }
+}</div>
+  <button onclick="inc()">➕ הוסף</button>
+  <button onclick="dec()">➖ הפחת</button>
+  <button onclick="rst()">↺ אפס</button>
+  <span style="font-size: 24px; font-weight: bold; margin-right: 15px;" id="counterVal">0</span>
+</div>
+
+<script>
+  let car = {
+    brand: "טויוטה",
+    speed: 0,
+    fuel: 100,
+    accelerate(amount) {
+      if (this.fuel <= 0) return "אין דלק! ⛽"
+      this.speed += amount
+      this.fuel = Math.max(0, this.fuel - amount * 0.5)
+      return `🔼 האצה ב-${amount} → מהירות: ${this.speed} קמ"ש | דלק: ${this.fuel.toFixed(0)}%`
+    },
+    brake() {
+      this.speed = Math.max(0, this.speed - 20)
+      return `🛑 בלימה → מהירות: ${this.speed} קמ"ש`
+    },
+    fullStop() {
+      this.speed = 0
+      return "⛔ עצירה מלאה"
+    }
+  }
+
+  function updateCarUI() {
+    document.getElementById("speed").textContent = car.speed
+    document.getElementById("fuel").textContent = car.fuel.toFixed(0)
+  }
+
+  function accelerate(amount) {
+    let msg = car.accelerate(amount)
+    document.getElementById("carLog").textContent = msg
+    updateCarUI()
+  }
+
+  function brake() {
+    let msg = car.brake()
+    document.getElementById("carLog").textContent = msg
+    updateCarUI()
+  }
+
+  function fullStop() {
+    let msg = car.fullStop()
+    document.getElementById("carLog").textContent = msg
+    updateCarUI()
+  }
+
+  let counter = { count: 0 }
+
+  function inc() {
+    counter.count++
+    document.getElementById("counterVal").textContent = counter.count
+  }
+
+  function dec() {
+    counter.count--
+    document.getElementById("counterVal").textContent = counter.count
+  }
+
+  function rst() {
+    counter.count = 0
+    document.getElementById("counterVal").textContent = counter.count
+  }
+</script>
+</body>
+</html>

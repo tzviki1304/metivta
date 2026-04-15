@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>מערך אובייקטים</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 750px; margin: 30px auto; padding: 20px; background: #fce4ec; }
+    h1 { color: #880e4f; }
+    .section { background: white; border-radius: 10px; padding: 20px; margin: 15px 0; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .code { background: #1e1e1e; color: #ce9178; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 13px; white-space: pre; margin: 10px 0; }
+    button { background: #880e4f; color: white; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; margin: 5px; font-size: 14px; }
+    button:hover { background: #ad1457; }
+    .cards { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; }
+    .card { background: #fce4ec; border-radius: 10px; padding: 15px; min-width: 150px; border: 2px solid #f48fb1; }
+    .card .name { font-weight: bold; font-size: 17px; }
+    .card .info { color: #555; font-size: 14px; margin-top: 5px; }
+    .card.passing { border-color: #a5d6a7; background: #e8f5e9; }
+    .card.failing { border-color: #ef9a9a; background: #ffebee; opacity: 0.7; }
+  </style>
+</head>
+<body>
+
+<h1>📚 מערך של אובייקטים</h1>
+
+<div class="section">
+  <h2>כך מאחסנים רשימת "דברים" מורכבים:</h2>
+  <div class="code">let students = [
+    { name: "דנה", grade: 92, city: "תל אביב" },
+    { name: "משה", grade: 58, city: "חיפה" },
+    { name: "שרה", grade: 78, city: "ירושלים" },
+    { name: "אבי", grade: 45, city: "באר שבע" },
+    { name: "רחל", grade: 85, city: "תל אביב" }
+]</div>
+  <button onclick="showAll()">📋 הצג הכל</button>
+  <button onclick="showPassing()">✅ filter — רק עוברים (≥60)</button>
+  <button onclick="showTelAviv()">🏙️ filter — תל אביב בלבד</button>
+  <button onclick="showNames()">📝 map — רק שמות</button>
+  <button onclick="showAverage()">📊 reduce — ממוצע ציונים</button>
+  <div class="cards" id="output"></div>
+  <div id="textOutput" style="margin-top:10px; font-size:16px;"></div>
+</div>
+
+<div class="section">
+  <h2>מיון לפי נכס</h2>
+  <div class="code">// מיון לפי ציון — מהגבוה לנמוך
+students.sort((a, b) => b.grade - a.grade)</div>
+  <button onclick="sortByGrade()">🏆 מיין לפי ציון</button>
+  <button onclick="sortByName()">🔤 מיין לפי שם</button>
+  <div class="cards" id="sortOutput"></div>
+</div>
+
+<script>
+  let students = [
+    { name: "דנה", grade: 92, city: "תל אביב" },
+    { name: "משה", grade: 58, city: "חיפה" },
+    { name: "שרה", grade: 78, city: "ירושלים" },
+    { name: "אבי", grade: 45, city: "באר שבע" },
+    { name: "רחל", grade: 85, city: "תל אביב" }
+  ]
+
+  function renderCards(list, containerId) {
+    let container = document.getElementById(containerId)
+    container.innerHTML = ""
+    list.forEach(s => {
+      let card = document.createElement("div")
+      card.className = "card " + (s.grade >= 60 ? "passing" : "failing")
+      card.innerHTML = `
+        <div class="name">${s.name}</div>
+        <div class="info">ציון: ${s.grade} ${s.grade >= 60 ? "✅" : "❌"}</div>
+        <div class="info">📍 ${s.city}</div>
+      `
+      container.appendChild(card)
+    })
+  }
+
+  function showAll() {
+    document.getElementById("textOutput").textContent = `מוצגים ${students.length} תלמידים`
+    renderCards(students, "output")
+  }
+
+  function showPassing() {
+    let passing = students.filter(s => s.grade >= 60)
+    document.getElementById("textOutput").textContent = `עוברים: ${passing.length} מתוך ${students.length}`
+    renderCards(passing, "output")
+  }
+
+  function showTelAviv() {
+    let ta = students.filter(s => s.city === "תל אביב")
+    document.getElementById("textOutput").textContent = `תל אביב: ${ta.length} תלמידים`
+    renderCards(ta, "output")
+  }
+
+  function showNames() {
+    let names = students.map(s => s.name)
+    document.getElementById("output").innerHTML = ""
+    document.getElementById("textOutput").textContent = `השמות: ${names.join(", ")}`
+  }
+
+  function showAverage() {
+    let sum = students.reduce((acc, s) => acc + s.grade, 0)
+    let avg = (sum / students.length).toFixed(1)
+    document.getElementById("output").innerHTML = ""
+    document.getElementById("textOutput").textContent = `ממוצע ציונים: ${avg}`
+  }
+
+  function sortByGrade() {
+    let sorted = [...students].sort((a, b) => b.grade - a.grade)
+    renderCards(sorted, "sortOutput")
+  }
+
+  function sortByName() {
+    let sorted = [...students].sort((a, b) => a.name.localeCompare(b.name))
+    renderCards(sorted, "sortOutput")
+  }
+
+  showAll()
+</script>
+</body>
+</html>

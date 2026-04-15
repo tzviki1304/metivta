@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>Task Manager — פרויקט גמר</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>📋 Task Manager</h1>
+      <div class="stats">
+        <span id="totalCount">0 משימות</span>
+        <span id="doneCount">0 הושלמו</span>
+        <span id="activeCount">0 נשאר</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </header>
+
+    <div class="input-section">
+      <input type="text" id="taskInput" placeholder="כתוב משימה חדשה..." />
+      <select id="prioritySelect">
+        <option value="medium">⚪ רגיל</option>
+        <option value="high">🔴 דחוף</option>
+        <option value="low">🟢 לא דחוף</option>
+      </select>
+      <select id="categorySelect">
+        <option value="כללי">📌 כללי</option>
+        <option value="לימודים">📚 לימודים</option>
+        <option value="עבודה">💼 עבודה</option>
+        <option value="אישי">🏠 אישי</option>
+      </select>
+      <button id="addBtn">➕ הוסף</button>
+    </div>
+
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">הכל</button>
+      <button class="filter-btn" data-filter="active">פעיל</button>
+      <button class="filter-btn" data-filter="done">הושלם</button>
+      <button class="filter-btn" data-filter="high">🔴 דחוף</button>
+    </div>
+
+    <div id="taskList"></div>
+
+    <footer>
+      <button id="clearDoneBtn">🗑️ נקה הושלמו</button>
+      <button id="darkModeBtn">🌙 Dark Mode</button>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

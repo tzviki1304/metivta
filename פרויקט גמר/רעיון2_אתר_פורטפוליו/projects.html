@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>פרויקטים — הפורטפוליו שלי</title>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">👨‍💻 הפורטפוליו שלי</div>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">🏠 ראשי</a>
+        <a href="projects.html" class="nav-link active">💼 פרויקטים</a>
+        <a href="contact.html" class="nav-link">📬 קשר</a>
+        <button class="dark-btn" id="darkBtn">🌙</button>
+      </div>
+    </div>
+  </nav>
+
+  <section class="section" style="min-height: 80vh; padding-top: 50px;">
+    <div class="container">
+      <h2 class="section-title animate">💼 הפרויקטים שלי</h2>
+
+      <!-- TODO: הוסף עוד פרויקטים מהקורס! -->
+      <div class="projects-grid" id="projectsGrid">
+        <!-- נטען מ-JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>© 2026 [שמך]</p>
+  </footer>
+
+  <script src="portfolio.js"></script>
+  <script>
+    // TODO: הוסף את הפרויקטים שלך כאן!
+    const projects = [
+      {
+        emoji: "🏠",
+        name: "אתר אישי",
+        desc: "האתר הראשון שלי עם HTML ו-CSS",
+        tags: ["HTML", "CSS"],
+        link: "../שיעור 2/index.html"
+      },
+      {
+        emoji: "📋",
+        name: "טפסים",
+        desc: "טופס עם אימות ועיצוב מקצועי",
+        tags: ["HTML", "CSS", "Forms"],
+        link: "../שיעור 4/דוגמה1_כרטיס.html"
+      },
+      {
+        emoji: "⚡",
+        name: "JavaScript ראשון",
+        desc: "הכרות עם JS: משתנים, פונקציות, DOM",
+        tags: ["JavaScript", "DOM"],
+        link: "../שיעור 5 - JavaScript הכרות/דוגמה3_מונה.html"
+      },
+      {
+        emoji: "🧮",
+        name: "מחשבון",
+        desc: "מחשבון מלא עם אירועים ופונקציות",
+        tags: ["JavaScript", "Events"],
+        link: "../שיעור 6 - פונקציות ואירועים/דוגמה4_מחשבון_מלא.html"
+      },
+      {
+        emoji: "🎮",
+        name: "משחק ניחוש",
+        desc: "משחק ניחוש מספר עם תנאים ולולאות",
+        tags: ["JavaScript", "Conditions"],
+        link: "../שיעור 7 - תנאים והחלטות/תרגיל3_משחק_ניחוש.html"
+      },
+      {
+        emoji: "📋",
+        name: "Task Manager",
+        desc: "אפליקציית משימות מלאה עם LocalStorage",
+        tags: ["JavaScript", "DOM", "LocalStorage"],
+        link: "../פרויקט גמר/רעיון1_אפליקציית_משימות/index.html"
+      }
+    ]
+
+    const grid = document.getElementById("projectsGrid")
+    projects.forEach(p => {
+      let card = document.createElement("div")
+      card.className = "project-card animate"
+      card.innerHTML = `
+        <div class="project-thumb">${p.emoji}</div>
+        <div class="project-body">
+          <h3>${p.name}</h3>
+          <p>${p.desc}</p>
+          <div class="project-tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
+          <a href="${p.link}" class="project-link">🔗 פתח פרויקט</a>
+        </div>
+      `
+      grid.appendChild(card)
+    })
+  </script>
+</body>
+</html>

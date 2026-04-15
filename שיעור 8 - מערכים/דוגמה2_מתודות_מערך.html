@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>מתודות מערך</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 700px; margin: 30px auto; padding: 20px; background: #f9f0ff; }
+    h1 { color: #6a0dad; }
+    .section { background: white; border-radius: 10px; padding: 20px; margin: 15px 0; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .array-display { background: #6a0dad; color: white; padding: 15px; border-radius: 8px; font-size: 20px; text-align: center; margin: 10px 0; letter-spacing: 2px; }
+    button { background: #6a0dad; color: white; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; margin: 5px; font-size: 14px; }
+    button:hover { background: #9a30dd; }
+    button.danger { background: #e53935; }
+    button.danger:hover { background: #ff6659; }
+    .log { background: #f3e5f5; border-left: 4px solid #6a0dad; padding: 10px; margin: 5px 0; border-radius: 0 6px 6px 0; font-family: monospace; }
+  </style>
+</head>
+<body>
+
+<h1>🔧 מתודות מערך</h1>
+
+<div class="section">
+  <h2>המערך שלנו:</h2>
+  <div class="array-display" id="arrayDisplay">[ ]</div>
+
+  <h3>הוספה:</h3>
+  <button onclick="doPush()">📥 push("פריט") — הוסף לסוף</button>
+  <button onclick="doUnshift()">📥 unshift("פריט") — הוסף להתחלה</button>
+
+  <h3>מחיקה:</h3>
+  <button class="danger" onclick="doPop()">📤 pop() — מחק מהסוף</button>
+  <button class="danger" onclick="doShift()">📤 shift() — מחק מהתחלה</button>
+
+  <h3>חיפוש:</h3>
+  <button onclick="doIncludes()">🔍 includes("ב") — האם קיים?</button>
+  <button onclick="doIndexOf()">📍 indexOf("ב") — איפה הוא?</button>
+
+  <h3>שינוי:</h3>
+  <button onclick="doSort()">🔤 sort() — מיון</button>
+  <button onclick="doReverse()">🔄 reverse() — הפיכה</button>
+  <button onclick="doJoin()">🔗 join(" | ") — חיבור לטקסט</button>
+  <button onclick="reset()">♻️ איפוס</button>
+
+  <div id="log"></div>
+</div>
+
+<script>
+  let arr = ["ג", "א", "ד", "ב", "ה"]
+  let counter = 100
+
+  function updateDisplay() {
+    document.getElementById("arrayDisplay").textContent =
+      "[ " + arr.join(" , ") + " ]"
+  }
+
+  function addLog(msg) {
+    let log = document.getElementById("log")
+    let div = document.createElement("div")
+    div.className = "log"
+    div.textContent = msg
+    log.insertBefore(div, log.firstChild)
+    if (log.children.length > 5) log.removeChild(log.lastChild)
+  }
+
+  function doPush() {
+    let item = "פריט" + counter++
+    arr.push(item)
+    addLog(`push("${item}") → נוסף לסוף. length = ${arr.length}`)
+    updateDisplay()
+  }
+
+  function doUnshift() {
+    let item = "ראשון" + counter++
+    arr.unshift(item)
+    addLog(`unshift("${item}") → נוסף להתחלה. length = ${arr.length}`)
+    updateDisplay()
+  }
+
+  function doPop() {
+    if (arr.length === 0) { addLog("המערך ריק!"); return }
+    let removed = arr.pop()
+    addLog(`pop() → הוסר "${removed}". length = ${arr.length}`)
+    updateDisplay()
+  }
+
+  function doShift() {
+    if (arr.length === 0) { addLog("המערך ריק!"); return }
+    let removed = arr.shift()
+    addLog(`shift() → הוסר "${removed}". length = ${arr.length}`)
+    updateDisplay()
+  }
+
+  function doIncludes() {
+    let result = arr.includes("ב")
+    addLog(`includes("ב") → ${result} ${result ? "✅ קיים!" : "❌ לא קיים"}`)
+  }
+
+  function doIndexOf() {
+    let index = arr.indexOf("ב")
+    addLog(`indexOf("ב") → ${index} ${index === -1 ? "(לא נמצא)" : `(נמצא ב-index ${index})`}`)
+  }
+
+  function doSort() {
+    arr.sort()
+    addLog(`sort() → ממוין לפי אלפבית`)
+    updateDisplay()
+  }
+
+  function doReverse() {
+    arr.reverse()
+    addLog(`reverse() → הסדר הפוך`)
+    updateDisplay()
+  }
+
+  function doJoin() {
+    let result = arr.join(" | ")
+    addLog(`join(" | ") → "${result}"`)
+  }
+
+  function reset() {
+    arr = ["ג", "א", "ד", "ב", "ה"]
+    counter = 100
+    addLog("♻️ המערך אופס!")
+    updateDisplay()
+  }
+
+  updateDisplay()
+</script>
+</body>
+</html>

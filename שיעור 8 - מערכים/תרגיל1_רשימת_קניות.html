@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>תרגיל — רשימת קניות</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 30px auto; padding: 20px; background: #f0fff4; }
+    h1 { color: #2e7d32; }
+    .task { background: #fff3cd; border: 2px solid #ffc107; border-radius: 10px; padding: 15px; margin-bottom: 20px; }
+    .task h2 { margin: 0 0 8px; color: #e65100; }
+    input { padding: 10px; font-size: 16px; border: 2px solid #ccc; border-radius: 6px; width: 200px; }
+    button { padding: 10px 16px; font-size: 15px; border: none; border-radius: 6px; cursor: pointer; margin: 5px; }
+    .btn-add { background: #2e7d32; color: white; }
+    .btn-remove { background: #c62828; color: white; }
+    .btn-clear { background: #555; color: white; }
+    #list { margin-top: 15px; }
+    .list-item { background: white; border: 1px solid #ddd; border-radius: 6px; padding: 10px 15px; margin: 5px 0; display: flex; justify-content: space-between; align-items: center; font-size: 16px; }
+    .list-item button { padding: 4px 10px; font-size: 13px; margin: 0; }
+    #count { font-size: 14px; color: #666; margin-top: 10px; }
+    .hint { background: #e3f2fd; border-radius: 6px; padding: 10px; font-size: 14px; color: #1565c0; margin-top: 10px; }
+    /* TODO: הסר את ה-hint אחרי שפותרים */
+  </style>
+</head>
+<body>
+
+<h1>🛒 תרגיל — רשימת קניות</h1>
+
+<div class="task">
+  <h2>📋 המשימה:</h2>
+  <ol>
+    <li>הוסף מוצר לרשימה (שמור במערך + הצג)</li>
+    <li>כפתור "מחק" ליד כל מוצר — מסיר מהמערך</li>
+    <li>הצג כמה מוצרים ברשימה</li>
+    <li><strong>בונוס:</strong> אם מוצר כבר ברשימה — אל תוסיף שוב</li>
+  </ol>
+</div>
+
+<input type="text" id="productInput" placeholder="שם מוצר..." />
+<button class="btn-add" onclick="addProduct()">➕ הוסף</button>
+<button class="btn-clear" onclick="clearAll()">🗑️ נקה הכל</button>
+
+<div id="list"></div>
+<div id="count"></div>
+
+<div class="hint">
+  💡 <strong>רמז:</strong> השתמש ב-<code>push()</code> להוספה ו-<code>filter()</code> למחיקה:<br>
+  <code>products = products.filter(p => p !== name)</code>
+</div>
+
+<script>
+  let products = []
+
+  function addProduct() {
+    let input = document.getElementById("productInput")
+    let name = input.value.trim()
+
+    if (name === "") {
+      alert("כתוב שם מוצר!")
+      return
+    }
+
+    // TODO: בדוק אם המוצר כבר קיים (includes)
+    // TODO: אם כן — הצג הודעה ואל תוסיף
+
+    // TODO: הוסף ל-products עם push()
+
+    // TODO: רנדר את הרשימה מחדש עם renderList()
+
+    input.value = ""
+  }
+
+  function removeProduct(name) {
+    // TODO: מחק מהמערך עם filter()
+    // products = products.filter(...)
+
+    renderList()
+  }
+
+  function clearAll() {
+    // TODO: רוקן את המערך
+    renderList()
+  }
+
+  function renderList() {
+    let listDiv = document.getElementById("list")
+    listDiv.innerHTML = ""
+
+    if (products.length === 0) {
+      listDiv.innerHTML = "<p>הרשימה ריקה 🏁</p>"
+    }
+
+    // TODO: עבור על כל products עם forEach
+    // ולכל מוצר צור div עם כפתור מחיקה
+
+    // דוגמה לאיך ליצור שורה:
+    // let div = document.createElement("div")
+    // div.className = "list-item"
+    // div.innerHTML = `<span>${product}</span>
+    //   <button class="btn-remove" onclick="removeProduct('${product}')">❌</button>`
+    // listDiv.appendChild(div)
+
+    document.getElementById("count").textContent =
+      `סה"כ: ${products.length} מוצרים`
+  }
+
+  renderList()
+</script>
+</body>
+</html>

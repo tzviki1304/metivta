@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>יצירת אלמנטים דינמית</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 700px; margin: 30px auto; padding: 20px; background: #e3f2fd; }
+    h1 { color: #0d47a1; }
+    .section { background: white; border-radius: 10px; padding: 20px; margin: 15px 0; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .code { background: #1e1e1e; color: #9cdcfe; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 13px; white-space: pre; margin: 10px 0; }
+    button { background: #0d47a1; color: white; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; margin: 5px; font-size: 14px; }
+    button:hover { background: #1565c0; }
+    input { padding: 10px; font-size: 15px; border: 2px solid #90caf9; border-radius: 6px; width: 180px; }
+    #container1 { min-height: 60px; background: #e3f2fd; border-radius: 8px; padding: 10px; margin-top: 10px; }
+    #container2 { min-height: 80px; background: #f3e5f5; border-radius: 8px; padding: 10px; margin-top: 10px; }
+    .dynamic-item { background: white; border-radius: 6px; padding: 10px 15px; margin: 5px 0; border-right: 4px solid #0d47a1; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    .card { background: white; border-radius: 10px; padding: 15px; margin: 8px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+  </style>
+</head>
+<body>
+
+<h1>🏗️ יצירת אלמנטים דינמית</h1>
+
+<div class="section">
+  <h2>שיטה 1: innerHTML (פשוטה)</h2>
+  <div class="code">let container = document.getElementById("container1")
+container.innerHTML += `&lt;div class="item"&gt;פריט חדש!&lt;/div&gt;`</div>
+
+  <input type="text" id="input1" placeholder="כתוב משהו..." />
+  <button onclick="addWithInnerHTML()">➕ הוסף עם innerHTML</button>
+  <button onclick="document.getElementById('container1').innerHTML=''">🗑️ נקה</button>
+  <div id="container1"></div>
+</div>
+
+<div class="section">
+  <h2>שיטה 2: createElement (מומלץ ובטוח יותר)</h2>
+  <div class="code">let div = document.createElement("div")  // צור אלמנט
+div.className = "dynamic-item"            // הגדר class
+div.textContent = "תוכן בטוח"           // ← textContent ולא innerHTML!
+container.appendChild(div)               // הוסף לדף</div>
+
+  <input type="text" id="input2" placeholder="כתוב משהו..." />
+  <button onclick="addWithCreateElement()">➕ הוסף עם createElement</button>
+  <button onclick="document.getElementById('container2').innerHTML=''">🗑️ נקה</button>
+  <div id="container2"></div>
+</div>
+
+<div class="section">
+  <h2>בניית כרטיסיות מאובייקטים</h2>
+  <div class="code">let products = [
+  { name: "עפרון", price: 5 },
+  { name: "מחברת", price: 15 }
+]
+
+products.forEach(product => {
+  let card = document.createElement("div")
+  card.className = "card"
+  card.innerHTML = `
+    &lt;strong&gt;${product.name}&lt;/strong&gt;
+    &lt;span&gt;₪${product.price}&lt;/span&gt;
+  `
+  container.appendChild(card)
+})</div>
+
+  <button onclick="renderProducts()">🛍️ הצג מוצרים</button>
+  <div id="productsContainer"></div>
+</div>
+
+<script>
+  function addWithInnerHTML() {
+    let input = document.getElementById("input1")
+    let text = input.value.trim()
+    if (!text) return
+    let container = document.getElementById("container1")
+    // שים לב: אנחנו משתמשים ב-textContent כדי למנוע XSS
+    let div = document.createElement("div")
+    div.className = "dynamic-item"
+    div.textContent = text
+    container.appendChild(div)
+    input.value = ""
+  }
+
+  function addWithCreateElement() {
+    let input = document.getElementById("input2")
+    let text = input.value.trim()
+    if (!text) return
+    let div = document.createElement("div")
+    div.className = "dynamic-item"
+    div.style.borderColor = "#7b1fa2"
+    div.textContent = text
+    document.getElementById("container2").appendChild(div)
+    input.value = ""
+  }
+
+  function renderProducts() {
+    let products = [
+      { name: "עפרון", price: 5, emoji: "✏️" },
+      { name: "מחברת", price: 15, emoji: "📓" },
+      { name: "תיק", price: 120, emoji: "🎒" },
+      { name: "סרגל", price: 8, emoji: "📏" }
+    ]
+    let container = document.getElementById("productsContainer")
+    container.innerHTML = ""
+    products.forEach(product => {
+      let card = document.createElement("div")
+      card.className = "card"
+      let name = document.createElement("strong")
+      name.textContent = `${product.emoji} ${product.name}`
+      let price = document.createElement("span")
+      price.textContent = ` — ₪${product.price}`
+      price.style.color = "#1b5e20"
+      card.appendChild(name)
+      card.appendChild(price)
+      container.appendChild(card)
+    })
+  }
+</script>
+</body>
+</html>

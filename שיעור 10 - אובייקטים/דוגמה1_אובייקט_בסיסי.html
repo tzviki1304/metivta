@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>אובייקט בסיסי</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 700px; margin: 30px auto; padding: 20px; background: #e0f7fa; }
+    h1 { color: #006064; }
+    .section { background: white; border-radius: 10px; padding: 20px; margin: 15px 0; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .code { background: #1e1e1e; color: #9cdcfe; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 13px; white-space: pre; margin: 10px 0; }
+    button { background: #006064; color: white; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; margin: 5px; font-size: 14px; }
+    button:hover { background: #00838f; }
+    .card { background: #e0f7fa; border: 2px solid #00838f; border-radius: 12px; padding: 20px; margin: 10px 0; }
+    .prop { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #b2ebf2; font-size: 15px; }
+    .key { color: #00695c; font-weight: bold; }
+    .val { color: #37474f; }
+    .output { background: #e0f7fa; border-radius: 8px; padding: 10px; margin-top: 10px; font-family: monospace; }
+  </style>
+</head>
+<body>
+
+<h1>📦 אובייקטים — מבנה נתונים</h1>
+
+<div class="section">
+  <h2>מה זה אובייקט?</h2>
+  <p>אובייקט הוא אוסף של <strong>זוגות key: value</strong> — כמו כרטיס זהות!</p>
+  <div class="code">let person = {
+    name: "ישראל כהן",    // key: value
+    age: 28,
+    city: "ירושלים",
+    isStudent: true
+}</div>
+
+  <div class="card" id="personCard">
+    <div class="prop"><span class="key">name:</span><span class="val" id="v-name"></span></div>
+    <div class="prop"><span class="key">age:</span><span class="val" id="v-age"></span></div>
+    <div class="prop"><span class="key">city:</span><span class="val" id="v-city"></span></div>
+    <div class="prop"><span class="key">isStudent:</span><span class="val" id="v-student"></span></div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>גישה לנכסים — שתי דרכים</h2>
+  <div class="code">// דרך 1 — נקודה (dot notation) — הכי נפוץ
+person.name       // "ישראל כהן"
+
+// דרך 2 — סוגריים מרובעות (bracket notation)
+person["age"]     // 28
+
+// מה ההבדל?
+// סוגריים נדרשות כשה-key הוא משתנה:
+let field = "city"
+person[field]     // "ירושלים"</div>
+
+  <button onclick="accessDemo()">▶️ הדגם גישה</button>
+  <div class="output" id="out1"></div>
+</div>
+
+<div class="section">
+  <h2>שינוי, הוספה ומחיקת נכסים</h2>
+  <div class="code">person.age = 29             // שינוי
+person.email = "x@y.com"   // הוספה
+delete person.isStudent     // מחיקה</div>
+
+  <button onclick="modifyAge()">🔧 שנה גיל ל-29</button>
+  <button onclick="addEmail()">➕ הוסף email</button>
+  <button onclick="showKeys()">🔑 Object.keys()</button>
+  <div class="output" id="out2"></div>
+</div>
+
+<script>
+  let person = {
+    name: "ישראל כהן",
+    age: 28,
+    city: "ירושלים",
+    isStudent: true
+  }
+
+  function updateCard() {
+    document.getElementById("v-name").textContent = person.name
+    document.getElementById("v-age").textContent = person.age
+    document.getElementById("v-city").textContent = person.city
+    document.getElementById("v-student").textContent = String(person.isStudent)
+  }
+
+  function accessDemo() {
+    let field = "city"
+    document.getElementById("out1").textContent =
+      `person.name = "${person.name}"\n` +
+      `person["age"] = ${person["age"]}\n` +
+      `field = "city"\nperson[field] = "${person[field]}"`
+  }
+
+  function modifyAge() {
+    person.age = 29
+    updateCard()
+    document.getElementById("out2").textContent = "גיל שונה ל-29! ✅"
+  }
+
+  function addEmail() {
+    person.email = "israel@example.com"
+    document.getElementById("out2").textContent =
+      `email נוסף: "${person.email}"\n` +
+      `Object.keys(person) = [${Object.keys(person).join(", ")}]`
+  }
+
+  function showKeys() {
+    let keys = Object.keys(person)
+    let values = Object.values(person)
+    document.getElementById("out2").textContent =
+      `keys: [${keys.join(", ")}]\n` +
+      `values: [${values.join(", ")}]`
+  }
+
+  updateCard()
+</script>
+</body>
+</html>

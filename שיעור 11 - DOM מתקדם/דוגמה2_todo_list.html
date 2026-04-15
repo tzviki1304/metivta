@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>TODO List מלא</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 550px; margin: 40px auto; padding: 20px; background: #1a1a2e; color: white; }
+    h1 { color: #e94560; text-align: center; font-size: 28px; }
+    .app { background: #16213e; border-radius: 15px; padding: 25px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+    .input-row { display: flex; gap: 10px; margin-bottom: 20px; }
+    input { flex: 1; padding: 12px 16px; font-size: 16px; border: 2px solid #0f3460; border-radius: 10px; background: #0f3460; color: white; outline: none; }
+    input:focus { border-color: #e94560; }
+    input::placeholder { color: #8888aa; }
+    button.add-btn { background: #e94560; color: white; border: none; padding: 12px 20px; border-radius: 10px; cursor: pointer; font-size: 16px; }
+    button.add-btn:hover { background: #c73652; }
+    .filters { display: flex; gap: 8px; margin-bottom: 15px; }
+    .filter-btn { background: #0f3460; color: #aaa; border: 1px solid #333; padding: 6px 14px; border-radius: 20px; cursor: pointer; font-size: 13px; }
+    .filter-btn.active { background: #e94560; color: white; border-color: #e94560; }
+    .todo-item { display: flex; align-items: center; gap: 12px; background: #0f3460; border-radius: 10px; padding: 14px; margin: 8px 0; transition: 0.2s; }
+    .todo-item.done { opacity: 0.5; }
+    .todo-item.done .todo-text { text-decoration: line-through; color: #888; }
+    .checkbox { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #e94560; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .checkbox.checked { background: #e94560; }
+    .todo-text { flex: 1; font-size: 16px; }
+    .del-btn { background: none; border: none; color: #e94560; cursor: pointer; font-size: 18px; padding: 0; }
+    .del-btn:hover { color: #ff6b6b; }
+    .footer { text-align: center; color: #666; font-size: 13px; margin-top: 15px; }
+    .clear-btn { background: none; border: none; color: #e94560; cursor: pointer; font-size: 13px; }
+  </style>
+</head>
+<body>
+
+<div class="app">
+  <h1>✅ TODO List</h1>
+
+  <div class="input-row">
+    <input type="text" id="todoInput" placeholder="הוסף משימה חדשה..." />
+    <button class="add-btn" onclick="addTodo()">➕</button>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" onclick="setFilter('all', this)">הכל</button>
+    <button class="filter-btn" onclick="setFilter('active', this)">פעיל</button>
+    <button class="filter-btn" onclick="setFilter('done', this)">הושלם</button>
+  </div>
+
+  <div id="todoList"></div>
+
+  <div class="footer">
+    <span id="countText"></span> |
+    <button class="clear-btn" onclick="clearDone()">נקה הושלמו</button>
+  </div>
+</div>
+
+<script>
+  let todos = []
+  let nextId = 1
+  let currentFilter = "all"
+
+  document.getElementById("todoInput").addEventListener("keydown", e => {
+    if (e.key === "Enter") addTodo()
+  })
+
+  function addTodo() {
+    let input = document.getElementById("todoInput")
+    let text = input.value.trim()
+    if (!text) return
+
+    todos.push({ id: nextId++, text, done: false })
+    input.value = ""
+    render()
+    save()
+  }
+
+  function toggleTodo(id) {
+    let todo = todos.find(t => t.id === id)
+    if (todo) todo.done = !todo.done
+    render()
+    save()
+  }
+
+  function deleteTodo(id) {
+    todos = todos.filter(t => t.id !== id)
+    render()
+    save()
+  }
+
+  function clearDone() {
+    todos = todos.filter(t => !t.done)
+    render()
+    save()
+  }
+
+  function setFilter(filter, btn) {
+    currentFilter = filter
+    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"))
+    btn.classList.add("active")
+    render()
+  }
+
+  function render() {
+    let filtered = todos.filter(t => {
+      if (currentFilter === "active") return !t.done
+      if (currentFilter === "done") return t.done
+      return true
+    })
+
+    let list = document.getElementById("todoList")
+    list.innerHTML = ""
+
+    if (filtered.length === 0) {
+      let empty = document.createElement("p")
+      empty.style.cssText = "text-align:center;color:#555;padding:20px"
+      empty.textContent = "אין משימות 🎉"
+      list.appendChild(empty)
+    }
+
+    filtered.forEach(todo => {
+      let item = document.createElement("div")
+      item.className = "todo-item" + (todo.done ? " done" : "")
+
+      let cb = document.createElement("div")
+      cb.className = "checkbox" + (todo.done ? " checked" : "")
+      cb.textContent = todo.done ? "✓" : ""
+      cb.onclick = () => toggleTodo(todo.id)
+
+      let text = document.createElement("span")
+      text.className = "todo-text"
+      text.textContent = todo.text
+
+      let del = document.createElement("button")
+      del.className = "del-btn"
+      del.textContent = "✕"
+      del.onclick = () => deleteTodo(todo.id)
+
+      item.append(cb, text, del)
+      list.appendChild(item)
+    })
+
+    let active = todos.filter(t => !t.done).length
+    document.getElementById("countText").textContent = `${active} נשאר`
+  }
+
+  function save() {
+    localStorage.setItem("todos", JSON.stringify(todos))
+    localStorage.setItem("nextId", String(nextId))
+  }
+
+  function load() {
+    let saved = localStorage.getItem("todos")
+    if (saved) todos = JSON.parse(saved)
+    nextId = Number(localStorage.getItem("nextId")) || 1
+  }
+
+  load()
+  render()
+</script>
+</body>
+</html>

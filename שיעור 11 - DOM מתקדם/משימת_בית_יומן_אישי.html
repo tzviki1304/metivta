@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>משימת בית — יומן אישי</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 650px; margin: 30px auto; padding: 20px; background: linear-gradient(135deg, #1a1a2e, #16213e); min-height: 100vh; color: white; }
+    h1 { color: #e94560; text-align: center; }
+    .task { background: #0f3460; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid #e9456033; }
+    textarea { width: 100%; padding: 12px; font-size: 15px; border: 2px solid #0f3460; border-radius: 10px; background: #16213e; color: white; resize: vertical; min-height: 100px; box-sizing: border-box; font-family: Arial; }
+    textarea::placeholder { color: #555; }
+    textarea:focus { border-color: #e94560; outline: none; }
+    button { padding: 10px 18px; font-size: 15px; border: none; border-radius: 8px; cursor: pointer; margin: 5px; }
+    .btn-save { background: #e94560; color: white; }
+    .btn-clear { background: #333; color: #aaa; }
+    .entry { background: #16213e; border-radius: 10px; padding: 15px; margin: 10px 0; border-right: 4px solid #e94560; animation: fadeIn 0.3s ease; }
+    .entry-date { color: #888; font-size: 13px; margin-bottom: 8px; }
+    .entry-text { font-size: 15px; line-height: 1.6; white-space: pre-wrap; }
+    .entry-del { float: left; background: none; border: none; color: #555; cursor: pointer; font-size: 16px; padding: 0; }
+    .entry-del:hover { color: #e94560; }
+    #entryCount { color: #888; font-size: 13px; text-align: center; margin-top: 10px; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+<h1>📔 יומן אישי</h1>
+
+<div class="task">
+  <h2>⭐ המשימה:</h2>
+  <ul>
+    <li>כתוב רשומת יומן — נשמר ב-LocalStorage</li>
+    <li>כל רשומה מציגה תאריך + שעה אוטומטית</li>
+    <li>כפתור מחיקה לכל רשומה</li>
+    <li>הרשומות נשארות גם אחרי רענון!</li>
+    <li><strong>בונוס:</strong> ספור תווים (עם הגבלה ל-500)</li>
+    <li><strong>בונוס 2:</strong> חיפוש ברשומות</li>
+  </ul>
+</div>
+
+<textarea id="entryInput" placeholder="מה קרה היום?..."></textarea>
+<div>
+  <button class="btn-save" onclick="saveEntry()">💾 שמור רשומה</button>
+  <button class="btn-clear" onclick="clearAll()">🗑️ מחק הכל</button>
+  <span id="charCount" style="color:#888; font-size:13px;"></span>
+</div>
+
+<div id="entries"></div>
+<div id="entryCount"></div>
+
+<script>
+  let entries = []
+
+  // TODO: טען מ-LocalStorage בפתיחה
+  // let saved = localStorage.getItem("journal")
+  // if (saved) entries = JSON.parse(saved)
+
+  document.getElementById("entryInput").addEventListener("input", function() {
+    // TODO: בונוס — הצג ספירת תווים
+    // let count = this.value.length
+    // document.getElementById("charCount").textContent = `${count}/500 תווים`
+  })
+
+  function saveEntry() {
+    let text = document.getElementById("entryInput").value.trim()
+    if (!text) { alert("כתוב משהו!"); return }
+
+    let now = new Date()
+    let dateStr = now.toLocaleDateString("he-IL") + " " + now.toLocaleTimeString("he-IL")
+
+    // TODO: הוסף אובייקט רשומה ל-entries
+    // entries.unshift({ id: Date.now(), text, date: dateStr })
+
+    document.getElementById("entryInput").value = ""
+    render()
+    // TODO: שמור ב-LocalStorage
+  }
+
+  function deleteEntry(id) {
+    // TODO: filter לפי id
+    render()
+    // TODO: שמור ב-LocalStorage
+  }
+
+  function clearAll() {
+    if (!confirm("למחוק את כל היומן?")) return
+    entries = []
+    render()
+    localStorage.removeItem("journal")
+  }
+
+  function render() {
+    let container = document.getElementById("entries")
+    container.innerHTML = ""
+
+    if (entries.length === 0) {
+      container.innerHTML = `<p style="text-align:center;color:#555;padding:20px">היומן ריק... כתוב את הרשומה הראשונה שלך! ✍️</p>`
+    }
+
+    // TODO: עבור על entries עם forEach
+    // צור div.entry לכל רשומה עם תאריך, טקסט, וכפתור מחיקה
+
+    document.getElementById("entryCount").textContent =
+      entries.length > 0 ? `${entries.length} רשומות ביומן` : ""
+  }
+
+  render()
+</script>
+</body>
+</html>
